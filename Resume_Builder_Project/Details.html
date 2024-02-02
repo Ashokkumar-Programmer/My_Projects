@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Resume</title>
+    <link rel="stylesheet" href="CSS/Details.css">
+</head>
+<body>
+    <button type="submit" id="bt" onclick="check()">Create Resume</button>
+    <div class="container">
+        <div class="left-column">
+            <button type="submit" onclick="file()" style="border: none;">
+                <img src="Image/temp_image.jpg" alt="Your Image" class="profile-image" height="200px" id="user_image">
+            </button>
+            <h2><input type="text" id="name" class="left_input" placeholder="Enter your name"></h2>
+            <b><p><input type="text" id="role" class="left_input" placeholder="Enter your role"></p></b>
+            <div style="text-align: left; line-height: 40px;">
+                <label>Email:&nbsp;</label><input type="text" id="email" class="left_input" placeholder="Enter your email"><br>
+                <label>Phone:&nbsp;</label><input type="text" id="phone" class="left_input" placeholder="Enter your phone number"><br>
+                <label>Address:&nbsp;</label><input type="text" id="address" class="left_input" placeholder="Enter your address">
+            </div>
+            <div style="line-height: 20px; text-align: justify;">
+                <h3>CAREER OBJECTIVE</h3>
+                <p><textarea id="textarea" style="resize: none; width: 400px; height: 300px; overflow-y: scroll; text-wrap: wrap; font-size: 16px;"></textarea></p>
+            </div>
+            <div>
+                <h3>Certificates</h3>
+                <ul style="text-align: left; line-height: 26px;" id="certificate">
+                    <li><input type="text" id="certificate1" class="left_input"><button type="submit" id="certificate_button1" style="font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;" onclick="add_certificate()"><img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;"></button></li>
+                </ul>
+                
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="section">
+                <h3>Education</h3>
+                <ul style="line-height: 30px;" id="edu">
+                    <li>
+                        <input type="text" id="edu11" class="right_input" placeholder="Institution Name"><br>
+                        <input type="text" id="edu12" class="right_input" placeholder="Course Name"><br>
+                        <input type="text" id="edu13" class="right_input" placeholder="Percentage"><br>
+                        <input type="text" id="edu14" class="right_input" placeholder="Batch Year"><button type="submit" id="edu_button1" style="font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;" onclick="add_edu()"><img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;"></button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Work Experience</h3>
+                <ul style="line-height: 30px;" id="work">
+                    <li><input type="text" id="work1" class="right_input" placeholder="Company with work experience"><button id="work_button1" type="submit" style="font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;" onclick="add_work()"><img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;"></button></li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Skills</h3>
+                <ul style="line-height: 30px;" id="skill">
+                    <li><input type="text" id="skill1" class="right_input"><button type="submit" id="skill_button1" style="font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;" onclick="add_skill()"><img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;"></button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var certificate_names = ['certificate1'];
+    var education_names = [['edu11','edu12','edu13','edu14']];
+    var work_names = ['work1'];
+    var skill_names = ['skill1'];
+
+    var file_path;
+    function file(){
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = e => { 
+            let file = e.target.files[0];
+            let path = 'Image\\';
+            file_path = path+file.name;
+            document.getElementById('user_image').src = file_path;
+        }
+        alert('Please select the file from A:\\College\\FX_WEB_DESIGN\\Project\\Image');
+        input.click();
+    }
+    var n = 1;
+    function add_certificate() {
+        var certificateList = document.getElementById('certificate');
+        n++;
+        let newItem = document.createElement('li');
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'left_input';
+        input.id = `certificate${n}`;
+        certificate_names[n-1] = input.id;
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.style = 'font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;';
+        button.innerHTML = '<img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;">';
+        button.id = `certificate_button${n}`;
+        button.addEventListener('click', add_certificate);
+        newItem.appendChild(input);
+        newItem.appendChild(button);
+        certificateList.appendChild(newItem);
+        document.getElementById(`certificate_button${n-1}`).remove();
+    }
+    var n1 = 1;
+    function add_work() {
+        var workList= document.getElementById('work');
+        n1++;
+        let newItem = document.createElement('li');
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'right_input';
+        input.id = `work${n1}`;
+        work_names[n1-1] = input.id;
+        input.placeholder = 'Company with work experience'
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.style = 'font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;';
+        button.innerHTML = '<img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;">';
+        button.id = `work_button${n1}`;
+        button.addEventListener('click', add_work);
+        newItem.appendChild(input);
+        newItem.appendChild(button);
+        workList.appendChild(newItem);
+        document.getElementById(`work_button${n1-1}`).remove();
+    }
+    var n2 = 1;
+    function add_skill() {
+        var skillList= document.getElementById('skill');
+        n2++;
+        let newItem = document.createElement('li');
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'right_input';
+        input.id = `skill${n2}`;
+        skill_names[n2-1] = input.id;
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.style = 'font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;';
+        button.innerHTML = '<img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;">';
+        button.id = `skill_button${n2}`
+        button.addEventListener('click', add_skill);
+        newItem.appendChild(input);
+        newItem.appendChild(button);
+        skillList.appendChild(newItem);
+        document.getElementById(`skill_button${n2-1}`).remove();
+    }
+    var n_edu=14;
+    var n3 = 1;
+    function add_edu(){
+        var temp = [];
+        n_edu = n_edu+10;
+        n_edu = n_edu-3;
+        var edu = document.getElementById('edu');
+        let newItem = document.createElement('li');
+        let br_item = document.createElement('br');
+        let input1 = document.createElement('input');
+        input1.type = 'text';
+        input1.className = 'right_input';
+        input1.id = `edu${n_edu}`;
+        temp[0] = input1.id;
+        input1.placeholder = 'Institution name';
+        n_edu+=1;
+        let input2 = document.createElement('input');
+        input2.type = 'text';
+        input2.className = 'right_input';
+        input2.id = `edu${n_edu}`;
+        temp[1] = input2.id;
+        input2.placeholder = 'Course name';
+        n_edu+=1;
+        let input3 = document.createElement('input');
+        input3.type = 'text';
+        input3.className = 'right_input';
+        input3.id = `edu${n_edu}`;
+        temp[2] = input3.id;
+        input3.placeholder = 'Percentage';
+        n_edu+=1;
+        let input4 = document.createElement('input');
+        input4.type = 'text';
+        input4.className = 'right_input';
+        input4.id = `edu${n_edu}`;
+        temp[3] = input4.id;
+        input4.placeholder = 'Batch Year';
+        let button = document.createElement('button');
+        button.type = 'button';
+        button.style = 'font-size: 25px; border: none; border-radius: 50%; background-color: transparent; position: absolute;';
+        button.innerHTML = '<img src="Image/plus.png" width="25px" height="20px" style="border-radius: 50%;">';
+        button.id = `edu_button${n3+1}`;
+        button.addEventListener('click', add_edu);
+        newItem.appendChild(input1);
+        input1.appendChild(br_item);
+        newItem.appendChild(input2);
+        input2.appendChild(br_item);
+        newItem.appendChild(input3);
+        input3.appendChild(br_item);
+        newItem.appendChild(input4);
+        input4.appendChild(br_item);
+        newItem.appendChild(button);
+        edu.appendChild(newItem);
+        education_names[n3] = temp;
+        document.getElementById(`edu_button${n3}`).remove();
+        n3+=1;
+    }
+    function set_values(){
+        localStorage.setItem('user_image',file_path);
+        localStorage.setItem('name',document.getElementById('name').value);
+        localStorage.setItem('role',document.getElementById('role').value);
+        localStorage.setItem('email',document.getElementById('email').value);
+        localStorage.setItem('phone',document.getElementById('phone').value);
+        localStorage.setItem('address',document.getElementById('address').value);
+        localStorage.setItem('des',document.getElementById('textarea').value);
+        localStorage.setItem('certificate_names',JSON.stringify(certificate_names));
+        localStorage.setItem('education_names',JSON.stringify(education_names));
+        localStorage.setItem('work_names',JSON.stringify(work_names));
+        localStorage.setItem('skill_names',JSON.stringify(skill_names));
+        for(i=0;i<certificate_names.length;i++){
+            localStorage.setItem(certificate_names[i],document.getElementById(certificate_names[i]).value)
+        }
+        for(i=0;i<education_names.length;i++){
+            for(j=0;j<4;j++){
+                localStorage.setItem(education_names[i][j],document.getElementById(education_names[i][j]).value)
+            }
+        }
+        for(i=0;i<work_names.length;i++){
+            localStorage.setItem(work_names[i],document.getElementById(work_names[i]).value)
+        }
+        for(i=0;i<skill_names.length;i++){
+            localStorage.setItem(skill_names[i],document.getElementById(skill_names[i]).value)
+        }
+    }
+    function check(){
+        let wrong = 0;
+        for(i=0;i<certificate_names.length;i++){
+            if(document.getElementById(certificate_names[i]).value==''){
+                wrong+=1;
+            }
+        }
+        for(i=0;i<education_names.length;i++){
+            for(j=0;j<4;j++){
+                if(document.getElementById(education_names[i][j]).value==''){
+                    wrong+=1;
+                }
+            }
+        }
+        for(i=0;i<work_names.length;i++){
+            if(document.getElementById(work_names[i]).value==''){
+                wrong+=1;
+            }
+        }
+        for(i=0;i<skill_names.length;i++){
+            if(document.getElementById(skill_names[i]).value==''){
+                wrong+=1;
+            }
+        }
+        if(file_path==undefined){
+            wrong+=1;
+        }
+        if(document.getElementById('name').value==''){
+            wrong+=1;
+        }
+        if(document.getElementById('role').value==''){
+            wrong+=1;
+        }
+        if(document.getElementById('email').value==''){
+            wrong+=1;
+        }
+        if(document.getElementById('phone').value==''){
+            wrong+=1;
+        }
+        if(document.getElementById('address').value==''){
+            wrong+=1;
+        }
+        if(document.getElementById('textarea').value==''){
+            wrong+=1;
+        }
+        if(wrong==0){
+            set_values();
+            window.location.href = 'Resume.html'
+        }
+        else{
+            alert('Please all the fields');
+        }
+    }
+</script>
+</html>

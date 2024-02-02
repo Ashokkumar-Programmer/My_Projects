@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color:lightslategray;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2px;
+    background-color:black;
+    box-shadow: 0 0 20px black;
+    display: flex;
+}
+.left-column {
+    flex: 1.5;
+    padding: 20px;
+    background-color:dimgray;
+    color: black;
+    text-align: center;
+}
+.right-column {
+    background-color: grey;
+    color: black;
+    flex: 2;
+    padding: 20px;
+}
+.profile-image {
+    max-width: 100%;
+    border-radius: 20%;
+    background-color: dimgray;
+}
+.section {
+    margin: 20px 0;
+}
+h3{
+    background-color: whitesmoke;
+    width: 200px;
+    padding: 4px;
+    text-align: left;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+label{
+    font-weight: bold;
+}
+.left_input, .right_input{
+    width: 320px;
+}
+#bt{
+    width: 140px;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: green;
+    color: white;
+    float: right;
+    margin-right: 20px;
+}

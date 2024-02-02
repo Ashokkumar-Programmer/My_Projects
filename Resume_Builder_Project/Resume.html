@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Created Resume</title>
+    <link rel="stylesheet" href="CSS/Resume.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <button id="create_image" style="background-color: transparent; border: none; float: right; margin-right: 30px;" onclick="download_resume()">
+        <img src="Image/download.png"  style="border-radius: 50%; box-shadow: 0px 0px 20px black;" width="50" height="40">
+    </button>
+    <div class="main">
+        <div class="left-column">
+            <img src="" alt="Your Name" class="profile-image" height="200px" id="user_image">
+            <h2 style="color: black;" id="name"></h2>
+            <b><p style="color: black;" id="role"></p></b>
+            <div style="text-align: left; line-height: 40px;">
+                <label class="label">Email:&nbsp;</label><label id="email"></label><br>
+                <label class="label">Phone:&nbsp;</label><label id="phone"></label><br>
+                <label class="label">Address:&nbsp;</label><label id="address"></label>
+            </div>
+            <div style="line-height: 20px; text-align: justify;">
+                <h3>CAREER OBJECTIVE</h3>
+                <p id="des"></p>
+            </div>
+            <div>
+                <h3>Certificates</h3>
+                <ul style="text-align: left; line-height: 26px;" id="certificate">
+                </ul>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="section">
+                <h3>Education</h3>
+                <ul style="line-height: 30px;" id="edu">
+                </ul>
+            </div>
+
+            <div class="section">
+                <h3>Work Experience</h3>
+                <ul id="work"></ul>
+            </div>
+
+            <div class="section">
+                <h3>Skills</h3>
+                <ul style="line-height: 30px;" id="skill">
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function downloadBlob(blob, filename) {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }
+    function download_resume() {
+        const divToConvert = document.querySelector(".main");
+        html2canvas(divToConvert, { allowTaint: true }).then(canvas => {
+            canvas.toBlob(blob => {
+                downloadBlob(blob, "My_Resume.png");
+            });
+        });
+    }
+    document.getElementById('user_image').src = localStorage.getItem('user_image');
+    document.getElementById('name').innerHTML = localStorage.getItem('name');
+    document.getElementById('role').innerHTML = localStorage.getItem('role');
+    document.getElementById('email').innerHTML = localStorage.getItem('email');
+    document.getElementById('phone').innerHTML = localStorage.getItem('phone');
+    document.getElementById('address').innerHTML = localStorage.getItem('address');
+    document.getElementById('des').innerHTML = localStorage.getItem('des');
+    var certificate_names = JSON.parse(localStorage.getItem('certificate_names'));
+    var education_names = JSON.parse(localStorage.getItem('education_names'));
+    var work_names = JSON.parse(localStorage.getItem('work_names'));
+    var skill_names = JSON.parse(localStorage.getItem('skill_names'));
+    for(i=0;i<certificate_names.length;i++){
+        let item = document.getElementById('certificate');
+        let newItem = document.createElement('li');
+        newItem.innerHTML = localStorage.getItem(certificate_names[i]);
+        item.appendChild(newItem);
+    }
+    for(i=0;i<education_names.length;i++){
+        let item = document.getElementById('edu');
+        let newItem = document.createElement('li');
+        let new_p = document.createElement('p');
+        new_p.innerHTML = `<b>${localStorage.getItem(education_names[i][0])}<br>${localStorage.getItem(education_names[i][1])}<br>${localStorage.getItem(education_names[i][2])}</b><br>${localStorage.getItem(education_names[i][3])}`;
+        newItem.appendChild(new_p);
+        item.appendChild(newItem);
+    }
+    for(i=0;i<work_names.length;i++){
+        let item = document.getElementById('work');
+        let new_p = document.createElement('li');
+        new_p.innerHTML = `<b>${localStorage.getItem(work_names[i])}<b>`;
+        new_p.style = 'padding-left: 20px;';
+        item.appendChild(new_p);
+    }
+    for(i=0;i<skill_names.length;i++){
+        let item = document.getElementById('skill');
+        let newItem = document.createElement('li');
+        newItem.innerHTML = localStorage.getItem(skill_names[i]);
+        item.appendChild(newItem);
+    }
+</script>
+</html>
