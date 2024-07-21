@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Profile</title>
+	<script type="text/javascript" src="JS/jquery.js"></script>
+	<script type="text/javascript" src="JS/script.js"></script>
+	<link rel="stylesheet" type="text/css" href="CSS\style.css">
+</head>
+<body>
+	<button id="animate">Open Resume</button>
+	<div id="left" style="display:none;">
+		<img src="IMAGE\My_Image.png" width="180px" height="200px" id="my_image" style="display:none">
+		<div id="contact">
+			<h3 id="title1">Contact</h3>
+		</div>
+		<div id="contacts"  style="display:none; margin-left: 400px;"><br>
+			<b><label class="contact_head">Email id: </label></b><label class="contact_sub">ashokkumarprogrammer@gmail.com</label><br><br>
+			<b><label class="contact_head">LinkedIn: </label></b><label class="contact_sub" id="linkedin">https://www.linkedin.com/in/ashok-kumar- &nbsp;&nbsp;94b22b211/</label><br><br>
+			<b><label class="contact_head">Github: </label></b><label class="contact_sub" id="github">https://github.com/Ashokkumar-Programmer</label>
+		</div>
+		<div id="project">
+			<h3 id="title2">Projects</h3>
+		</div>
+		<div class="projects"  style="display:none; margin-left: 400px;"><br>
+			<div class="v1"></div>
+			<div class="c1" style="margin-top: 15px;"></div>
+			<div class="t1" id="project1"><label>Resume Builder Web Application using HTML, CSS, JS<br></label></div>
+			<div class="c2" style="margin-top: 35px;"></div>
+			<div class="t2" id="project2"><label>App & Tab Lock Web Application Using PHP & JS<br></label></div>
+			<div class="c3" style="margin-top: 35px;"></div>
+			<div class="t3" id="project3"><label>Customer Billing System using C<br></label></div>
+		</div>
+		<div id="education" style="margin-top:40px;">
+			<h3 id="title3">Education</h3><br>	
+		</div><br>
+		<div id="educations"  style="display:none; margin-left: 400px;">
+			<label class="std">SSLC</label><label class="year">2017-2018</label><br>
+			<label class="mark">83.4%</label><br>
+			<label class="insituition">S.V. Nagar Vidyalaya Matric School</label>
+			<div  class="e1"></div><br>
+			<label class="std">HSC</label><label class="year">2019-2020</label><br>
+			<label class="mark">59.9%</label><br>
+			<label class="insituition">Margoschis hr. sec. school</label>
+			<div  class="e1"></div><br>
+			<label class="std">B.Sc(Computer<br>&nbsp;&nbsp;Science)</label><label class="year" style="margin-left: 126px;">2020-2023</label><br>
+			<label class="mark">86.7%</label><br>
+			<label class="insituition">Aditanar College of Arts and Science</label>
+			<div  class="e1"></div><br>
+			<label class="std">Master of Computer<br>&nbsp;&nbsp;Applications</label><label class="year" style="margin-left: 93px;">2023-2025</label><br>
+			<label class="mark" style="margin-left: 330px;">Still <label style="margin-left: 315px;">Studying</label></label><br>
+			<label class="insituition">Francis Xavier Engineering College</label>
+		</div>
+		<div id="certificate" style="margin-top: 10px;">
+			<h3 id="title4">Certificates</h3>
+		</div>
+		<div class="projects"  style="display:none; margin-left: 400px;"><br>
+			<div class="v1"></div>
+			<div class="c1" style="margin-top: 15px;"></div>
+			<div class="t1" id="certificate1"><label>HackerRank certificate on Python and Problem solving<br></label></div>
+			<div class="c2" style="margin-top: 35px;"></div>
+			<div class="t2" id="certificate2"><label>RedHat Linux Certificate<br></label></div>
+			<div class="c3" style="margin-top: 55px;"></div>
+			<div class="t3" id="certificate3"><label>Udemy certificate on SpringBoot in Java<br></label></div>
+		</div>
+	</div>
+	<div id="right" style="display: none;">
+		<p id="name">Ashok Kumar. A</p>
+		<p id="role">Software Developer</p>
+		<div class="vertical_line"></div><br>
+		<p class="title">Carrer Objectives</p>
+		<div class="vertical_line" style="margin-top: -10px;"></div>
+		<p id="desc">I am an intermediate java developer with a passion for web developement and a stromg track record of success, having python, problem solving HackerRank and developed multiple web applications, and also completed my intership at ICANIO Technologies focused on Flask developement and a future project planned in e-commerce website for blind users. Futhermore, I am a quick learner, ateam player, and commited to continously improving my skills and knowledge to contribute to the success of any project or organization.</p>
+		<div class="vertical_line"></div><br>
+		<p class="title" style="margin-right: 385px;">Skills</p>
+		<div class="vertical_line" style="margin-top: -10px;"></div>
+		<p class="program">C</p>
+		<div class="main_address"></div>
+		<div class="progress_address"></div><br> 	
+		<p class="program" style="margin-top: -10px;">Java</p>
+		<div class="main_address"></div>
+		<div class="progress_address" style="width: 100px;"></div><br>
+		<p class="program" style="margin-top: -10px;">HTML, CSS, JS</p>
+		<div class="main_address"></div>
+		<div class="progress_address" style="width: 80px;"></div><br>
+		<p class="program" style="margin-top: -10px;">Python</p>
+		<div class="main_address"></div>
+		<div class="progress_address" style="width: 100px;"></div><br>
+		<p class="program" style="margin-top: -10px;">Problem Solving</p>
+		<div class="main_address"></div>
+		<div class="progress_address" style="width: 130px;"></div><br>
+		<div class="vertical_line"></div><br>
+		<p class="title" style="margin-right:356px;">Soft Skill</p>
+		<div class="vertical_line" style="margin-top: -10px;"></div>
+		<div class="projects"><br>
+			<div class="v1" style="margin-left:40px; height: 30px; margin-top: -10px;"></div>
+			<div class="c1" style="margin-top: 17px; margin-left: 36px; margin-top: 0px;"></div>
+			<div class="t1"><label style="margin-left:40px;">English reading, speaking.<br></label></div>
+		</div><br><br>
+		<div class="vertical_line"></div><br>
+		<p class="title" style="margin-right:326px;">Achievements</p>
+		<div class="vertical_line" style="margin-top: -10px;"></div>
+		<div class="projects"><br>
+			<div class="v1" style="margin-left:40px; height: 80px;  margin-top: -10px;"></div>
+			<div class="c1" style="margin-top: 15px;  margin-left: 36px;  margin-top: 0px;"></div>
+			<div class="t1"><label style="margin-left:40px;">2nd prize on Inter-college science exhibition<br></label></div>
+			<div class="c2" style="margin-top: 35px;  margin-left: 36px;"></div>
+			<div class="t2" style="width:500px;"><label style="margin-left:40px;">3rd prize on just a minute competition in Froxen 2023<br></label></div>
+		</div><br><br>
+		<div class="vertical_line"></div><br>
+		<p class="title" style="margin-right:326px;">Internship</p>
+		<div class="vertical_line" style="margin-top: -10px;"></div>
+		<div class="projects"><br>
+			<div class="v1" style="margin-left:40px; height: 24px;  margin-top: -10px;"></div>
+			<div class="c1" style="margin-top: 15px;  margin-left: 36px;  margin-top: -2px;"></div>
+			<div class="t1" style="width:400px;"><label style="margin-left:40px;">Intership on ICANIO Technologies at Python(Flask)<br></label></div>
+		</div><br><br>
+		<div class="vertical_line"></div><br>
+		<p class="title" style="margin-right:326px;">Hobbies</p>
+		<div class="vertical_line" style="margin-top: -10px;"></div>
+		<div class="projects"><br>
+			<div class="v1" style="margin-left:40px; height: 85px; margin-top: -11px;"></div>
+			<div class="c1" style="margin-top: -5px;  margin-left: 36px;"></div>
+			<div class="t1"><label style="margin-left:40px;">Watching Movies and Webseries<br></label></div>
+			<div class="c2" style="margin-top: 15px;  margin-left: 36px;"></div>
+			<div class="t2" style="width:500px;"><label style="margin-left:40px;">Gaming<br></label></div>
+			<div class="c3" style="margin-top: 15px; margin-left: 36px;"></div>
+			<div class="t3" style="width:500px;"><label style="margin-left:40px;">Working on new ideas and learning new technology<br></label></div>
+		</div><br><br>
+	</div>
+</body>
+</html>

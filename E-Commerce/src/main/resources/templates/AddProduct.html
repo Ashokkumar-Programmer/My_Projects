@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Add Products</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('Images/background.jpg');">
+			<form action="productdetails" method="get">
+				<button class="button-62" role="button">View Product Details</button>
+			</form>
+			<div class="wrap-login100">
+				
+				<form class="login100-form validate-form" th:action="@{/productadded}" method="post" th:object="${product}">
+
+					<span class="login100-form-title p-b-34 p-t-27">
+						Add New Products
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Enter the product image URL">
+						<input class="input100" th:field="*{imageURL}" type="text" name="image" placeholder="Enter the product image URL">
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Enter the product name">
+						<input class="input100" th:field="*{productname}" type="text" name="name" placeholder="Enter the product name">
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Enter the product price">
+						<input class="input100" th:field="*{productprice}" type="number" name="price" placeholder="Enter the product price">
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Enter the product description">
+						<textarea class="input100" th:field="*{description}" type="text" name="description" placeholder="Enter the product description" style="height: 200px; resize: none;"></textarea>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Enter the product highlights">
+						<textarea class="input100" th:field="*{highlights}" type="text" name="highlights" placeholder="Enter the product highlights" style="height: 200px; resize: none;"></textarea>
+					</div>
+					<div class="wrap-input100 validate-input">
+						<select id="category" class="input100" th:field="*{category}">
+							<option value="Grocery" style="color: black;">Grocery</option>
+							<option value="Mobiles" style="color: black;">Mobiles</option>
+							<option value="Fashions" style="color: black;">Fashions</option>
+							<option value="Electronics" style="color: black;">Electronics</option>
+							<option value="Furnitures" style="color: black;">Furnitures</option>
+							<option value="Cosmetics" style="color: black;">Cosmetics</option>
+						</select>
+					</div>
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Add Product
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	
+
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="vendor/select2/select2.min.js"></script>
+
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+
+	<script src="js/main.js"></script>
+
+</body>
+</html>

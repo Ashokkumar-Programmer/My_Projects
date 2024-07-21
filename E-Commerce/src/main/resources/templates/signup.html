@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/signup.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body bgcolor="#fff">
+    <div class="bg-img d-flex justify-content-center align-items-center">
+        <div class="content text-center">
+            <header>Create a new account</header>
+            <form th:action="@{/useradded}" method="post" th:object="${user}">
+                <div class="form-group field d-flex align-items-center">
+                    <span class="fa fa-user"></span>
+                    <input type="email" th:field="*{username}" class="form-control" required placeholder="Enter your email as Username" id="username">
+                </div>
+                <div class="form-group field space d-flex align-items-center position-relative">
+                    <span class="fa fa-lock"></span>
+                    <input type="password" th:field="*{password}" class="form-control pass-key1" required placeholder="Enter your password" id="password">
+                    <span class="show1">SHOW</span>
+                </div>
+                <div class="form-group field space d-flex align-items-center position-relative">
+                    <span class="fa fa-lock"></span>
+                    <input type="text" th:field="*{name}" class="form-control pass-key2" required placeholder="Enter your full name" id="name">
+                </div>
+                <div class="form-group field space d-flex align-items-center">
+                    <span class="fa fa-user"></span>
+                    <input type="text" th:field="*{address}" class="form-control" required placeholder="Enter your address" id="address">
+                </div>
+                <div class="form-group field space d-flex align-items-center">
+                    <span class="fa fa-user"></span>
+                    <input type="number" th:field="*{phonenumber}" class="form-control" required placeholder="Enter your phone number" id="phonenumber">
+                </div>
+                <div class="form-group field space d-flex align-items-center">
+                    <span class="fa fa-user"></span>
+                    <select class="form-control options" th:field="*{usertype}" id="usertype">
+                        <option value="customer">Customer</option>
+                        <option value="seller">Seller</option>
+                    </select>
+                </div>
+                <div class="form-group field">
+                    <input type="submit" id="button" class="btn btn-primary btn-block" value="Signup">
+                </div>
+            </form>
+            <div class="signup">If you already have an account?
+                <a href="/loginPage">LogIn</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function callSpeakService(text) {
+            fetch('/speak', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(text)
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            }).then(data => {
+                console.log('Success:', data);
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function speak(text) {
+            callSpeakService(text);
+        }
+        speak("Tell your new username");
+        document.addEventListener("DOMContentLoaded", function() {
+            const pass_field1 = document.querySelector('.pass-key1');
+            const showBtn1 = document.querySelector('.show1');
+            let recognition = null;
+            let count = 1;
+
+            showBtn1.addEventListener('click', function() {
+                if (pass_field1.type === "password") {
+                    pass_field1.type = "text";
+                    showBtn1.textContent = "HIDE";
+                    showBtn1.style.color = "#3498db";
+                } else {
+                    pass_field1.type = "password";
+                    showBtn1.textContent = "SHOW";
+                    showBtn1.style.color = "#222";
+                }
+            });
+
+            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = false;
+                
+                function startRecognition() {
+                    recognition.start();
+                }
+
+                recognition.onstart = function() {
+                    console.log('Voice recognition started. Try speaking into the microphone.');
+                };
+
+                recognition.onspeechend = function() {
+                    console.log('Speech ended.');
+                    recognition.stop();
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[event.results.length - 1][0].transcript.trim();
+                    console.log('Result: ', transcript);
+
+                    $.ajax({
+                        url: '/processSpeech',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ transcript: transcript }),
+                        success: function(response) {
+                            console.log('Response from backend: ', response);
+                            if(response == "go to login page"){
+                                window.location.href = "/loginPage";
+                                count=0;
+                            }
+                            if(count == 1){
+                                var email = response.split(' ').join('');
+                                document.getElementById("username").value = email.toLowerCase();
+                                count++;
+                                speak("Tell your new password");
+                            } else if(count == 2){
+								var pass = response.split(' ').join('');
+                                document.getElementById("password").value = pass.toLowerCase();
+                                count++;
+                                speak("Tell your full name");
+                            } else if(count == 3){
+                                document.getElementById("name").value = response;
+                                count++;
+                                speak("Tell your Town with District and State");
+                            } else if(count == 4){
+                                document.getElementById("address").value = response;
+                                count++;
+                                speak("Tell your phone number");
+                            } else if(count == 5){
+                                var number = response.split(' ').join('');
+                                document.getElementById("phonenumber").value = parseInt(number);
+                                count++;
+                                speak("Tell your new usertype. But default is customer");
+                            } else if(count == 6){
+                                if(response == "customer"){
+                                    document.getElementById("usertype").selectedIndex = 0;
+                                } else if(response == "seller"){
+                                    document.getElementById("usertype").selectedIndex = 1;
+                                }
+                                document.getElementById("button").click();
+                                count++;
+                            }
+                        },
+                        error: function(error) {
+                            console.error('Error: ', error);
+                        }
+                    });
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error detected: ' + event.error);
+                    recognition.stop();
+                    startRecognition(); // Restart recognition on error
+                };
+
+                recognition.onend = function() {
+                    console.log('Voice recognition stopped. Restarting...');
+                    startRecognition(); // Restart recognition when it ends
+                };
+
+                startRecognition(); // Initial start of recognition
+            } else {
+                console.error('Speech recognition not supported by this browser.');
+            }
+
+            window.addEventListener('beforeunload', function() {
+                if (recognition) {
+                    recognition.stop();
+                    recognition = null;
+                }
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Now Page</title>
+    <style>
+        ._success {
+            padding: 45px;
+            width: 100%;
+            text-align: center;
+            margin: 40px auto;
+        }
+        
+        ._success i {
+            font-size: 55px;
+            color: #28a745;
+        }
+        
+        ._success h2 {
+            margin-bottom: 12px;
+            font-size: 40px;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-top: 10px;
+        }
+        
+        ._success p {
+            margin-bottom: 0px;
+            font-size: 18px;
+            color: #495057;
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="message-box _success">
+                <img src="/Images/buy.jpg" alt="" width="90" height="90">
+                <h2> Your order was successfully placed </h2>
+               <p> Thank you for your order. we will <br>
+be in contact with more details shortly </p>      
+        </div> 
+    </div> 
+</div>
+</body>
+<script>
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function redirectToLogin() {
+        await sleep(10000);
+        window.location.href = "/cartPage";
+    }
+
+    redirectToLogin();
+    function callSpeakService(text) {
+        fetch('/speak', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(text)
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        }).then(data => {
+            console.log('Success:', data);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function speak(text) {
+        callSpeakService(text);
+    }
+    
+    speak("Product ordered placed successfully. We delivery the product within 2 to 4 days. Thank you for order.")
+</script>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>Admin Page</title>
+  </head>
+  <body>  
+  <div class="content">    
+    <div class="container" style="margin-top: -100px;">
+      <h2 class="mb-5" style="text-align: center;">User Details</h2>      
+      <div class="table-responsive">
+        <table class="table table-striped custom-table">
+          <thead>
+            <tr style="text-align: center;">              
+              <th scope="col">Username</th>
+              <th scope="col">Name</th>
+              <th scope="col">Address</th>
+              <th scope="col">Usertype</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody style="text-align: center;">
+            <tr th:each="user : ${user}" th:if="${user.usertype != 'admin'}">     
+	              <td th:text="${user.username}"></td>
+	              <td th:text="${user.name}"></td>
+	              <td th:text="${user.address}"></td>
+	              <td th:text="${user.usertype}"></td>
+	              <td><a th:href="@{/deleteuser(username=${user.username})}" class="more">Delete</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 80px;">
+      <h2 class="mb-5" style="text-align: center;">Product Details</h2>      
+      <div class="table-responsive">
+        <table class="table table-striped custom-table">
+          <thead>
+            <tr style="text-align: center;">              
+              <th scope="col">Product Name</th>
+              <th scope="col">Product Price</th>
+              <th scope="col">Product Category</th>
+              <th scope="col">No. of solded</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody style="text-align: center;">
+            <tr th:each="product : ${product}">     
+	              <td th:text="${product.productname}"></td>
+	              <td th:text="${product.productprice}"></td>
+	              <td th:text="${product.category}"></td>
+	              <td th:text="${product.solded}"></td>
+            </tr>
+            <tr>
+				<td></td>
+				<td></td>
+				<td>Total Revenue</td>
+				<td th:text="${total}"></td>
+			</tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>        
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

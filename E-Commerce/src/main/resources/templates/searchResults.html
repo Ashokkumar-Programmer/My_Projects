@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Products</title>
+    <link rel="stylesheet" href="./css/products.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+<body>
+	<h3 style="position:absolute; margin-top:-160px; margin-left: 1405px;" th:text="${#lists.size(cartProducts)}"></h3>
+    <form method="get" action="/allproduct" style="display: none;">
+		<input type="hidden" th:value="${category}" name="category">
+		<input type="hidden" th:value="${name}" name="name">
+		<button type="submit" id="allproducts"></button>
+	</form>
+    <section class="header">
+        <div class="title-wrapper">
+            <h1 class="sweet-title">
+                <span data-text="Shop">Shop</span>
+                <span data-text="Smart">Smart</span>
+            </h1>
+            <span class="bottom-title">Blind users also use this</span>
+        </div>
+    </section>
+    <form action="/search" id="search">
+        <input type="search" name="name" required>
+        <i class="fa fa-search"></i>
+    </form>
+    <form action="/cartPage" method="get">
+		<button type="submit" class="userbutton" style="position: absolute;">
+			<img src="Images/CartImage.png" width="50" height="50" id="cart">
+		</button>	
+	</form>
+    <div class="user-container">
+        <button id="userlogoBtn" class="userbutton">
+            <img src="/Images/userlogo.png" width="50" height="50" id="userlogo">
+        </button>
+        <div class="profile" id="profile" style="background-color: white; display: none;">
+            <h2 th:text="${name}"></h2>
+            <hr style="width: 198px; border: 2px solid black; margin-left: 0px;">
+            <button type="submit" style="border-radius: 30px;">
+                <img src="/Images/logout.png" width="195" height="50" style="margin-left: -35px; margin-top: -10px; border-radius: 30px;">
+            </button>
+        </div>
+    </div>
+    <h1 class="title">Search Products</h1>
+    <div class="main">
+        <div class="cards_container">
+            <div class="cards_row" th:each="product : ${product}">
+                <div class="cards_item">
+                    <div class="card" id="cardToGrow">
+                        <div class="card_image">
+                            <img th:src="@{${product.imageURL}}" alt="Product Image" width="305" height="330"/>
+                        </div>
+                        <div class="card_content">
+                            <h2 class="card_title" th:text="${product.productname}"> </h2>
+                            <div class="card_text" id="textToShow">
+                                <p class="product-items" style="font-size: 21px; font-weight: bold;">Price: <span class="note" th:text="'₹ '+${product.productprice}"></span></p>
+                                <p class="product-items">
+                                    <h3>Highlights</h3>
+                                    <p th:text="${product.highlights}" id="highlighttext" style="display: none;"></p>
+                                    <ul>
+                                        <li th:each="highlight : ${@stringUtils.splitByNewline(product.highlights)}" th:text="${highlight}"></li>
+                                    </ul>
+                                </p>
+                                <p class="product-items">
+                                    <h3>Description</h3>
+                                    <span th:text="${product.description}"></span>
+                                </p>
+                                <form method="post" action="/addcart">
+                                    <button type="submit" class="button-64" role="button">
+										<input type="hidden" th:value="${category}" name="category">
+										<input type="hidden" th:value="${name}" name="name">
+                                        <input type="hidden" name="productid" th:value="${product.productId}">
+                                        <span class="text">
+                                            <img style="border-radius: 20px; margin-right: 8px;" src="Images/AddToCart.png" width="40" height="40" alt="">
+                                            Add To Cart
+                                        </span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const userlogoBtn = document.getElementById('userlogoBtn');
+        const profile = document.getElementById('profile');
+
+        userlogoBtn.addEventListener('click', function (event) {
+            event.stopPropagation();
+            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!profile.contains(event.target) && event.target !== userlogoBtn) {
+                profile.style.display = 'none';
+            }
+        });
+    });
+
+    function callSpeakService(text, callback) {
+        fetch('/speak', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(text)
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        }).then(data => {
+            console.log('Success:', data);
+            if (callback) callback();
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function speak(text, callback) {
+        callSpeakService(text, callback);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            let recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = false;
+
+            let search = 0;
+            let products = [];
+            let currentIndex = 0;
+
+            function startRecognition() {
+                recognition.start();
+            }
+			
+			function startProductProcessing() {
+	        products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
+	            return {
+	                name: item.querySelector('.card_title').innerText,
+	                description: item.querySelector('#highlighttext').innerText,
+	                price: item.querySelector('.product-items .note').innerText,
+	                form: item.querySelector('form')
+	            };
+	        });
+	        currentIndex = 0;
+	        processNextProduct();
+	    }
+		
+	    speak("Product Searched Successfully", startProductProcessing);
+			
+			function processNextProduct() {
+                if (currentIndex < products.length) {
+                    const product = products[currentIndex];
+                    speak(`Product name is ${product.name} and it's price is ${product.price}. Did you like to know more about it?`, function() {
+                        recognition.onresult = function(event) {
+                            const transcript = event.results[event.results.length - 1][0].transcript.trim();
+                            console.log('Result: ', transcript);
+                            if(transcript === "yes" || transcript === "yes yes") {
+                                speak(`About the product ${product.description}` + ". Do you want to add this product to the cart?", function() {
+                                    recognition.onresult = function(event) {
+                                        const addToCartTranscript = event.results[event.results.length - 1][0].transcript.trim();
+                                        if(addToCartTranscript === "yes" || addToCartTranscript === "yes yes") {
+                                            currentIndex = products.length;
+                                            product.form.submit();
+                                        }
+                                        currentIndex++;
+                                        processNextProduct();
+                                    };
+                                });
+                            } else {
+                                currentIndex++;
+                                processNextProduct();
+                            }
+                        };
+                    });
+                }
+            }
+			
+            recognition.onstart = function() {
+                console.log('Voice recognition started. Try speaking into the microphone.');
+            };
+
+            recognition.onspeechend = function() {
+                console.log('Speech ended.');
+                recognition.stop();
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[event.results.length - 1][0].transcript.trim();
+                console.log('Result: ', transcript);
+
+                $.ajax({
+                    url: '/processSpeech',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ transcript: transcript }),
+                    success: function(response) {
+						if(response == "go to cart page" || response == "go to cot page" || response == " go to cottage"){
+							window.location.href = "/cartPage";
+						}
+						if(response=="back to product page"){
+							document.getElementById("allproducts").click();
+						}
+                        products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
+                            return {
+                                name: item.querySelector('.card_title').innerText,
+                                description: item.querySelector('#highlighttext').innerText,
+                                price: item.querySelector('.product-items .note').innerText,
+                                form: item.querySelector('form')
+                            };
+                        });
+                        currentIndex = 0;
+                        processNextProduct();
+                    },
+                    error: function(error) {
+                        console.error('Error: ', error);
+                    }
+                });
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error detected: ' + event.error);
+                recognition.stop();
+                startRecognition(); // Restart recognition on error
+            };
+
+            recognition.onend = function() {
+                console.log('Voice recognition stopped. Restarting...');
+                startRecognition(); // Restart recognition when it ends
+            };
+
+            startRecognition(); // Initial start of recognition
+        } else {
+            console.error('Speech recognition not supported by this browser.');
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
+            }
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</html>

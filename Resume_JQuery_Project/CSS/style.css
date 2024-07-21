@@ -1,0 +1,170 @@
+body{
+	position: absolute;
+	background-color: indianred;
+}
+#animate{
+	margin-left: 570px;
+	margin-top: 30px;
+	font-size: 18px;
+	font-family: sans-serif;
+	border: none;
+	box-shadow: 0px 0px 20px black;
+	background-color: green;
+	color: black;
+	border-radius: 50px;
+}
+#left{
+	background-color: grey;
+	border: none;
+	border-right: solid black 1px;
+	float: left;
+	width: 410px;
+	height: 1450px;
+	margin-left:600px;
+	word-wrap: initial;
+	margin-bottom: 30px;
+}
+.std{
+	margin-left: 20px;
+	font-weight: bold;
+	font-size: 17px;
+}
+.year{
+	margin-left: 150px;
+	font-weight: bold;
+	font-size: 17px;
+}
+.mark{
+	margin-left: 330px;
+	font-weight: bold;
+	font-size: 17px;
+}
+.insituition{
+	margin-left: 20px;
+	font-size: 17px;
+}
+.e1{
+	width: 390px;
+	margin-left: 4px;
+	margin-top: 7px;
+	background-color: black;
+	border: solid 1px black;
+}
+#right{
+	background-color: whitesmoke;
+	border: none;
+	border-left: solid black 1px;
+	float: right;
+	width: 500px;
+	height: 1450px;
+	margin-top: 400px;
+	margin-right:210px;
+}
+.contact_head{
+	font-size: 18px;
+	margin-left: 10px;
+}
+.contact_sub{
+	font-size:17px;
+}
+#my_image{
+	border-radius: 100px;
+	margin-left: 110px;
+	margin-top: 5px;
+}
+#right>*{
+	display: none;
+}
+#contact, #project, #education, #certificate{
+	background-color: darkgray;
+	height: 40px;
+	border: none;
+	border-radius: 100px;
+	width: 300px;
+	margin-left: -400px; /*10px*/
+	display: none;
+}
+#projects{
+	position: absolute;
+}
+.v1{
+	height:170px;
+	border: solid black 1px;
+	margin-left: 15px;
+	margin-top: 8px;
+	position: absolute;
+}
+.c1, .c2, .c3{
+	width: 10px;
+	height: 10px;
+	background-color: black;
+	border-radius: 20px;
+	margin-left: 11px;
+	position: relative;
+}
+.t1,.t2,.t3{
+	position: relative;
+	width: 350px;
+	margin-left: 30px;
+	margin-top: -14px;
+	font-size:17px;
+}
+#title1, #title2, #title3, #title4{
+	text-align: center;
+	margin-right: 290px;
+	margin-left: 20px;
+	padding-top: 8px;
+}
+#name{
+	font-size: 38px;
+	font-weight: bold;
+	margin-top: -1px;
+	margin-left: 18px;
+}
+#role{
+	font-size: 21px;
+	margin-top: -35px;
+	margin-left: 20px;
+}
+.vertical_line{
+	width: 460px;
+	border: black 1px solid;
+	margin-left: 20px;
+	position: absolute;
+}
+.title{
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	margin-top: -10px;
+	margin-right: 280px;
+}
+#desc{
+	margin-left: 20px;
+	font-size: 17px;
+	text-align: justify;
+	margin-right: 18px;
+	line-height: 25px;
+}
+.program{
+	font-size: 16px;
+	margin-left: 22px;
+}
+.progress_address{
+	border: none whitesmoke;
+	width: 70px;
+	background-color: black;
+	height: 8px;
+	margin-top: -9px;
+	margin-left: 23px;
+	position: absolute;
+}
+.main_address{
+	width: 200px;
+	height: 8px;
+	background-color: grey;
+	border: 1px solid whitesmoke;
+	margin-left: 23px;
+	position: absolute;
+	margin-top: -10px;
+}
