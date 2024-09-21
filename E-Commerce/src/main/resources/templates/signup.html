@@ -50,145 +50,156 @@
         </div>
     </div>
 
-    <script>
-        function callSpeakService(text) {
-            fetch('/speak', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(text)
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            }).then(data => {
-                console.log('Success:', data);
-            }).catch(error => {
-                console.error('Error:', error);
-            });
+   <script>
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
         }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
-        function speak(text) {
-            callSpeakService(text);
-        }
-        speak("Tell your new username");
-        document.addEventListener("DOMContentLoaded", function() {
-            const pass_field1 = document.querySelector('.pass-key1');
-            const showBtn1 = document.querySelector('.show1');
-            let recognition = null;
-            let count = 1;
+    function callSpeakService(text) {
+        fetch('/speak', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: text })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        }).then(data => {
+            console.log('Success:', data);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
 
-            showBtn1.addEventListener('click', function() {
-                if (pass_field1.type === "password") {
-                    pass_field1.type = "text";
-                    showBtn1.textContent = "HIDE";
-                    showBtn1.style.color = "#3498db";
-                } else {
-                    pass_field1.type = "password";
-                    showBtn1.textContent = "SHOW";
-                    showBtn1.style.color = "#222";
-                }
-            });
+    function speak(text) {
+        callSpeakService(text);
+    }
 
-            if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                recognition = new SpeechRecognition();
-                recognition.continuous = true;
-                recognition.interimResults = false;
-                
-                function startRecognition() {
-                    recognition.start();
-                }
+    speak("You are in signup page now. Tell your new username");
 
-                recognition.onstart = function() {
-                    console.log('Voice recognition started. Try speaking into the microphone.');
-                };
+    document.addEventListener("DOMContentLoaded", function() {
+        const pass_field1 = document.querySelector('.pass-key1');
+        const showBtn1 = document.querySelector('.show1');
+        let recognition = null;
+        let count = 1;
 
-                recognition.onspeechend = function() {
-                    console.log('Speech ended.');
-                    recognition.stop();
-                };
+        showBtn1.addEventListener('click', function() {
+            if (pass_field1.type === "password") {
+                pass_field1.type = "text";
+                showBtn1.textContent = "HIDE";
+                showBtn1.style.color = "#3498db";
+            } else {
+                pass_field1.type = "password";
+                showBtn1.textContent = "SHOW";
+                showBtn1.style.color = "#222";
+            }
+        });
 
-                recognition.onresult = function(event) {
-                    const transcript = event.results[event.results.length - 1][0].transcript.trim();
-                    console.log('Result: ', transcript);
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = false;
 
-                    $.ajax({
-                        url: '/processSpeech',
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify({ transcript: transcript }),
-                        success: function(response) {
-                            console.log('Response from backend: ', response);
-                            if(response == "go to login page"){
-                                window.location.href = "/loginPage";
-                                count=0;
-                            }
-                            if(count == 1){
-                                var email = response.split(' ').join('');
+            function startRecognition() {
+                recognition.start();
+            }
+
+            recognition.onstart = function() {
+                console.log('Voice recognition started. Try speaking into the microphone.');
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[event.results.length - 1][0].transcript.trim();
+                console.log('Result: ', transcript);
+
+                $.ajax({
+                    url: '/processSpeech',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ transcript: transcript }),
+                    success: function(response) {
+                        console.log('Response from backend: ', response);
+
+                        if (response == "go to login page") {
+                            window.location.href = "/loginPage";
+                            count = 0;
+                        } else if (count == 1) {
+                            var email = response.split(' ').join('');
+                            if (!validateEmail(email)) {
+                                speak("Invalid email format. Please tell your username again.");
+                            } else {
                                 document.getElementById("username").value = email.toLowerCase();
                                 count++;
                                 speak("Tell your new password");
-                            } else if(count == 2){
-								var pass = response.split(' ').join('');
-                                document.getElementById("password").value = pass.toLowerCase();
-                                count++;
-                                speak("Tell your full name");
-                            } else if(count == 3){
-                                document.getElementById("name").value = response;
-                                count++;
-                                speak("Tell your Town with District and State");
-                            } else if(count == 4){
-                                document.getElementById("address").value = response;
-                                count++;
-                                speak("Tell your phone number");
-                            } else if(count == 5){
-                                var number = response.split(' ').join('');
-                                document.getElementById("phonenumber").value = parseInt(number);
-                                count++;
-                                speak("Tell your new usertype. But default is customer");
-                            } else if(count == 6){
-                                if(response == "customer"){
-                                    document.getElementById("usertype").selectedIndex = 0;
-                                } else if(response == "seller"){
-                                    document.getElementById("usertype").selectedIndex = 1;
-                                }
-                                document.getElementById("button").click();
-                                count++;
                             }
-                        },
-                        error: function(error) {
-                            console.error('Error: ', error);
+                        } else if (count == 2) {
+                            var pass = response.split(' ').join('');
+                            document.getElementById("password").value = pass.toLowerCase();
+                            count++;
+                            speak("Tell your full name");
+                        } else if (count == 3) {
+                            document.getElementById("name").value = response;
+                            count++;
+                            speak("Tell your Town like tirunelveli, thoothukudi, etc...");
+                        } else if (count == 4) {
+                            document.getElementById("address").value = response;
+                            count++;
+                            speak("Tell your phone number");
+                        } else if (count == 5) {
+                            var number = response.split(' ').join('');
+                            document.getElementById("phonenumber").value = parseInt(number);
+                            count++;
+                            setCookie("created", "1", 1);
+                            speak("Congratulations. You have created an account in ShopSmart.");
+                            setTimeout(5000);
+                            document.getElementById("button").click();
                         }
-                    });
-                };
+                    },
+                    error: function(error) {
+                        console.error('Error: ', error);
+                    }
+                });
+            };
 
-                recognition.onerror = function(event) {
-                    console.error('Speech recognition error detected: ' + event.error);
-                    recognition.stop();
-                    startRecognition(); // Restart recognition on error
-                };
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error detected: ' + event.error);
+                recognition.stop();
+                startRecognition(); // Restart recognition on error
+            };
 
-                recognition.onend = function() {
-                    console.log('Voice recognition stopped. Restarting...');
-                    startRecognition(); // Restart recognition when it ends
-                };
+            recognition.onend = function() {
+                console.log('Voice recognition stopped. Restarting...');
+                startRecognition(); // Restart recognition when it ends
+            };
 
-                startRecognition(); // Initial start of recognition
-            } else {
-                console.error('Speech recognition not supported by this browser.');
+            startRecognition(); // Initial start of recognition
+        } else {
+            console.error('Speech recognition not supported by this browser.');
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
             }
-
-            window.addEventListener('beforeunload', function() {
-                if (recognition) {
-                    recognition.stop();
-                    recognition = null;
-                }
-            });
         });
-    </script>
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+    });
+</script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

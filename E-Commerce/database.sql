@@ -13,7 +13,7 @@ insert into userdata values("ashokkumarprogrammer@gmail.com", "ashokkumar", "Ash
 
 update userdata set name="Ashok" where username="ashokkumarprogrammer@gmail.com";
 
-delete from userdata where username="ashokkumar@gmail.com";
+delete from userdata where username="hariharan1@gmail.com";
 
 select * from userdata;
 

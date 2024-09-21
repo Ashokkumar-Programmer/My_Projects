@@ -44,7 +44,7 @@ public class ProductController {
     @PostMapping("/productadded")
     public String productadded(ProductData product) {
         repo.save(product);
-        return "redirect:/allproducts";
+        return "redirect:/allproduct";
     }
     
     @GetMapping("/notfound")
@@ -126,17 +126,17 @@ public class ProductController {
     }
     
     @GetMapping("/search")
-    public String search(@RequestParam String category, @RequestParam String name, @RequestParam String username,Model model) {
+    public String search(@RequestParam String category, @RequestParam String name, @RequestParam String productname,Model model) {
         List<ProductData> products = repo.findAll();
         List<ProductData> result = products.stream()
             .filter(product -> Arrays.stream(product.getProductname().split(" "))
-                .anyMatch(word -> word.equalsIgnoreCase(name)))
+                .anyMatch(word -> word.equalsIgnoreCase(productname)))
             .collect(Collectors.toList());
         model.addAttribute("product", result);
         if (!products.isEmpty()) {
             model.addAttribute("category", products.get(0).getCategory());
         }
-        model.addAttribute("name", username);
+        model.addAttribute("name", name);
         List<ProductData> cartProducts = repo.findByCartGreaterThanOne();
         model.addAttribute("cartProducts", cartProducts);
         return "searchResults";

@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h3 style="position:absolute; margin-top:-160px; margin-left: 1405px;" th:text="${#lists.size(cartProducts)}"></h3>
-    <form method="get" action="/allproduct" style="display: none;">
+    <form method="get" action="/search" style="display: none;">
 		<input type="hidden" th:value="${category}" name="category">
 		<input type="hidden" th:value="${name}" name="name">
 		<button type="submit" id="allproducts"></button>
@@ -24,9 +24,12 @@
             <span class="bottom-title">Blind users also use this</span>
         </div>
     </section>
-    <form action="/search" id="search">
-        <input type="search" name="name" required>
+    <form action="/search" method="get" id="search">
+		<input type="hidden" th:value="${category}" name="category">
+		<input type="hidden" th:value="${name}" name="name">
+        <input type="text" name="productname" required id="searchname">
         <i class="fa fa-search"></i>
+        <button type="submit" id="searchbutton" style="display: none;"></button>
     </form>
     <form action="/cartPage" method="get">
 		<button type="submit" class="userbutton" style="position: absolute;">
@@ -90,168 +93,162 @@
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const userlogoBtn = document.getElementById('userlogoBtn');
-        const profile = document.getElementById('profile');
+    const userlogoBtn = document.getElementById('userlogoBtn');
+    const profile = document.getElementById('profile');
 
-        userlogoBtn.addEventListener('click', function (event) {
-            event.stopPropagation();
-            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!profile.contains(event.target) && event.target !== userlogoBtn) {
-                profile.style.display = 'none';
-            }
-        });
+    userlogoBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
     });
 
-    function callSpeakService(text, callback) {
-        fetch('/speak', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(text)
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        }).then(data => {
-            console.log('Success:', data);
-            if (callback) callback();
-        }).catch(error => {
-            console.error('Error:', error);
-        });
-    }
+    document.addEventListener('click', function (event) {
+        if (!profile.contains(event.target) && event.target !== userlogoBtn) {
+            profile.style.display = 'none';
+        }
+    });
+});
 
-    function speak(text, callback) {
-        callSpeakService(text, callback);
-    }
+function callSpeakService(text) {
+    return fetch('/speak', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(text)
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
 
-    document.addEventListener("DOMContentLoaded", function() {
-        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            let recognition = new SpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = false;
+document.addEventListener("DOMContentLoaded", function () {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
 
-            let search = 0;
-            let products = [];
-            let currentIndex = 0;
+        let products = [];
+        let currentIndex = 0;
 
-            function startRecognition() {
-                recognition.start();
-            }
-			
-			function startProductProcessing() {
-	        products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
-	            return {
-	                name: item.querySelector('.card_title').innerText,
-	                description: item.querySelector('#highlighttext').innerText,
-	                price: item.querySelector('.product-items .note').innerText,
-	                form: item.querySelector('form')
-	            };
-	        });
-	        currentIndex = 0;
-	        processNextProduct();
-	    }
-		
-	    speak("Product Searched Successfully", startProductProcessing);
-			
-			function processNextProduct() {
-                if (currentIndex < products.length) {
-                    const product = products[currentIndex];
-                    speak(`Product name is ${product.name} and it's price is ${product.price}. Did you like to know more about it?`, function() {
-                        recognition.onresult = function(event) {
+        function startRecognition() {
+            recognition.start();
+        }
+
+        function startProductProcessing() {
+            products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
+                return {
+                    name: item.querySelector('.card_title').innerText,
+                    description: item.querySelector('#highlighttext').innerText,
+                    price: item.querySelector('.product-items .note').innerText,
+                    form: item.querySelector('form')
+                };
+            });
+            currentIndex = 0;
+            processNextProduct();
+        }
+
+        function processNextProduct() {
+            if (currentIndex < products.length) {
+                const product = products[currentIndex];
+                callSpeakService(`Product name is ${product.name} and its price is ${product.price}. Did you like to know more about it?`)
+                    .then(() => {
+                        recognition.onresult = function (event) {
                             const transcript = event.results[event.results.length - 1][0].transcript.trim();
                             console.log('Result: ', transcript);
-                            if(transcript === "yes" || transcript === "yes yes") {
-                                speak(`About the product ${product.description}` + ". Do you want to add this product to the cart?", function() {
-                                    recognition.onresult = function(event) {
-                                        const addToCartTranscript = event.results[event.results.length - 1][0].transcript.trim();
-                                        if(addToCartTranscript === "yes" || addToCartTranscript === "yes yes") {
-                                            currentIndex = products.length;
-                                            product.form.submit();
-                                        }
-                                        currentIndex++;
-                                        processNextProduct();
-                                    };
-                                });
+                            if (transcript === "yes" || transcript === "yes yes") {
+                                callSpeakService(`About the product ${product.description}. Do you want to add this product to the cart?`)
+                                    .then(() => {
+                                        recognition.onresult = function (event) {
+                                            const addToCartTranscript = event.results[event.results.length - 1][0].transcript.trim();
+                                            if (addToCartTranscript === "yes" || addToCartTranscript === "yes yes") {
+                                                product.form.submit();
+                                            }
+                                            currentIndex++;
+                                            processNextProduct();
+                                        };
+                                    });
                             } else {
                                 currentIndex++;
                                 processNextProduct();
                             }
                         };
                     });
-                }
             }
-			
-            recognition.onstart = function() {
-                console.log('Voice recognition started. Try speaking into the microphone.');
-            };
-
-            recognition.onspeechend = function() {
-                console.log('Speech ended.');
-                recognition.stop();
-            };
-
-            recognition.onresult = function(event) {
-                const transcript = event.results[event.results.length - 1][0].transcript.trim();
-                console.log('Result: ', transcript);
-
-                $.ajax({
-                    url: '/processSpeech',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ transcript: transcript }),
-                    success: function(response) {
-						if(response == "go to cart page" || response == "go to cot page" || response == " go to cottage"){
-							window.location.href = "/cartPage";
-						}
-						if(response=="back to product page"){
-							document.getElementById("allproducts").click();
-						}
-                        products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
-                            return {
-                                name: item.querySelector('.card_title').innerText,
-                                description: item.querySelector('#highlighttext').innerText,
-                                price: item.querySelector('.product-items .note').innerText,
-                                form: item.querySelector('form')
-                            };
-                        });
-                        currentIndex = 0;
-                        processNextProduct();
-                    },
-                    error: function(error) {
-                        console.error('Error: ', error);
-                    }
-                });
-            };
-
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error detected: ' + event.error);
-                recognition.stop();
-                startRecognition(); // Restart recognition on error
-            };
-
-            recognition.onend = function() {
-                console.log('Voice recognition stopped. Restarting...');
-                startRecognition(); // Restart recognition when it ends
-            };
-
-            startRecognition(); // Initial start of recognition
-        } else {
-            console.error('Speech recognition not supported by this browser.');
         }
 
-        window.addEventListener('beforeunload', function() {
-            if (recognition) {
-                recognition.stop();
-                recognition = null;
-            }
-        });
+        recognition.onstart = function () {
+            console.log('Voice recognition started. Try speaking into the microphone.');
+        };
+
+        recognition.onspeechend = function () {
+            console.log('Speech ended.');
+            recognition.stop();
+        };
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[event.results.length - 1][0].transcript.trim();
+            console.log('Result: ', transcript);
+
+            $.ajax({
+                url: '/processSpeech',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ transcript: transcript }),
+                success: function (response) {
+                    if (response === "go to cart page" || response === "go to cot page" || response === " go to cottage") {
+                        window.location.href = "/cartPage";
+                    }
+                    if (response === "back to product page") {
+                        document.getElementById("allproducts").click();
+                    }
+                    products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
+                        return {
+                            name: item.querySelector('.card_title').innerText,
+                            description: item.querySelector('#highlighttext').innerText,
+                            price: item.querySelector('.product-items .note').innerText,
+                            form: item.querySelector('form')
+                        };
+                    });
+                    currentIndex = 0;
+                    processNextProduct();
+                },
+                error: function (error) {
+                    console.error('Error: ', error);
+                }
+            });
+        };
+
+        recognition.onerror = function (event) {
+            console.error('Speech recognition error detected: ' + event.error);
+            recognition.stop();
+            startRecognition(); // Restart recognition on error
+        };
+
+        recognition.onend = function () {
+            console.log('Voice recognition stopped. Restarting...');
+            startRecognition(); // Restart recognition when it ends
+        };
+
+        startRecognition(); // Initial start of recognition
+        startProductProcessing(); // Start the product processing immediately
+
+    } else {
+        console.error('Speech recognition not supported by this browser.');
+    }
+
+    window.addEventListener('beforeunload', function () {
+        if (recognition) {
+            recognition.stop();
+            recognition = null;
+        }
     });
+});
+
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

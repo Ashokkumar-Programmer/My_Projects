@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Upload and Display Image</h1>
+        <input type="file" accept="image/*" id="imageInput">
+        <br>
+        <img id="displayImage" alt="Your image will appear here">
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const displayImage = document.getElementById('displayImage');
+
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    displayImage.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file); // Convert the file to a base64 string
+            }
+        });
+    </script>
+
+</body>
+</html>

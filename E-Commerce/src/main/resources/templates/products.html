@@ -22,7 +22,7 @@
     <form action="/search" method="get" id="search">
 		<input type="hidden" th:value="${category}" name="category">
 		<input type="hidden" th:value="${name}" name="name">
-        <input type="text" name="name" required id="searchname">
+        <input type="text" name="productname" required id="searchname">
         <i class="fa fa-search"></i>
         <button type="submit" id="searchbutton" style="display: none;"></button>
     </form>
@@ -38,9 +38,11 @@
         <div class="profile" id="profile" style="background-color: white; display: none;">
             <h2 th:text="${name}"></h2>
             <hr style="width: 198px; border: 2px solid black; margin-left: 0px;">
-            <button type="submit" style="border-radius: 30px;">
-                <img src="/Images/logout.png" width="195" height="50" style="margin-left: -35px; margin-top: -10px; border-radius: 30px;">
-            </button>
+            <form method="get" action="/logout">
+	            <button type="submit" style="border-radius: 30px;" id="logout">
+	                <img src="/Images/logout.png" width="195" height="50" style="margin-left: -35px; margin-top: -10px; border-radius: 30px;">
+	            </button>
+            </form>
         </div>
     </div>
     <h1 class="title" th:text="${category}+' Products'"></h1>
@@ -88,159 +90,159 @@
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const userlogoBtn = document.getElementById('userlogoBtn');
-        const profile = document.getElementById('profile');
+    const userlogoBtn = document.getElementById('userlogoBtn');
+    const profile = document.getElementById('profile');
 
-        userlogoBtn.addEventListener('click', function (event) {
-            event.stopPropagation();
-            profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
-        });
-
-        document.addEventListener('click', function (event) {
-            if (!profile.contains(event.target) && event.target !== userlogoBtn) {
-                profile.style.display = 'none';
-            }
-        });
+    userlogoBtn.addEventListener('click', function (event) {
+        event.stopPropagation();
+        profile.style.display = profile.style.display === 'block' ? 'none' : 'block';
     });
 
-    function callSpeakService(text) {
-        fetch('/speak', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(text)
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        }).then(data => {
-            console.log('Success:', data);
-        }).catch(error => {
-            console.error('Error:', error);
-        });
-    }
+    document.addEventListener('click', function (event) {
+        if (!profile.contains(event.target) && event.target !== userlogoBtn) {
+            profile.style.display = 'none';
+        }
+    });
+});
 
-    function speak(text) {
-        callSpeakService(text);
-    }
+function callSpeakService(text) {
+    fetch('/speak', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: text })
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    }).then(data => {
+        console.log('Success:', data);
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
 
-	speak("Would You like to search any product. Say Yes or no");
-    document.addEventListener("DOMContentLoaded", function() {
-        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            let recognition = new SpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = false;
+function speak(text) {
+    callSpeakService(text);
+}
 
-            let search = 0;
-            let products = [];
-            let currentIndex = 0;
+speak("Would you like to search any product? Say yes or no.");
 
-            function startRecognition() {
-                recognition.start();
-            }
+document.addEventListener("DOMContentLoaded", function() {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
 
-            recognition.onstart = function() {
-                console.log('Voice recognition started. Try speaking into the microphone.');
-            };
+        let search = 0;
+        let products = [];
+        let currentIndex = 0;
 
-            recognition.onspeechend = function() {
-                console.log('Speech ended.');
-                recognition.stop();
-            };
+        function startRecognition() {
+            recognition.start();
+        }
 
-            recognition.onresult = function(event) {
-                const transcript = event.results[event.results.length - 1][0].transcript.trim();
-                console.log('Result: ', transcript);
+        recognition.onstart = function() {
+            console.log('Voice recognition started.');
+        };
 
-                $.ajax({
-                    url: '/processSpeech',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ transcript: transcript }),
-                    success: function(response) {
-						if(response == "go to cart page" || response == "go to cot page" || response == " go to cottage"){
-							window.location.href = "/cartPage";
-						}
-                        if(search === 1) {
-                            document.getElementById("searchname").value = response;
-                            document.getElementById("searchbutton").click();
-                            search = 0;
-                        }
-                        console.log('Response from backend: ', response);
-                        if(response === "yes" || response === "yes yes") {
-                            speak("Then say the searched product name");
-                            search = 1;
-                        } else if(response === "no" || response === "no no") {
-                            products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
-                                return {
-                                    name: item.querySelector('.card_title').innerText,
-                                    description: item.querySelector('#highlighttext').innerText,
-                                    price: item.querySelector('.product-items .note').innerText,
-                                    form: item.querySelector('form')
-                                };
-                            });
-                            currentIndex = 0;
-                            processNextProduct();
-                        }
-                    },
-                    error: function(error) {
-                        console.error('Error: ', error);
+        recognition.onresult = function(event) {
+            const transcript = event.results[event.results.length - 1][0].transcript.trim();
+            console.log('Result: ', transcript);
+
+            $.ajax({
+                url: '/processSpeech',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ transcript: transcript }),
+                success: function(response) {
+                    if (response == "go to cart page" || response == "go to cot page" || response == "go to cottage") {
+                        window.location.href = "/cartPage";
                     }
-                });
-            };
+                    if (response == "logout" || response=="log out") {
+                        document.getElementById("logout").click();
+                    }
 
-            function processNextProduct() {
-                if (currentIndex < products.length) {
-                    const product = products[currentIndex];
-                    speak(`Product name is ${product.name} and it's price is ${product.price}. Did you like to know more about it?`);
-                    recognition.onresult = function(event) {
-                        const transcript = event.results[event.results.length - 1][0].transcript.trim();
-                        console.log('Result: ', transcript);
-                        if(transcript === "yes" || transcript === "yes yes") {
-                            speak(`About the product ${product.description}`+". Do you want to add this product to the cart?");
-                            recognition.onresult = function(event) {
-                                const addToCartTranscript = event.results[event.results.length - 1][0].transcript.trim();
-                                if(addToCartTranscript === "yes" || addToCartTranscript === "yes yes") {
-									currentIndex = products.length;
-									product.form.submit();
-                                }
-                                currentIndex++;
-                                processNextProduct();
+                    if (search === 1) {
+                        document.getElementById("searchname").value = response;
+                        document.getElementById("searchbutton").click();
+                        search = 0;
+                    }
+
+                    if (response === "yes" || response === "yes yes") {
+                        speak("Then say the searched product name.");
+                        search = 1;
+                    } else if (response === "no" || response === "no no") {
+                        products = Array.from(document.querySelectorAll('.cards_item')).map(item => {
+                            return {
+                                name: item.querySelector('.card_title').innerText,
+                                description: item.querySelector('#highlighttext').innerText,
+                                price: item.querySelector('.product-items .note').innerText,
+                                form: item.querySelector('form')
                             };
-                        } else {
+                        });
+                        currentIndex = 0;
+                        processNextProduct();
+                    }
+                },
+                error: function(error) {
+                    console.error('Error: ', error);
+                }
+            });
+        };
+
+        function processNextProduct() {
+            if (currentIndex < products.length) {
+                const product = products[currentIndex];
+                speak(`Product name is ${product.name} and its price is ${product.price}. Would you like to know more about it?`);
+                recognition.onresult = function(event) {
+                    const transcript = event.results[event.results.length - 1][0].transcript.trim();
+                    console.log('Result: ', transcript);
+                    if (transcript === "yes" || transcript === "yes yes") {
+                        speak(`About the product: ${product.description}. Do you want to add this product to the cart?`);
+                        recognition.onresult = function(event) {
+                            const addToCartTranscript = event.results[event.results.length - 1][0].transcript.trim();
+                            if (addToCartTranscript === "yes" || addToCartTranscript === "yes yes") {
+                                speak("Product added to cart successfully.");
+                                currentIndex = products.length;
+                                product.form.submit();
+                            }
                             currentIndex++;
                             processNextProduct();
-                        }
-                    };
-                }
+                        };
+                    } else {
+                        currentIndex++;
+                        processNextProduct();
+                    }
+                };
             }
-
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error detected: ' + event.error);
-                recognition.stop();
-                startRecognition(); // Restart recognition on error
-            };
-
-            recognition.onend = function() {
-                console.log('Voice recognition stopped. Restarting...');
-                startRecognition(); // Restart recognition when it ends
-            };
-
-            startRecognition(); // Initial start of recognition
-        } else {
-            console.error('Speech recognition not supported by this browser.');
         }
+
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error detected: ' + event.error);
+            startRecognition(); // Restart recognition on error
+        };
+
+        recognition.onend = function() {
+            console.log('Voice recognition stopped. Restarting...');
+            startRecognition(); // Restart recognition when it ends
+        };
+
+        startRecognition(); // Initial start of recognition
 
         window.addEventListener('beforeunload', function() {
             if (recognition) {
                 recognition.stop();
-                recognition = null;
             }
         });
-    });
+    } else {
+        console.error('Speech recognition not supported by this browser.');
+    }
+});
+
 </script>
 
 

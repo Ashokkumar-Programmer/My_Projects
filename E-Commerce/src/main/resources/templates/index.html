@@ -19,10 +19,6 @@
             <span class="bottom-title">Blind users also use this</span>
         </div>
     </section>
-    <form action="/search" id="search">
-        <input type="search" name="name" required>
-        <i class="fa fa-search"></i>
-    </form>
     <a href="/cartPage"><img src="/Images/CartImage.png" width="50" height="50" id="cart"></a>
     <div style="background-color: rgb(0, 0, 0);" class="user-container">
         <button id="userlogoBtn">
@@ -32,14 +28,14 @@
             <h2 th:text="${name}"></h2>
             <hr style="width: 198px; border: 2px solid black; margin-left: 0px;">
             <form action="/logout" method="get">
-            	<button style="display: block; border-radius: 30px;" type="submit">
+            	<button style="display: block; border-radius: 30px;" type="submit" id="logout">
                 	<img src="/Images/logout.png" width="195" height="50" style="margin-left: -35px; margin-top: -10px; border-radius: 30px;">
             	</button>
             </form>
         </div>
     </div>
 
-    <div class="products">
+    <div class="products" style="margin-top: -580px;">
         <table>
             <tr>
                 <td class="items" style="padding-left: 50px;">
@@ -152,134 +148,101 @@
     <script>
     let count = 1;
 
-    function callSpeakService(text) {
-        fetch('/speak', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ text: text })
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        }).then(data => {
-            console.log('Success:', data);
-        }).catch(error => {
-            console.error('Error:', error);
-        });
-    }
-
-    function speak(text) {
-        callSpeakService(text);
-    }
-
-    speak("Login Successfully. Would you like to view Grocery products? Say yes or no.");
-
-    document.addEventListener("DOMContentLoaded", function() {
-        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = false;
-
-            function startRecognition() {
-                recognition.start();
-            }
-
-            recognition.onstart = function() {
-                console.log('Voice recognition started. Try speaking into the microphone.');
-            };
-
-            recognition.onspeechend = function() {
-                console.log('Speech ended.');
-                recognition.stop();
-            };
-
-            recognition.onresult = function(event) {
-                const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
-                console.log('Result: ', transcript);
-
-                $.ajax({
-                    url: '/processSpeech',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ transcript: transcript }),
-                    success: function(response) {
-						if(response == "go to cart page" || response == "go to cot page" || response == " go to cottage"){
-							window.location.href = "/cartPage";
-						}
-                        if (count === 1) {
-                            if (response.includes("yes")) {
-                                document.getElementById("Grocery").click();
-                                count = 0;
-                            } else {
-                                count+=1;
-                            }
-                        } else if (count === 2) {
-                            speak("Would you like to view Mobiles products? Say yes or no.");
-                            if (response.includes("yes")) {
-                                document.getElementById("Mobiles").click();
-                                count = 0;
-                            } else {
-                                count+=1;
-                            }
-                        } else if (count === 3) {
-                            speak("Would you like to view Fashions products? Say yes or no.");
-                            if (response.includes("yes")) {
-                                document.getElementById("Fashions").click();
-                                count = 0;
-                            } else {
-                                count+=1;
-                            }
-                        } else if (count === 4) {
-                            speak("Would you like to view Electronics products? Say yes or no.");
-                            if (response.includes("yes")) {
-                                document.getElementById("Electronics").click();
-                                count = 0;
-                            } else {
-                                count+=1;
-                            }
-                        } else if (count === 5) {
-                            speak("Would you like to view Furnitures products? Say yes or no.");
-                            if (response.includes("yes")) {
-                                document.getElementById("Furnitures").click();
-                                count = 0;
-                            } else {
-                                count+=1;
-                            }
-                        } else if (count === 6) {
-                            speak("Would you like to view Cosmetics products? Say yes or no.");
-                            if (response.includes("yes")) {
-                                document.getElementById("Cosmetics").click();
-                                count = 0;
-                            } else {
-                                count+=1;
-                            }
-                        }
-                    },
-                    error: function(error) {
-                        console.error('Error: ', error);
-                    }
-                });
-            };
-
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error detected: ' + event.error);
-                recognition.stop();
-                startRecognition(); // Restart recognition on error
-            };
-
-            recognition.onend = function() {
-                console.log('Voice recognition stopped. Restarting...');
-                startRecognition(); // Restart recognition when it ends
-            };
-
-            startRecognition(); // Initial start of recognition
-        } else {
-            console.error('Speech recognition not supported by this browser.');
+function callSpeakService(text) {
+    fetch('/speak', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: text })
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        return response.text();
+    }).then(data => {
+        console.log('Success:', data);
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function speak(text) {
+    callSpeakService(text);
+}
+
+speak("Login Successfully. You are in Home page now. Product Categories like Grocery, Mobiles, Fashions, Electronics, Furnitures, Cosmetics. Which Product are you want to see?");
+
+document.addEventListener("DOMContentLoaded", function() {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+
+        function startRecognition() {
+            recognition.start();
+            console.log('Voice recognition started.');
+        }
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
+            console.log('Result: ', transcript);
+
+            $.ajax({
+                url: '/processSpeech',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ transcript: transcript }),
+                success: function(response) {
+                    if(response == "go to cart page" || response == "go to cot page" || response == " go to cottage"){
+                        window.location.href = "/cartPage";
+                    }
+                    if (response == "logout" || response=="log out") {
+                        document.getElementById("logout").click();
+                    }
+                   	else if(response=="Can you again tell it?"){
+						speak("Yes, Ofcourse. Product Categories like Grocery, Mobiles, Fashions, Electronics, Furnitures, Cosmetics. Which Product are you want to see?");
+					}
+                    
+					if(count==1){
+						if(response=="Grocery" || response=="grocery"){
+							document.getElementById("Grocery").click();
+						}
+						else if(response=="Mobiles" || response=="mobiles"){
+							document.getElementById("Mobiles").click();
+						}
+						else if(response=="Fashions" || response=="fashions"){
+							document.getElementById("Fashions").click();
+						}
+						else if(response=="Electronics" || response=="electronics"){
+							document.getElementById("Electronics").click();	
+						}
+						else if(response=="Furnitures" || response=="furnitures"){
+							document.getElementById("Furnitures").click();
+						}
+						else if(response=="Cosmetics" || response=="cosmetics"){
+							document.getElementById("Cosmetics").click();
+						}
+					}
+                },
+                error: function(error) {
+                    console.error('Error: ', error);
+                }
+            });
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error detected: ' + event.error);
+            startRecognition(); // Restart recognition on error
+        };
+
+        recognition.onend = function() {
+            console.log('Voice recognition ended. Restarting...');
+            startRecognition(); // Restart recognition immediately
+        };
+
+        startRecognition(); // Initial start of recognition
 
         window.addEventListener('beforeunload', function() {
             if (recognition) {
@@ -287,7 +250,10 @@
                 recognition = null;
             }
         });
-    });
+    } else {
+        console.error('Speech recognition not supported by this browser.');
+    }
+});
 </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {

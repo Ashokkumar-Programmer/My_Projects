@@ -36,7 +36,8 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<String> speak(@RequestBody String text) {
 	    try {
-	        textToSpeechService.speak(text);
+	    	String uservoice = text.replace("text", "");
+	        textToSpeechService.speak(uservoice);
 	        return ResponseEntity.ok("Text successfully spoken");
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to speak text: " + e.getMessage());

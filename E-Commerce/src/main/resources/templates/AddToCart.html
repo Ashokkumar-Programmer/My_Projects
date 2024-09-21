@@ -143,214 +143,235 @@
     </section>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const quantityInputs = document.querySelectorAll('.quantity');
-    
-            quantityInputs.forEach(input => {
-                const minValue = parseInt(input.getAttribute('min'), 10);
-                input.addEventListener('input', function() {
-                    if (this.value < minValue) {
-                        this.value = minValue;
-                    }
-                });
-            });
-        });
+    const quantityInputs = document.querySelectorAll('.quantity');
 
-		function getCookieValue(name) {
-		    const nameEQ = encodeURIComponent(name) + "=";
-		    const ca = document.cookie.split(';');
-		    for(let i = 0; i < ca.length; i++) {
-		        let c = ca[i];
-		        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-		        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
-		    }
-		    return null; // Return null if cookie not found
-		}
-		
-		// Usage
-		const username = getCookieValue('username');
-		
-        $(document).ready(function () {
-            function updatePrices() {
-                let total = 0;
-
-                $('.row[data-product-id]').each(function () {
-                    const quantity = $(this).find('.quantity').val();
-                    const pricePerItem = $(this).data('product-price');
-                    const totalPrice = quantity * pricePerItem;
-                    $(this).find('.product-price strong').text(`₹${totalPrice.toFixed(2)}`);
-                    total += totalPrice;
-                });
-
-                $('#products-total').text(`₹${total.toFixed(2)}`);
-                $('#total-amount strong').text(`₹${total.toFixed(2)}`);
-            }
-
-            $('.quantity').on('input', function () {
-                const minValue = parseInt($(this).attr('min'), 10);
-                if ($(this).val() < minValue) {
-                    $(this).val(minValue);
-                }
-                updatePrices();
-            });
-
-            $('.quantity-increase').click(function () {
-                const quantityInput = $(this).siblings('.form-outline').find('.quantity');
-                const newValue = parseInt(quantityInput.val()) + 1;
-                quantityInput.val(newValue);
-                updatePrices();
-            });
-
-            $('.quantity-decrease').click(function () {
-                const quantityInput = $(this).siblings('.form-outline').find('.quantity');
-                const minValue = parseInt(quantityInput.attr('min'), 10);
-                const newValue = parseInt(quantityInput.val()) - 1;
-                if (newValue >= minValue) {
-                    quantityInput.val(newValue);
-                }
-                updatePrices();
-            });
-
-            $('input[name="paymentMethod"]').change(function () {
-                if ($('#netBanking').is(':checked')) {
-                    $('#netBankingEmail').show();
-                } else {
-                    $('#netBankingEmail').hide();
-                }
-            });
-
-            updatePrices();
-        });
-        function callSpeakService(text) {
-        fetch('/speak', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(text)
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        }).then(data => {
-            console.log('Success:', data);
-        }).catch(error => {
-            console.error('Error:', error);
-        });
-    }
-
-    function speak(text) {
-        callSpeakService(text);
-    }
-
-	speak("Redirect to cart page successfully. Would you like to know all product names in your cart?. Say yes or no");
-    document.addEventListener("DOMContentLoaded", function() {
-        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            let recognition = new SpeechRecognition();
-            recognition.continuous = true;
-            recognition.interimResults = false;
-
-            let products = [];
-            let currentIndex = 0;
-
-            function startRecognition() {
-                recognition.start();
-            }
-
-            recognition.onstart = function() {
-                console.log('Voice recognition started. Try speaking into the microphone.');
-            };
-
-            recognition.onspeechend = function() {
-                console.log('Speech ended.');
-                recognition.stop();
-            };
-
-            recognition.onresult = function(event) {
-                const transcript = event.results[event.results.length - 1][0].transcript.trim();
-                console.log('Result: ', transcript);
-
-                $.ajax({
-                    url: '/processSpeech',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ transcript: transcript }),
-                    success: function(response) {
-						if(response == "go to cart page" || response == "go to cot page" || response == " go to cottage"){
-							window.location.href = "/cartPage";
-						}
-                        console.log('Response from backend: ', response);
-                        if(response=="go to homepage"){
-							window.location.href = "/shopsmart?username="+username;
-						}
-                        if (response.toLowerCase() == "yes" || response.toLowerCase() == "yes yes") {
-                            products = Array.from(document.querySelectorAll('.row[data-product-id]')).map(row => {
-                                return {
-                                    id: row.getAttribute('data-product-id'),
-                                    name: row.querySelector('.productname strong').innerText,
-                                    price: row.querySelector('.product-price strong').innerText,
-                                    form: row.querySelector('form')
-                                };
-                            });
-                            currentIndex = 0;
-                            processNextProduct();
-                        } else if (response.toLowerCase() === "no") {
-                            const totalAmount = document.querySelector('#total-amount strong').innerText;
-                            speak(`Would you like to buy all products on cash on delivery? The total price is ${totalAmount}`);
-                            recognition.onresult = function(event) {
-                                const buyTranscript = event.results[event.results.length - 1][0].transcript.trim();
-                                if (buyTranscript.toLowerCase() == "yes" || buyTranscript.toLowerCase() == "yes yes") {
-                                    document.querySelector('form[action="/updateSolded"]').submit();
-                                }
-                            };
-                        }
-                    },
-                    error: function(error) {
-                        console.error('Error: ', error);
-                    }
-                });
-            };
-
-            function processNextProduct() {
-                if (currentIndex < products.length) {
-                    const product = products[currentIndex];
-                    speak(`Product name is ${product.name} and its price is ${product.price}. Would you like to delete this product?`);
-                    recognition.onresult = function(event) {
-                        const deleteTranscript = event.results[event.results.length - 1][0].transcript.trim();
-                        if (deleteTranscript.toLowerCase() == "yes" || deleteTranscript.toLowerCase() == "yes yes" ) {
-                            currentIndex = products.length;
-                            product.form.submit();
-                        }
-                        currentIndex++;
-                        processNextProduct();
-                    };
-                }
-            }
-
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error detected: ' + event.error);
-                recognition.stop();
-                startRecognition(); // Restart recognition on error
-            };
-
-            recognition.onend = function() {
-                console.log('Voice recognition stopped. Restarting...');
-                startRecognition(); // Restart recognition when it ends
-            };
-
-            startRecognition(); // Initial start of recognition
-        } else {
-            console.error('Speech recognition not supported by this browser.');
-        }
-
-        window.addEventListener('beforeunload', function() {
-            if (recognition) {
-                recognition.stop();
-                recognition = null;
+    quantityInputs.forEach(input => {
+        const minValue = parseInt(input.getAttribute('min'), 10);
+        input.addEventListener('input', function() {
+            if (this.value < minValue) {
+                this.value = minValue;
             }
         });
     });
+});
+
+function getCookieValue(name) {
+    const nameEQ = encodeURIComponent(name) + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null; // Return null if cookie not found
+}
+
+// Usage
+const username = getCookieValue('username');
+
+$(document).ready(function () {
+    function updatePrices() {
+        let total = 0;
+
+        $('.row[data-product-id]').each(function () {
+            const quantity = $(this).find('.quantity').val();
+            const pricePerItem = $(this).data('product-price');
+            const totalPrice = quantity * pricePerItem;
+            $(this).find('.product-price strong').text(`₹${totalPrice.toFixed(2)}`);
+            total += totalPrice;
+        });
+
+        $('#products-total').text(`₹${total.toFixed(2)}`);
+        $('#total-amount strong').text(`₹${total.toFixed(2)}`);
+    }
+
+    $('.quantity').on('input', function () {
+        const minValue = parseInt($(this).attr('min'), 10);
+        if ($(this).val() < minValue) {
+            $(this).val(minValue);
+        }
+        updatePrices();
+    });
+
+    $('.quantity-increase').click(function () {
+        const quantityInput = $(this).siblings('.form-outline').find('.quantity');
+        const newValue = parseInt(quantityInput.val()) + 1;
+        quantityInput.val(newValue);
+        updatePrices();
+    });
+
+    $('.quantity-decrease').click(function () {
+        const quantityInput = $(this).siblings('.form-outline').find('.quantity');
+        const minValue = parseInt(quantityInput.attr('min'), 10);
+        const newValue = parseInt(quantityInput.val()) - 1;
+        if (newValue >= minValue) {
+            quantityInput.val(newValue);
+        }
+        updatePrices();
+    });
+
+    $('input[name="paymentMethod"]').change(function () {
+        if ($('#netBanking').is(':checked')) {
+            $('#netBankingEmail').show();
+        } else {
+            $('#netBankingEmail').hide();
+        }
+    });
+
+    updatePrices();
+});
+
+function callSpeakService(text) {
+    return fetch('/speak', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(text)
+    });
+}
+
+function speak(text) {
+    // Use Promise to not block recognition
+    return callSpeakService(text).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+speak("Redirect to cart page successfully. Would you like to know all product names in your cart?. Say yes or no");
+document.addEventListener("DOMContentLoaded", function() {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = false;
+
+        let products = [];
+        let currentIndex = 0;
+        let delete1 = 0;
+        function startRecognition() {
+            recognition.start();
+        }
+
+        recognition.onstart = function() {
+            console.log('Voice recognition started. Try speaking into the microphone.');
+        };
+
+        recognition.onspeechend = function() {
+            console.log('Speech ended.');
+            recognition.stop();
+        };
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[event.results.length - 1][0].transcript.trim();
+            console.log('Result: ', transcript);
+
+            $.ajax({
+                url: '/processSpeech',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ transcript: transcript }),
+                success: function(response) {
+                    console.log('Response from backend: ', response);
+                    if (response.toLowerCase().includes("go to cart page")) {
+                        window.location.href = "/cartPage";
+                    } else if (response.toLowerCase() == "go to homepage") {
+                        window.location.href = "/shopsmart?username=" + username;
+                    } else if (response.toLowerCase() === "yes") {
+                        products = Array.from(document.querySelectorAll('.row[data-product-id]')).map(row => {
+                            return {
+                                id: row.getAttribute('data-product-id'),
+                                name: row.querySelector('.productname strong').innerText,
+                                price: row.querySelector('.product-price strong').innerText,
+                                form: row.querySelector('form')
+                            };
+                        });
+                        currentIndex = 0;
+                        processNextProduct();
+                    } else if (response.toLowerCase() === "no") {
+                        const totalAmount = document.querySelector('#total-amount strong').innerText;
+                        speak(`Would you like to buy all products on cash on delivery? The total price is ${totalAmount}`);
+                        recognition.onresult = function(event) {
+                            const buyTranscript = event.results[event.results.length - 1][0].transcript.trim();
+                            if(delete1==1){
+								if (buyTranscript.toLowerCase() === "yes") {
+                                	products = Array.from(document.querySelectorAll('.row[data-product-id]')).map(row => {
+		                            return {
+		                                id: row.getAttribute('data-product-id'),
+		                                name: row.querySelector('.productname strong').innerText,
+		                                price: row.querySelector('.product-price strong').innerText,
+		                                form: row.querySelector('form')
+		                            };
+		                        });
+		                        currentIndex = 0;
+		                        processNextProduct();
+                            	}
+							}
+							if(delete1!=1){
+								 if (buyTranscript.toLowerCase() === "yes") {
+                                	document.querySelector('form[action="/updateSolded"]').submit();
+                                }
+                            }
+                           
+                            if (buyTranscript.toLowerCase() === "no") {
+								speak("Would you like to remove any product from cart? Say yes or no");
+								delete1 = 1;
+							}
+                        };
+                    }
+                },
+                error: function(error) {
+                    console.error('Error: ', error);
+                }
+            });
+        };
+
+        function processNextProduct() {
+            if (currentIndex < products.length) {
+                const product = products[currentIndex];
+                speak(`Product name is ${product.name} and its price is ${product.price}. Would you like to delete this product?`)
+                .then(() => {
+                    recognition.onresult = function(event) {
+                        const deleteTranscript = event.results[event.results.length - 1][0].transcript.trim();
+                        if (deleteTranscript.toLowerCase() === "yes") {
+                            product.form.submit();
+                            currentIndex = products.length; // Stop processing further products
+                        } else {
+                            currentIndex++;
+                            processNextProduct();
+                        }
+                    };
+                });
+            }
+        }
+
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error detected: ' + event.error);
+            recognition.stop();
+            startRecognition(); // Restart recognition on error
+        };
+
+        recognition.onend = function() {
+            console.log('Voice recognition stopped. Restarting...');
+            startRecognition(); // Restart recognition when it ends
+        };
+
+        startRecognition(); // Initial start of recognition
+    } else {
+        console.error('Speech recognition not supported by this browser.');
+    }
+
+    window.addEventListener('beforeunload', function() {
+        if (recognition) {
+            recognition.stop();
+            recognition = null;
+        }
+    });
+});
     </script>
 </body>
 </html>

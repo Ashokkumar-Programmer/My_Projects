@@ -80,10 +80,33 @@
     }
 
     async function redirectToLogin() {
-        await sleep(2000);
+        await sleep(6000);
         window.location.href = "/loginPage";
     }
 
+    function callSpeakService(text) {
+        fetch('/speak', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ text: text })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        }).then(data => {
+            console.log('Success:', data);
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function speak(text) {
+        callSpeakService(text);
+    }
+    speak("Incorrect Username or password. Login Again")
     redirectToLogin();
 </script>
 </html>

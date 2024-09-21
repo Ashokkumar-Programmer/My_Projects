@@ -76,8 +76,23 @@
     function speak(text) {
         callSpeakService(text);
     }
-
-    speak("Hello, I'm shopie. I will assist you with your activity on this website. Tell your username");
+	function getCookie(name) {
+	    const nameEQ = name + "=";
+	    const ca = document.cookie.split(';');
+	    for(let i = 0; i < ca.length; i++) {
+	        let c = ca[i];
+	        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+	        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+	    }
+	    return null;
+	}
+	const created = getCookie("created");
+	if(created==null){
+		speak("Your are in login page now. Hello, I'm shopie. I will assist you with your activity on this website. Do you already exist in the shopmart?. Say yes or no");
+	}
+    if(created==1){
+		speak("You are in login page now. Tell your username");
+	}
 
     document.addEventListener("DOMContentLoaded", function() {
         if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
@@ -97,6 +112,7 @@
             recognition.onspeechend = function() {
                 console.log('Speech ended.');
                 recognition.stop();
+                startRecognition(); // Immediately restart recognition after stopping
             };
 
             recognition.onresult = function(event) {
@@ -109,17 +125,29 @@
                     contentType: 'application/json',
                     data: JSON.stringify({ transcript: transcript }),
                     success: function(response) {
-
+                        if(response == "no"){
+                            window.location.href = "/adduser";
+                            count = 0;
+                        }
+                        if(response == "yes"){
+                            speak("Then, tell your username");
+                            count = 0;
+                        }
                         if(response == "go to sign up page" || response == "go to China page" || response == "go to synoppage"){
                             window.location.href = "/adduser";
-                            count=0;
+                            count = 0;
                         }
                         if(count == 1){
-                            var email = response.split(' ').join('');
-                            var email1 = email.replace("at", "@");
-                            document.getElementById("username").value = email1.toLowerCase();
-                            count++;
-                            speak("Tell your password");
+                            var email = response.split(' ').join('').replace("at", "@");
+                            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                            if (emailRegex.test(email)) {
+                                document.getElementById("username").value = email.toLowerCase();
+                                count++;
+                                speak("Tell your password");
+                            } else {
+                                speak("The email format is incorrect. Please tell your username again.");
+                            }
                         } else if(count == 2){
                             var pass = response.split(' ').join('');
                             document.getElementById("password").value = pass.toLowerCase();
@@ -135,13 +163,12 @@
 
             recognition.onerror = function(event) {
                 console.error('Speech recognition error detected: ' + event.error);
-                recognition.stop();
                 startRecognition(); // Restart recognition on error
             };
 
             recognition.onend = function() {
-                console.log('Voice recognition stopped. Restarting...');
-                startRecognition(); // Restart recognition when it ends
+                console.log('Voice recognition ended. Restarting...');
+                startRecognition(); // Immediately restart recognition when it ends
             };
 
             startRecognition(); // Initial start of recognition
@@ -152,11 +179,11 @@
         window.addEventListener('beforeunload', function() {
             if (recognition) {
                 recognition.stop();
-                recognition = null;
             }
         });
     });
 </script>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

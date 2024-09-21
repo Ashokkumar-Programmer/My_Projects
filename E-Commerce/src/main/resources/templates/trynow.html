@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet">
+    <style>
+        /* Custom colors */
+        .bg-primary { background-color: #987D9A; }
+        .bg-secondary { background-color: #BB9AB1; }
+        .bg-tertiary { background-color: #EECEB9; }
+        .bg-quaternary { background-color: #FEFBD8; }
+        .text-primary { color: #987D9A; }
+        .text-secondary { color: #BB9AB1; }
+        .text-tertiary { color: #EECEB9; }
+        .text-quaternary { color: #FEFBD8; }
+
+        /* Custom border color */
+        .border-primary {
+            border-color: #987D9A; /* Primary color */
+        }
+
+        /* Tooltip styling */
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #fff; /* Changed to white background */
+            color: #333; /* Dark text for readability */
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.875rem; /* Adjust as needed */
+            white-space: nowrap;
+            z-index: 10;
+            width: 200px; /* Adjust width as needed */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for better visibility */
+            top: 100%; /* Position below the icon */
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 8px; /* Space between the icon and tooltip */
+        }
+
+        .tooltip-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .tooltip-box {
+            padding: 5px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .tooltip-box.accepted {
+            border: 1px solid #4CAF50; /* Green border for accepted formats */
+        }
+
+        .tooltip-box.not-accepted {
+            border: 1px solid #F44336; /* Red border for not accepted formats */
+        }
+
+        .relative:hover .tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-quaternary">
+
+    <!-- Container -->
+    <div class="relative p-6 w-full max-w-4xl mx-auto">
+        <!-- Header with Back Button and Label -->
+        <div class="flex items-center justify-between mb-10">
+            <!-- Image Select Label -->
+
+            <!-- Back Button -->
+            <div class="text-xl cursor-pointer">
+                <i class="fas fa-arrow-left fa-2x text-secondary"></i>
+            </div>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="flex flex-col items-center">
+            <input type="file" id="imageUpload" accept="image/*" class="hidden" onchange="previewImage(event)">
+            
+            <!-- Choose File and Information Icon Section with Border -->
+            <div class="border-4 border-primary p-4 rounded-lg mb-4">
+                <div class="flex items-center space-x-80 relative">
+                    <!-- Choose File Button -->
+                    <button class="bg-primary text-quaternary rounded-lg py-2 px-4 cursor-pointer" onclick="document.getElementById('imageUpload').click()">
+                        Choose File
+                    </button>
+
+                    <!-- Information Icon with Tooltip -->
+                    <div class="relative">
+                        <div class="text-primary text-2xl cursor-pointer">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="tooltip">
+                            <div class="tooltip-content">
+                                <div class="tooltip-box accepted">
+                                    <div>Accepted Formats:</div>
+                                    <div>JPEG, PNG</div>
+                                </div>
+                                <div class="tooltip-box not-accepted">
+                                    <div>Not Accepted Formats:</div>
+                                    <div>GIF, BMP</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Image Section -->
+            <div class="flex flex-col items-center mb-4">
+				<h1>Generated Image</h1>
+                <img id="previewImage" class="max-w-full max-h-80 rounded-lg hidden" src="#" alt="Uploaded Image">
+                
+                <!-- Add to Card Button -->
+                <button class="bg-primary text-quaternary rounded-lg py-2 px-4 mt-4 cursor-pointer">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function previewImage(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            var preview = document.getElementById('previewImage');
+	
+            
+            if (file) {
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+					console.log(e)
+                    preview.classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '#';
+                preview.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
