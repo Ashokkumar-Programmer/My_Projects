@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Add Food Details</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form class="login100-form validate-form" action="/addfooditem" method="POST">
+					<span class="login100-form-title p-b-49">
+						Add Food Details
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate="Food URL required">
+                        <span class="label-input100">Food Image</span>
+						<input class="input100" type="text" name="fileurl" placeholder="Enter image URL">
+					</div>
+					<div id="error-message1" style="color: red; display: none;"></div>
+					<div class="wrap-input100 validate-input" data-validate="Food name required">
+						<span class="label-input100">Food Name</span>
+						<input class="input100" type="text" name="name" placeholder="Enter food name">
+					</div>
+					<div id="error-message" style="color: red; display: none;"></div>
+                    <br>
+					<div class="wrap-input100 validate-input" data-validate="Food Details is required">
+						<span class="label-input100">Food Details</span><br><br>
+						<textarea class="input100" type="text" name="details" placeholder="Enter food details" style="height: 300px; overflow-y: scroll; resize: none; text-align: justify;"></textarea>
+					</div>
+                    <br>
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" type="submit">
+								Add Food Product
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+	<div id="dropDownSelect1"></div>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+		const errorMessage = urlParams.get('error');
+		if (errorMessage) {
+			const errorDiv = document.getElementById('error-message');
+			errorDiv.textContent = decodeURIComponent(errorMessage);
+			errorDiv.style.display = 'block';
+		}
+		const urlParams1 = new URLSearchParams(window.location.search);
+		const errorMessage1 = urlParams1.get('error1');
+		if (errorMessage1) {
+			const errorDiv1 = document.getElementById('error-message1');
+			errorDiv1.textContent = decodeURIComponent(errorMessage1);
+			errorDiv1.style.display = 'block';
+		}
+	</script>
+	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="vendor/select2/select2.min.js"></script>
+
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+
+	<script src="js/main.js"></script>
+</body>
+</html>

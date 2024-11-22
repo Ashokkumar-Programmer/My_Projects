@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Recognition</title>
+</head>
+<body>
+<button id="startBtn">Start Recognition</button>
+<p id="output"></p>
+
+<script>
+const output = document.getElementById('output');
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();
+
+recognition.lang = 'en-US';
+
+recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    const socket = new WebSocket('ws://localhost:8000');
+    socket.addEventListener('open', function (event) {
+        socket.send(transcript);
+        document.getElementById("output").innerHTML = transcript;
+    });
+};
+
+document.getElementById('startBtn').addEventListener('click', () => {
+    recognition.start();
+    output.textContent = 'Listening...';
+});
+
+recognition.onerror = (event) => {
+    output.textContent = 'Error occurred in recognition: ' + event.error;
+};
+
+</script>
+</body>
+</html>

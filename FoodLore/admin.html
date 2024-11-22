@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <!-- Style -->
+    <link rel="stylesheet" href="css/admin.css">
+
+    <title>Admin Page</title>
+</head>
+<body>
+  <form method="get" action="/addfood" target="_blank">
+    <button class="button-63" role="button">Add Food</button>
+  </form>
+<div class="content">
+    <div class="container">
+        <h1 class="mb-5" style="text-align: center; color: white;">Food List</h1>
+
+        <div class="table-responsive">
+            <table class="table table-striped custom-table" id="foodTable">
+                <thead>
+                    <tr style="text-align: center;">
+                        <th scope="col">S.No</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Food data will be injected here by JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

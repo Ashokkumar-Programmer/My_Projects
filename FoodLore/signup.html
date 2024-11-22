@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SignUp Page</title>
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="main">
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign Up</h2>
+                        <form method="POST" action="/create_account" class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name" id="name" placeholder="Your Name" required />
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="username" id="email" placeholder="Your Email as Username" required/>
+                                <div id="error-message" style="color: red; display: none;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <div class="password-container">
+                                    <input type="password" name="password" id="pass" placeholder="Password" required />
+                                    <span class="toggle-password">
+                                        <i class="zmdi zmdi-eye" onclick="togglePasswordVisibility('pass', this)"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <div class="password-container">
+                                    <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" required />
+                                    <span class="toggle-password">
+                                        <i class="zmdi zmdi-eye" onclick="togglePasswordVisibility('re_pass', this)"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="role"><i class="zmdi zmdi-account-circle"></i></label>
+                                <select id="role" name="usertype" class="form-control" onchange="change()" required>
+                                    <option disabled selected>User Type</option>
+                                    <option value="customer">Customer</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="images/signup-image.jpg" alt="sign up image"></figure>
+                        <a style="text-decoration: none; color: blue;" href="/signin" class="signup-image-link"><span
+                                style="color: black;">Already have an account?</span> SignIn</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script>
+    function change(){
+        var role = document.getElementById("role").value;
+        document.getElementById("usertype").value = role;
+    }
+</script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/validation.js"></script>
+<script>
+    function togglePasswordVisibility(inputId, icon) {
+        const passwordInput = document.getElementById(inputId);
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.replace('zmdi-eye', 'zmdi-eye-off');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.replace('zmdi-eye-off', 'zmdi-eye');
+        }
+    }
+</script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const errorMessage = urlParams.get('error');
+    if (errorMessage) {
+        const errorDiv = document.getElementById('error-message');
+        errorDiv.textContent = decodeURIComponent(errorMessage);
+        errorDiv.style.display = 'block';
+    }
+</script>
+<style>
+    .password-container {
+        position: relative;
+    }
+
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+</html>
