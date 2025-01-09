@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup Page</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/title_logo.jpg">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/signin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <!-- Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/title_logo.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="main-content" style="display: none;">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Sign Up</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/user_register}" method="post" th:object="${user}">
+                        <!-- Username -->
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input th:field="*{username}" type="text" class="form-control" placeholder="username" name="username" required>
+                            <label class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></label>
+                        </div>
+						<label class="text-danger" th:if="${usernameerror}" style="display: block; background-color: white; font-weight: bold;">Username already exist</label>
+                        <!-- Password -->
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input th:field="*{password}" type="password" class="form-control" placeholder="password" id="password" required>
+                            <button type="button" onclick="togglePassword('password', 'password-icon')" style="border: none; background: none; outline: none;">
+                                <span class="input-group-text" style="background-color: black; color: white;"><i id="password-icon" class="fa fa-eye"></i></span>
+                            </button>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" name="cpassword" class="form-control" placeholder="confirm password" id="cpassword" required>
+                            <button type="button" onclick="togglePassword('cpassword', 'cpassword-icon')" style="border: none; background: none; outline: none;">
+                                <span class="input-group-text" style="background-color: black; color: white;"><i id="cpassword-icon" class="fa fa-eye"></i></span>
+                            </button>
+                            
+                        </div>
+						<label class="text-danger" th:if="${passworderror}" style="display: block; background-color: white; font-weight: bold;">Passwords do not match</label>
+                        <!-- User Type -->
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-users"></i></span>
+                            </div>
+                            <select class="form-control" th:field="*{usertype}" required>
+                                <option value="" disabled selected>Select user type</option>
+                                <option value="customer">Customer</option>
+                                <option value="admin">Admin</option>
+                                <option value="charity">Charity</option>
+                            </select>
+                            <label class="text-danger" th:if="${#fields.hasErrors('usertype')}" th:errors="*{usertype}"></label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Already have an account? <a class="link" href="donatelink_signin" style="color: white;">Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader-active');
+            const mainContent = document.getElementById('main-content');
+
+            preloader.style.display = 'none';
+            mainContent.style.display = 'block';
+            document.body.style.overflow = 'auto';
+        });
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+</body>
+</html>

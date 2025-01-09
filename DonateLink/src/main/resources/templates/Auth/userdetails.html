@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Charity Page</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/title_logo.jpg">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .register {
+            background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+            margin-top: 3%;
+            padding: 3%;
+        }
+        .register-left {
+            text-align: center;
+            color: #fff;
+            margin-top: 4%;
+        }
+        .register-left input {
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            width: 60%;
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #383d41;
+            margin-top: 30%;
+            margin-bottom: 3%;
+            cursor: pointer;
+        }
+        .register-right {
+            background: #f8f9fa;
+            border-top-left-radius: 10% 50%;
+            border-bottom-left-radius: 10% 50%;
+        }
+        .register-left img {
+            margin-top: 15%;
+            margin-bottom: 5%;
+            width: 25%;
+            -webkit-animation: mover 2s infinite alternate;
+            animation: mover 1s infinite alternate;
+        }
+        @-webkit-keyframes mover {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        @keyframes mover {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        .register-left p {
+            font-weight: lighter;
+            padding: 12%;
+            margin-top: -9%;
+        }
+        .register .register-form {
+            padding: 10%;
+            margin-top: 10%;
+        }
+        .btnRegister {
+            float: right;
+            margin-top: 10%;
+            border: none;
+            border-radius: 1.5rem;
+            padding: 2%;
+            background: #0062cc;
+            color: #fff;
+            font-weight: 600;
+            width: 50%;
+            cursor: pointer;
+        }
+        .register .nav-tabs {
+            margin-top: 3%;
+            border: none;
+            background: #0062cc;
+            border-radius: 1.5rem;
+            width: 48%;
+            float: right;
+        }
+        .register .nav-tabs .nav-link {
+            padding: 2%;
+            height: 34px;
+            font-weight: 600;
+            color: #fff;
+            border-top-right-radius: 1.5rem;
+            border-bottom-right-radius: 1.5rem;
+        }
+        .register .nav-tabs .nav-link:hover {
+            border: none;
+        }
+        .register .nav-tabs .nav-link.active {
+            width: 100px;
+            color: #0062cc;
+            border: 2px solid #0062cc;
+            border-top-left-radius: 1.5rem;
+            border-bottom-left-radius: 1.5rem;
+        }
+        .register-heading {
+            text-align: center;
+            margin-top: 8%;
+            margin-bottom: -15%;
+            color: #495057;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body oncontextmenu="return false" class="snippet-body">
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/title_logo.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container register" style="margin-bottom: 50px;">
+        <div class="row">
+            <div class="col-md-3 register-left">
+                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="">
+                <h3 style="color: white;">Welcome<br><br>To<br><br>CharityLink</h3>
+            </div>
+            <div class="col-md-9 register-right">
+                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a th:class="${usertype == 'customer'} ? 'nav-link active' : 'nav-link'" style="pointer-events: none;" id="profile-tab" data-toggle="tab" href="#customer" role="tab" aria-controls="profile" aria-selected="false">Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:class="${usertype == 'charity'} ? 'nav-link active' : 'nav-link'" style="pointer-events: none;" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Charity</a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:class="${usertype == 'admin'} ? 'nav-link active' : 'nav-link'" style="pointer-events: none;" id="admin-tab" data-toggle="tab" href="#admin" role="tab" aria-controls="profile" aria-selected="false">Admin</a>
+                    </li>      
+                </ul><br>
+                <div class="tab-content" id="myTabContent">
+                    <div th:class="${usertype == 'charity'} ? 'tab-pane fade show active' : 'tab-pane fade'" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <h3 class="register-heading">Login as a Charity</h3>
+                        <form th:action="@{/charity_register}" method="post" th:object="${charity}">
+						<input type="hidden" th:value="${username}" name="username">
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{charityname}" placeholder="Charity name" value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" th:field="*{inchargename}" placeholder="Charity Incharge name" value="" required>
+                                </div>
+                                <input type="hidden" th:field="*{address}" id="address">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="district" id="district" placeholder="Charity District" value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="state" id="state" placeholder="Charity State" value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="country" id="country" placeholder="Charity Country" value="India" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" class="form-control" th:field="*{strength}" placeholder="Strength of the charity" value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <div class="maxl">
+									    <input type="hidden" th:field="*{charitytype}" value="public" id="radiovalue">
+									    <label class="radio inline">
+									        <input type="radio" name="a" value="public" checked onclick="updateRadioValue()" id="public">
+									        <span>Public Charity</span>
+									    </label>
+									    <label class="radio inline">
+									        <input type="radio" name="a" value="private" onclick="updateRadioValue()" id="private">
+									        <span>Private Charity</span>
+									    </label>
+									    <script>
+									        document.getElementById("radiovalue").value = "public";
+									        function updateRadioValue() {
+									            if (document.getElementById("public").checked) {
+									                document.getElementById("radiovalue").value = "public";
+									            } else if (document.getElementById("private").checked) {
+									                document.getElementById("radiovalue").value = "private";
+									            }
+									        }
+									    </script>
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" th:field="*{email}" class="form-control" placeholder="Enter your e-mail" value="" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" th:field="*{phonenumber}" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Enter your phone number" value="" required>
+                                </div>
+                                <div class="form-group">
+							    <table class="table table-bordered">
+							        <thead>
+							            <tr>
+							                <th>Enter wanted charity products</th>
+							            </tr>
+							        </thead>
+							        <input type="hidden" th:field="*{wantedproducts}" id="productvalue">
+							        <tbody id="funds-table">
+							            <tr>
+							                <td>
+							                    <input type="text" placeholder="Enter product name 1" class="productsvalue form-control" id="product1" required>
+							                	<label style="color: red;" id="producterror1"></label>
+							                </td>
+							            </tr>
+							        </tbody>
+							    </table>
+							    <div class="text-right">
+							        <button type="button" class="btn btn-primary mt-2" onclick="addRow()">
+							            <span><i class="fa fa-plus"></i></span>
+							        </button>
+							    </div>
+							</div>
+							
+							<script>
+							    var count = 2;
+							    function addRow() {
+									if(document.getElementById(`product${count-1}`).value==""){
+										document.getElementById(`producterror${count-1}`).innerHTML = `Please enter product${count-1}`;
+									}
+									else{
+										document.getElementById(`producterror${count-1}`).innerHTML = "";
+										const table = document.getElementById('funds-table');
+								        const newRow = `
+								            <tr>
+								                <td><input type="text" class="form-control productsvalue" placeholder="Enter product name ${count}" id="product${count}"><label style="color: red;" id="producterror${count}"></label></td>
+								            </tr>`;
+								        table.insertAdjacentHTML('beforeend', newRow);
+								        count++;
+									}
+							    }
+							    function updateHiddenInput() {
+									document.getElementById("address").value = document.getElementById("district").value+", "+document.getElementById("state").value+", "+document.getElementById("country").value;
+							        const productInputs = document.getElementsByClassName('productsvalue');
+							        let productsArray = [];
+
+							        for (let i = 0; i < productInputs.length; i++) {
+							            productsArray.push(productInputs[i].value);
+							        }
+
+							        document.getElementById('productvalue').value = productsArray.join(',');
+							    }
+							</script>
+
+                                <input type="submit" class="btnRegister" value="Register" onclick="updateHiddenInput()">
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div th:class="${usertype == 'customer'} ? 'tab-pane fade show active' : 'tab-pane fade'" id="customer" role="tabpanel" aria-labelledby="customer-tab">
+                        <h3 class="register-heading">Apply as a Customer</h3>
+                        <form th:action="@{/customer_register}" method="post" th:object="${customer}">
+						<input type="hidden" th:value="${username}" name="username">
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" th:field="*{customer_fullname}" class="form-control" placeholder="Your name" value="">
+                                </div>
+                                <input type="hidden" th:field="*{customer_address}" id="address1">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="District" id="district1">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="State" id="state1">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Country" id="country1" value="India">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" th:field="*{customer_email}" class="form-control" placeholder="Enter your e-mail" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" th:field="*{customer_phonenumber}" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Enter your phone number" value="">
+                                </div>
+                                <script>
+	                                function updateHiddenInput1() {
+										document.getElementById("address1").value = document.getElementById("district1").value+", "+document.getElementById("state1").value+", "+document.getElementById("country1").value;
+								    }
+							    </script>
+                                <input type="submit" class="btnRegister" value="Register" onclick="updateHiddenInput1()">
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div th:class="${usertype == 'admin'} ? 'tab-pane fade show active' : 'tab-pane fade'" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+                        <h3 class="register-heading">Login as Admin</h3>
+                        <form th:action="@{/admin_register}" method="post" th:object="${admin}">
+						<input type="hidden" th:value="${username}" name="username">
+                        <div class="row register-form">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" th:field="*{admin_fullname}" class="form-control" placeholder="Your name" value="">
+                                </div>
+                                <input type="hidden" th:field="*{admin_address}" id="address2">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="District" id="district2" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="State" id="state2" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Country" id="country2" value="India">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" th:field="*{admin_email}" class="form-control" placeholder="Enter your e-mail" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" th:field="*{admin_phonenumber}" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Enter your phone number" value="">
+                                </div>
+                                <script>
+	                                function updateHiddenInput2() {
+										document.getElementById("address2").value = document.getElementById("district2").value+", "+document.getElementById("state2").value+", "+document.getElementById("country2").value;
+								    }
+							    </script>
+                                <input type="submit" class="btnRegister" value="Register" onclick="updateHiddenInput2()">
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type='text/javascript'>
+    window.addEventListener('load', function() {
+	const preloader = document.getElementById('preloader-active');
+	const mainContent = document.getElementById('main-content');
+	
+	preloader.style.display = 'none';
+	mainContent.style.display = 'block';
+	document.body.style.overflow = 'auto';
+});
+</script>
+</html>
