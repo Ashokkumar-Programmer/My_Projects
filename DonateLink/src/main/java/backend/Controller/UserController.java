@@ -82,7 +82,7 @@ public class UserController {
 	    }
         otp = new MailController().mailsent(email);
         return "Auth/forgetpassword2";
-	    }
+	}
 
 	@PostMapping("/verifyotp")
 	String verifyotp(@RequestParam(value = "otp", required = false) String getotp, Model model) {
@@ -110,7 +110,6 @@ public class UserController {
 		return "Customer/customer";
 	}
 	
-	
 	@GetMapping("/automatic_login")
 	String automatic_login(@CookieValue(name="donatelink_username", defaultValue = "default") String username, @CookieValue(name="donatelink_password", defaultValue = "default") String password) {
 		if(username.equals("default") && password.equals("default")) {
@@ -135,7 +134,6 @@ public class UserController {
 			return "redirect:/donatelink_signin";
 		}
 	}
-	
 	
 	@PostMapping("/user_signin")
 	String user_signin(@RequestParam("checkboxvalue") boolean checkbox, UserLogin user1, Model model, HttpServletResponse response) {
