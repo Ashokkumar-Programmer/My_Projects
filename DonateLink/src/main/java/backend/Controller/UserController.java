@@ -146,6 +146,14 @@ public class UserController {
 			return "Auth/signin";
 		}
 		else if(user.getPassword().equals(password)) {
+			UserCharity charity = charityrepo.findByUsername(username);
+			if(charity!=null) {
+				if(charity.getApproval().equals("no")) {
+					model.addAttribute("error", "Approval not grant by admin");
+					model.addAttribute("user", new UserLogin());
+					return "Auth/signin";
+				}
+			}
 			if(checkbox) {
 				new CookieController().setCookie(response, username, password);
 			}
@@ -196,6 +204,7 @@ public class UserController {
 	@PostMapping("/charity_register")
 	String register_charity(@RequestParam("username") String username, UserCharity charity) {
 		charity.setUsername(username);
+		charity.setApproval("no");
 		charityrepo.save(charity);
 		return "redirect:/donatelink_signin";
 	}

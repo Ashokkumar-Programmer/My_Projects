@@ -34,7 +34,7 @@ public class UserCharity {
 	Long phonenumber;
 	
 	@Column(nullable=true)
-	String wantedproducts;
+	String approval;
 
 	public String getCharityname() {
 		return charityname;
@@ -92,12 +92,12 @@ public class UserCharity {
 		this.phonenumber = phonenumber;
 	}
 
-	public String getWantedproducts() {
-		return wantedproducts;
+	public String getApproval() {
+		return approval;
 	}
 
-	public void setWantedproducts(String wantedproducts) {
-		this.wantedproducts = wantedproducts;
+	public void setApproval(String approval) {
+		this.approval = approval;
 	}
 
 	public String getUsername() {

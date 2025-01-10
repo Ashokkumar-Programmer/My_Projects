@@ -10,6 +10,8 @@ create table usercharity(username varchar(50) primary key, charityname varchar(5
 
 create table useradmin(username varchar(50) primary key, admin_fullname varchar(100), admin_address varchar(300), admin_email varchar(300), admin_phonenumber bigint);
 
-select * from userlogin;
+create table donations(username varchar(50) primary key, donation_item varchar(200), donation_target varchar(100), donation_raised varchar(100), donation_category varchar(100));
+
+select * from usercharity;
 
 select * from useradmin;

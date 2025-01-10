@@ -195,57 +195,10 @@
                                 <div class="form-group">
                                     <input type="number" th:field="*{phonenumber}" minlength="10" maxlength="10" name="txtEmpPhone" class="form-control" placeholder="Enter your phone number" value="" required>
                                 </div>
-                                <div class="form-group">
-							    <table class="table table-bordered">
-							        <thead>
-							            <tr>
-							                <th>Enter wanted charity products</th>
-							            </tr>
-							        </thead>
-							        <input type="hidden" th:field="*{wantedproducts}" id="productvalue">
-							        <tbody id="funds-table">
-							            <tr>
-							                <td>
-							                    <input type="text" placeholder="Enter product name 1" class="productsvalue form-control" id="product1" required>
-							                	<label style="color: red;" id="producterror1"></label>
-							                </td>
-							            </tr>
-							        </tbody>
-							    </table>
-							    <div class="text-right">
-							        <button type="button" class="btn btn-primary mt-2" onclick="addRow()">
-							            <span><i class="fa fa-plus"></i></span>
-							        </button>
-							    </div>
-							</div>
-							
 							<script>
-							    var count = 2;
-							    function addRow() {
-									if(document.getElementById(`product${count-1}`).value==""){
-										document.getElementById(`producterror${count-1}`).innerHTML = `Please enter product${count-1}`;
-									}
-									else{
-										document.getElementById(`producterror${count-1}`).innerHTML = "";
-										const table = document.getElementById('funds-table');
-								        const newRow = `
-								            <tr>
-								                <td><input type="text" class="form-control productsvalue" placeholder="Enter product name ${count}" id="product${count}"><label style="color: red;" id="producterror${count}"></label></td>
-								            </tr>`;
-								        table.insertAdjacentHTML('beforeend', newRow);
-								        count++;
-									}
-							    }
+							    
 							    function updateHiddenInput() {
 									document.getElementById("address").value = document.getElementById("district").value+", "+document.getElementById("state").value+", "+document.getElementById("country").value;
-							        const productInputs = document.getElementsByClassName('productsvalue');
-							        let productsArray = [];
-
-							        for (let i = 0; i < productInputs.length; i++) {
-							            productsArray.push(productInputs[i].value);
-							        }
-
-							        document.getElementById('productvalue').value = productsArray.join(',');
 							    }
 							</script>
 
