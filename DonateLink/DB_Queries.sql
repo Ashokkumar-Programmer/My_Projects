@@ -10,8 +10,14 @@ create table usercharity(username varchar(50) primary key, charityname varchar(5
 
 create table useradmin(username varchar(50) primary key, admin_fullname varchar(100), admin_address varchar(300), admin_email varchar(300), admin_phonenumber bigint);
 
-create table donations(username varchar(50) primary key, donation_item varchar(200), donation_target varchar(100), donation_raised varchar(100), donation_category varchar(100));
+create table donations(username varchar(50) primary key, donation_item varchar(200), donation_target bigint, donation_raised bigint, donation_category varchar(100), reached boolean);
 
 select * from usercharity;
 
-select * from useradmin;
+select * from userlogin;
+
+alter table donations drop primary key;
+
+alter table donations add column id int auto_increment primary key;
+
+select * from donations;

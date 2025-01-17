@@ -69,17 +69,23 @@
                                         <nav>
                                             <ul id="navigation">                                                                                          
                                                 <li><a href="index.html">Home</a></li>
-                                                <li><a href="about.html">Members</a></li>
                                                 <li><a href="program.html">Funds</a></li>
-                                                <li><a href="events.html">Donations</a></li>
-                                                <li><a href="contact.html">Manage</a></li>
+                                                <li><a href="contact.html">Manage Donations</a></li>
                                             </ul>
                                         </nav>
                                     </div>
                                     <!-- Header-btn -->
+                                    <form method="get" action="/DonateLink_createdonation" id="donate">
+									<input type="hidden" th:value="${username}" name="username">
                                     <div class="header-right-btn d-none d-lg-block ml-20">
-                                        <a href="contact.html" class="btn header-btn">Required Goods</a>
+                                        <a href="#" onclick="create_donate()" class="btn header-btn">Required Goods</a>
                                     </div>
+                                    </form>
+                                    <script>
+										function create_donate(){
+											document.getElementById("donate").submit();
+										}
+									</script>
                                 </div>
                             </div> 
                             <!-- Mobile Menu -->

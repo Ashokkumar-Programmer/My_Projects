@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/title_logo.jpg">
+    <!-- Title Page-->
+    <title>Create a Donation</title>
+
+    <!-- Icons font CSS-->
+    <link href="../assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="../assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="../assets/css/main1.css" rel="stylesheet" media="all">
+    <style>
+        .label--desc{
+            color: black;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">Creating Donations</h2>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/createdonations}" method="post" th:object="${donate}">
+                        <div class="form-row">
+							<input type="hidden" name="username" th:value="${username1}">
+                            <div class="name">Donation Category</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="subject" id="category" onchange="insert_inputs()" th:field="*{donation_category}">
+                                            <option selected="selected" value="0">Choose Category</option>
+                                            <option value="food">Food items Donation</option>
+                                            <option value="clothes">Clothes Donation</option>
+                                            <option value="money">Money Donation</option>
+                                            <option value="education">Education Donation</option>
+                                            <option value="furniture">Electronics & Furniture Donation</option>
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row m-b-55">
+                            <div class="name">Donation Items</div>
+                            <div class="value" id="items">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="name">Target Amount</div>
+                            <div class="value">
+                                <div class="input-group">
+									<input type="hidden" name="target" id="targetprice">
+                                    <input class="input--style-5" id="target" type="text" disabled style="text-align: center;display: inline-block;left: 1%;right: 1%;top: 50%;">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn--radius-2 btn--red" type="submit">Create Donation</button>&nbsp;&nbsp;&nbsp;&nbsp;<label th:if="${error}" style="color: red; font-size: 16px;" id="error">Item is already created by you</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+	price=0;
+	var target_price = document.getElementById("targetprice");
+     function insert_inputs() {
+     const category= document.getElementById("category").value;
+    const input = document.getElementById("items");
+    const priceDisplay = document.getElementById("target");
+    if (category == "food") {
+		document.getElementById("target").value = "";
+        input.innerHTML = `
+            <div class="row row-refine">
+                <div class="col-9">
+                    <div class="input-group-desc">
+                        <input class="input--style-5" id="inputbox" type="text" name="productname"">
+                        <label class="label--desc">Item Name</label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group-desc">
+                        <input class="input--style-5" type="number" name="quantity" min="1" value="1" id="quantity" onchange="changeprice()">
+                        <label class="label--desc">Quantity in KG</label>
+                    </div>
+                </div>
+            </div>
+            <div id="price-display" class="label--desc"></div>`;
+    } else if (["clothes", "furniture"].includes(category)) {
+		document.getElementById("target").value = "";
+        input.innerHTML = `
+            <div class="row row-refine">
+                <div class="col-9">
+                    <div class="input-group-desc">
+                        <input class="input--style-5" id="inputbox" type="text" name="productname"">
+                        <label class="label--desc">Item Name</label>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="input-group-desc">
+                        <input class="input--style-5" type="number" name="quantity" min="1" value="1" id="quantity" onchange="changeprice()">
+                        <label class="label--desc">Quantity</label>
+                    </div>
+                </div>
+            </div>
+            <div id="price-display" class="label--desc"></div>`;
+    } else {
+		document.getElementById("target").value = "";
+        input.innerHTML = `
+            <div class="row row-refine">
+                <div class="col-9">
+                    <div class="input-group-desc">
+                        <input class="input--style-5" id="inputbox" type="number" name="amount" min="1"">
+                        <label class="label--desc">Enter Amount (₹)</label>
+                    </div>
+                </div>
+            </div>
+            <div id="price-display" class="label--desc"></div>`;
+    }
+    const inputBox = document.getElementById("inputbox");
+if (inputBox) {
+    let searchTimer;
+    inputBox.addEventListener("input", (e) => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => {
+            const productName = e.target.value;
+            const category = document.getElementById("category").value;
+            if(category=="money" || category=="education"){
+				document.getElementById("target").value = document.getElementById("inputbox").value;
+			}
+			else{
+            const priceDisplay = document.getElementById('target');
+            fetch("/pricedetails", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ productname: productName, productcategory: category }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.price) {
+						if(category=="food"){
+							quantity = parseInt(document.getElementById("quantity").value);
+							price = data.price;
+							priceDisplay.value = `₹${data.price*quantity}`;
+							target_price.value = `${data.price*quantity}`;
+						}
+						else{
+                        	priceDisplay.value = `₹${data.price}`;
+                        	target_price.value = `${data.price}`;
+                        	price = data.price;
+                        }
+                    } else {
+                        priceDisplay.value = "Price not available.";
+                        target_price.value = `0`;
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error fetching price:", error);
+                });
+                }
+        }, 1000);
+    });
+}
+}
+function changeprice(){
+	const inputElement = document.getElementById('quantity');
+	const priceDisplay = document.getElementById('target');
+	priceDisplay.value = "₹"+price * inputElement.value;
+	target_price.value = price * inputElement.value;
+}
+
+    </script>
+    <!-- Jquery JS-->
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <!-- Vendor JS-->
+    <script src="../assets/vendor/select2/select2.min.js"></script>
+    <script src="../assets/vendor/datepicker/moment.min.js"></script>
+    <script src="../assets/vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="../assets/js/global.js"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->

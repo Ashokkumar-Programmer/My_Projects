@@ -101,7 +101,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/donatelink_charity")
-	String charity_page() {
+	String charity_page(@RequestParam("username") String username, Model model) {
+		model.addAttribute("username", username);
 		return "Charity/charity";
 	}
 	
@@ -124,14 +125,14 @@ public class UserController {
 				return "redirect:/donatelink_customer";
 			}
 			else if(user.getUsertype().equals("charity")) {
-				return "redirect:/donatelink_charity";
+				return "redirect:/donatelink_charity?username="+username;
 			}
 			else{
-				return "redirect:/donatelink_admin";
+				return "redirect:/donatelink_admin?username="+username;
 			}
 		}
 		else {
-			return "redirect:/donatelink_signin";
+			return "redirect:/donatelink_signin?username="+username;
 		}
 	}
 	
@@ -158,13 +159,13 @@ public class UserController {
 				new CookieController().setCookie(response, username, password);
 			}
 			if(user.getUsertype().equals("customer")) {
-				return "redirect:/donatelink_customer";
+				return "redirect:/donatelink_customer?username="+username;
 			}
 			else if(user.getUsertype().equals("charity")) {
-				return "redirect:/donatelink_charity";
+				return "redirect:/donatelink_charity?username="+username;
 			}
 			else{
-				return "redirect:/donatelink_admin";
+				return "redirect:/donatelink_admin?username="+username;
 			}
 		}
 		else {
