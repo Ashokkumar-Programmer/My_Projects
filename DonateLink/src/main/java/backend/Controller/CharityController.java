@@ -1,6 +1,7 @@
 package backend.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class CharityController {
 	}
 	
 	@PostMapping("/createdonations")
-	String createdonations(Model model, Donations donate, @RequestParam("username") String username,@RequestParam("productname") String productname ,@RequestParam("target") Long target) {
+	String createdonations(Model model, Donations donate,@RequestParam("image_path") String image_path,@RequestParam("username") String username,@RequestParam("productname") String productname ,@RequestParam("target") Long target) {
 		Donations existingDonation = charityrepo.findByUsernameAndDonationItem(username, productname.toLowerCase());
 		if(existingDonation==null) {
 			donate.setUsername(username);
@@ -51,6 +52,7 @@ public class CharityController {
 			donate.setReached(false);
 			donate.setDonation_target(target);
 			donate.setDonationItem(productname.toLowerCase());
+			donate.setImage_path(image_path);
 			charityrepo.save(donate);
 			return "redirect:/donatelink_charity?username="+username;
 		}
@@ -61,5 +63,13 @@ public class CharityController {
 			return "Charity/createdonation";
 		}
 	}
-
+	
+	@GetMapping("/Donatelink_funding")
+	String Donatelink_funding(Model model, @RequestParam("username") String username) {
+		List<Donations> donate = charityrepo.findAll();
+		model.addAttribute("donate", donate);
+		model.addAttribute("username", username);
+		return "Charity/program";
+	}
+	
 }

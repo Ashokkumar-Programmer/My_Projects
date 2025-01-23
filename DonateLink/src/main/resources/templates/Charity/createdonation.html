@@ -74,6 +74,7 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="image_name" name="image_path">
                         <div>
                             <button class="btn btn--radius-2 btn--red" type="submit">Create Donation</button>&nbsp;&nbsp;&nbsp;&nbsp;<label th:if="${error}" style="color: red; font-size: 16px;" id="error">Item is already created by you</label>
                         </div>
@@ -89,8 +90,12 @@
      const category= document.getElementById("category").value;
     const input = document.getElementById("items");
     const priceDisplay = document.getElementById("target");
+    function getRandomNumber(min, max) {
+	  return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
     if (category == "food") {
 		document.getElementById("target").value = "";
+		document.getElementById("image_name").value = "../assets/img/Food/food_"+getRandomNumber(1, 23);
         input.innerHTML = `
             <div class="row row-refine">
                 <div class="col-9">
@@ -109,6 +114,11 @@
             <div id="price-display" class="label--desc"></div>`;
     } else if (["clothes", "furniture"].includes(category)) {
 		document.getElementById("target").value = "";
+		if(category=="clothes"){
+			document.getElementById("image_name").value = "../assets/img/Clothes/clothes_"+getRandomNumber(1, 25);
+		}else{
+			document.getElementById("image_name").value = "../assets/img/Furnitures/furnitures_"+getRandomNumber(1, 23);
+		}
         input.innerHTML = `
             <div class="row row-refine">
                 <div class="col-9">
@@ -127,6 +137,11 @@
             <div id="price-display" class="label--desc"></div>`;
     } else {
 		document.getElementById("target").value = "";
+		if(category=="money"){
+			document.getElementById("image_name").value = "../assets/img/Money/money_"+getRandomNumber(1, 23);
+		}else{
+			document.getElementById("image_name").value = "../assets/img/Education/education_"+getRandomNumber(1, 23);
+		}
         input.innerHTML = `
             <div class="row row-refine">
                 <div class="col-9">

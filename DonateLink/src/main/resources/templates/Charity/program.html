@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Charity | Teamplate</title>
+    <title>Fundings</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="site.webmanifest">
@@ -81,18 +81,24 @@
                                     <div class="main-menu d-none d-lg-block">
                                         <nav>
                                             <ul id="navigation">                                                                                          
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about.html">Donate</a></li>
-                                                <li><a href="program.html">Funds</a></li>
-                                                <li><a href="events.html">Donations</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
+                                                <li><a th:href="@{'/donatelink_charity?username='+${username}}">Home</a></li>
+                                                <li><a th:href="@{'/Donatelink_funding?username='+${username}}">Funds</a></li>
+                                                <li><a href="contact.html">Manage Donations</a></li>
                                             </ul>
                                         </nav>
                                     </div>
                                     <!-- Header-btn -->
+                                    <form method="get" action="/DonateLink_createdonation" id="donate">
+									<input type="hidden" th:value="${username}" name="username">
                                     <div class="header-right-btn d-none d-lg-block ml-20">
-                                        <a href="contact.html" class="btn header-btn">Donate</a>
+                                        <a href="#" onclick="create_donate()" class="btn header-btn">Required Goods</a>
                                     </div>
+                                    </form>
+                                    <script>
+										function create_donate(){
+											document.getElementById("donate").submit();
+										}
+									</script>
                                 </div>
                             </div> 
                             <!-- Mobile Menu -->
@@ -138,14 +144,14 @@
     <!-- Our Cases Start -->
     <div class="our-cases-area section-padding30">
         <div class="container">
-            <div class="row">
+            <div class="row" th:each="donate: ${donate}">
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-cases mb-40">
                         <div class="cases-img">
-                            <img src="../assets/img/gallery/case1.png" alt="">
+                            <img th:src="@{${donate.image_path}}" alt="">
                         </div>
                         <div class="cases-caption">
-                            <h3><a href="#">Ensure Education For Every Poor Children</a></h3>
+                            <h3 th:text="${donate.donationItem}"></h3th>
                             <!-- Progress Bar -->
                             <div class="single-skill mb-15">
                                 <div class="bar-progress">
@@ -153,144 +159,14 @@
                                         <div class="tipWrap">
                                             <span class="tip"></span>
                                         </div>
-                                        <span class="fill" data-percentage="70"></span>
+                                        <span class="fill" th:data-percentage="(${donate.donation_raised}*${donate.donation_target})/100"></span>
                                     </div>
                                 </div>
                             </div>
                             <!-- / progress -->
                             <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case2.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Providing Healthy Food For The Children</a></h3>
-                            <!-- Progress Bar -->
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar2" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="25"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- / progress -->
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case3.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Supply Drinking Water For  The People</a></h3>
-                            <!-- Progress Bar -->
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar3" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="50"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- / progress -->
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case1.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Ensure Education For Every Poor Children</a></h3>
-                            <!-- Progress Bar -->
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar4" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="70"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- / progress -->
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case3.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Supply Drinking Water For  The People</a></h3>
-                            <!-- Progress Bar -->
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar5" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="50"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- / progress -->
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case2.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Providing Healthy Food For The Children</a></h3>
-                            <!-- Progress Bar -->
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar6" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="25"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- / progress -->
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
+                                <p>Raised:<span th:text="${donate.donation_raised}"></span></p>
+                                <p>Goal:<span th:text="${donate.donation_target}"></span></p>
                             </div>
                         </div>
                     </div>

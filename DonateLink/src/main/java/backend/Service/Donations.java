@@ -14,14 +14,6 @@ public class Donations {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     int id;
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	@Column(nullable=true, length=50)
 	String username;
@@ -40,6 +32,25 @@ public class Donations {
 	
 	@Column(nullable=true, length=100)
 	Boolean reached;
+
+	@Column(nullable=true, length=300)
+	String image_path;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public String getImage_path() {
+		return image_path;
+	}
+
+	public void setImage_path(String image_path) {
+		this.image_path = image_path;
+	}
 
 	public String getUsername() {
 		return username;

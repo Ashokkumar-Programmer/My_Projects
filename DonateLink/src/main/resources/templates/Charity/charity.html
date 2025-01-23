@@ -68,8 +68,8 @@
                                     <div class="main-menu d-none d-lg-block">
                                         <nav>
                                             <ul id="navigation">                                                                                          
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="program.html">Funds</a></li>
+                                                <li><a th:href="@{'/donatelink_charity?username='+${username}}">Home</a></li>
+                                                <li><a th:href="@{'/Donatelink_funding?username='+${username}}">Funds</a></li>
                                                 <li><a href="contact.html">Manage Donations</a></li>
                                             </ul>
                                         </nav>
