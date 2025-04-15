@@ -17,6 +17,17 @@ public class UserLogin {
 	
 	@Column(nullable=true, length=20)
 	String usertype;
+	
+	@Column(nullable=true)
+	Boolean approval;
+
+	public Boolean getApproval() {
+		return approval;
+	}
+
+	public void setApproval(Boolean approval) {
+		this.approval = approval;
+	}
 
 	public String getUsername() {
 		return username;

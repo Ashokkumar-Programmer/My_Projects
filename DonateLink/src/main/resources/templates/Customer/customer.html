@@ -81,17 +81,13 @@
                                     <div class="main-menu d-none d-lg-block">
                                         <nav>
                                             <ul id="navigation">                                                                                          
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about.html">Donate</a></li>
-                                                <li><a href="program.html">Funds</a></li>
-                                                <li><a href="events.html">Donations</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
+                                               
                                             </ul>
                                         </nav>
                                     </div>
                                     <!-- Header-btn -->
                                     <div class="header-right-btn d-none d-lg-block ml-20">
-                                        <a href="contact.html" class="btn header-btn">Donate</a>
+                                        <a th:href="@{'/donations?username='+${username}+'&query=novalue'}" class="btn header-btn">Donations</a>
                                     </div>
                                 </div>
                             </div> 
@@ -121,8 +117,8 @@
                                 <P data-animation="fadeInUp" data-delay=".8s" >Join our mission to bring hope and relief to those in need. Your kindness can make the world a better place for everyone.</P>
                                 <!-- Hero-btn -->
                                 <div class="hero__btn">
-                                    <a href="industries.html" class="btn hero-btn mb-10"  data-animation="fadeInLeft" data-delay=".8s">Donate</a>
-                                    <a href="industries.html" class="cal-btn ml-15" data-animation="fadeInRight" data-delay="1.0s">
+                                    <a th:href="@{'/donations?username='+${username}+'&query=novalue'}" class="btn hero-btn mb-10"  data-animation="fadeInLeft" data-delay=".8s">Donate</a>
+                                    <a href="industries.html" style="pointer-events: none;" class="cal-btn ml-15" data-animation="fadeInRight" data-delay="1.0s">
                                         <i class="flaticon-null"></i>
                                         <p>+91 9487409407</p>
                                     </a>
@@ -220,7 +216,6 @@
                         </div>
                         <p style="text-align: justify;">In CharityLink, we connect donors with those in need, making it easier to give and receive essential items like clothing, furniture, and electronics. Our platform allows donors to post items for donation and track when they are collected, while recipients can browse and request available resources. Together, we aim to build stronger communities by ensuring that no valuable item goes to waste.</p>
                     </div>
-                    <a href="about.html" class="btn">About US</a>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <!-- about-img -->
@@ -236,218 +231,7 @@
             </div>
         </div>
     </section>
-    <!-- About Law End-->
-    <!-- Our Cases Start -->
-    <!--<div class="our-cases-area section-padding30">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
-                    <div class="section-tittle text-center mb-80">
-                        <span>Our Cases you can see</span>
-                        <h2>Explore our latest causes that we works </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="assets/img/gallery/case1.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Ensure Education For Every Poor Children</a></h3>
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar1" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="70"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="assets/img/gallery/case2.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Providing Healthy Food For The Children</a></h3>
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar2" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="25"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="assets/img/gallery/case3.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Supply Drinking Water For  The People</a></h3>
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar3" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="50"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
-    <!-- Our Cases End -->
-    <!-- Featured_job_start -->
-    <!--<section class="featured-job-area section-padding30 section-bg2" data-background="assets/img/gallery/section_bg03.png">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-7 col-lg-9 col-md-10 col-sm-12">
-                    <div class="section-tittle text-center mb-80">
-                        <span>What we are boing</span>
-                        <h2>We arrange many social events for charity donations</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-9 col-md-12">
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="#"><img src="assets/img/gallery/socialEvents1.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="#"><h4>Donation is Hope</h4></a>
-                                <ul>
-                                    <li><i class="far fa-clock"></i>8:30 - 9:30am</li>
-                                    <li><i class="fas fa-sort-amount-down"></i>18.01.2021</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-12">
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="#"><img src="assets/img/gallery/socialEvents2.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="#"><h4>A hand for Children</h4></a>
-                                <ul>
-                                    <li><i class="far fa-clock"></i>8:30 - 9:30am</li>
-                                    <li><i class="fas fa-sort-amount-down"></i>18.01.2021</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-12">
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="#"><img src="assets/img/gallery/socialEvents3.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="#"><h4>Help for Children</h4></a>
-                                <ul>
-                                    <li><i class="far fa-clock"></i>8:30 - 9:30am</li>
-                                    <li><i class="fas fa-sort-amount-down"></i>18.01.2021</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>-->
-    <!-- Want To work End -->
-    <!--? Testimonial Start -->
-    <!--<div class="testimonial-area testimonial-padding">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-xl-8 col-lg-8 col-md-10">
-                    <div class="h1-testimonial-active dot-style">
-                        <div class="single-testimonial text-center">
-                            <div class="testimonial-caption ">
-                                <div class="testimonial-founder">
-                                    <div class="founder-img mb-40">
-                                        <img src="assets/img/gallery/testimonial.png" alt="">
-                                        <span>Margaret Lawson</span>
-                                        <p>Creative Director</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-top-cap">
-                                    <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single-testimonial text-center">
-                            <div class="testimonial-caption ">
-                                <div class="testimonial-founder">
-                                    <div class="founder-img mb-40">
-                                        <img src="assets/img/gallery/testimonial.png" alt="">
-                                        <span>Margaret Lawson</span>
-                                        <p>Creative Director</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-top-cap">
-                                    <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single-testimonial text-center">
-                            <div class="testimonial-caption ">
-                                <div class="testimonial-founder">
-                                    <div class="founder-img mb-40">
-                                        <img src="assets/img/gallery/testimonial.png" alt="">
-                                        <span>Margaret Lawson</span>
-                                        <p>Creative Director</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-top-cap">
-                                    <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
-    <!-- Testimonial End -->
-    <!-- Blog Area End -->
-    <!--? Count Down Start -->
+ 
     <div class="count-down-area pt-25 section-bg" data-background="assets/img/gallery/section_bg02.png">
         <div class="container">
             <div class="row justify-content-center">
@@ -457,33 +241,31 @@
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <!-- Counter Up -->
                                 <div class="single-counter text-center">
-                                    <span class="counter color-green">6,200</span>
-                                    <span class="plus">+</span>
+                                    <span class="counter color-green" th:text="${donations_count}"></span>
                                     <p class="color-green">Donation</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <!-- Counter Up -->
                                 <div class="single-counter text-center">
-                                    <span class="counter color-green">80</span>
-                                    <span class="plus">+</span>
+                                	<span class="color-green">₹</span>
+                                    <span class="counter color-green" th:text="${raised}"></span>
                                     <p class="color-green">Fund Raised</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <!-- Counter Up -->
                                 <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
+                                	<span class="color-green">₹</span>
+                                    <span class="counter color-green" th:text="${required}"></span>
+                                    <p class="color-green">Required</p>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-6 col-sm-6">
                                 <!-- Counter Up -->
                                 <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
+                                    <span class="counter color-green" th:text="${charities}"></span>
+                                    <p class="color-green">Charities</p>
                                 </div>
                             </div>
                         </div>
@@ -529,14 +311,7 @@
                         <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
                             <div class="single-footer-caption mb-50">
                                 <div class="footer-tittle">
-                                    <h4>Important Link</h4>
-                                    <ul>
-                                        <li><a href="#"> View Project</a></li>
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#">Testimonial</a></li>
-                                        <li><a href="#">Proparties</a></li>
-                                        <li><a href="#">Support</a></li>
-                                    </ul>
+                                    
                                 </div>
                             </div>
                         </div>

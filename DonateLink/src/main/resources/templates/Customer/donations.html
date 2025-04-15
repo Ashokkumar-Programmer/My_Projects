@@ -1,0 +1,471 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Donations</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="site.webmanifest">
+<link rel="shortcut icon" type="image/x-icon"
+	href="assets/img/logo/title_logo.jpg">
+
+<!-- CSS here -->
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/css/slicknav.css">
+<link rel="stylesheet" href="assets/css/flaticon.css">
+<link rel="stylesheet" href="assets/css/progressbar_barfiller.css">
+<link rel="stylesheet" href="assets/css/gijgo.css">
+<link rel="stylesheet" href="assets/css/animate.min.css">
+<link rel="stylesheet" href="assets/css/animated-headline.css">
+<link rel="stylesheet" href="assets/css/magnific-popup.css">
+<link rel="stylesheet" href="assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="assets/css/themify-icons.css">
+<link rel="stylesheet" href="assets/css/slick.css">
+<link rel="stylesheet" href="assets/css/nice-select.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+	<!-- ? Preloader Start -->
+	<div id="preloader-active">
+		<div
+			class="preloader d-flex align-items-center justify-content-center">
+			<div class="preloader-inner position-relative">
+				<div class="preloader-circle"></div>
+				<div class="preloader-img pere-text">
+					<img src="assets/img/logo/title_logo.jpg" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Preloader Start -->
+	<header>
+		<!-- Header Start -->
+		<div class="header-area">
+			<div class="main-header ">
+				<div class="header-top d-none d-lg-block">
+					<div class="container-fluid">
+						<div class="col-xl-12">
+							<div
+								class="row d-flex justify-content-between align-items-center">
+								<div class="header-info-right d-flex align-items-center">
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="header-bottom  header-sticky">
+					<div class="container-fluid">
+						<div class="row align-items-center">
+							<!-- Logo -->
+							<div class="col-xl-2 col-lg-2">
+								<div class="logo">
+									<a href="index.html"><img
+										src="../assets/img/logo/title_logo.jpg" height="80px"
+										width="94px" alt=""></a>
+								</div>
+							</div>
+							<div class="col-xl-10 col-lg-10">
+								<div
+									class="menu-wrapper  d-flex align-items-center justify-content-end">
+									<!-- Main-menu -->
+									<div class="main-menu d-none d-lg-block">
+										<nav>
+										</nav>
+									</div>
+									<!-- Header-btn -->
+									<form method="get" action="/donatelink_customer"
+										id="donate">
+										<input type="hidden" th:value="${username}" name="username">
+										<div class="header-right-btn d-none d-lg-block ml-20">
+											<a href="#" onclick="create_donate()" class="btn header-btn">Home</a>
+										</div>
+									</form>
+									<script>
+										function create_donate() {
+											document.getElementById("donate")
+													.submit();
+										}
+									</script>
+								</div>
+							</div>
+							<!-- Mobile Menu -->
+							<div class="col-12">
+								<div class="mobile_menu d-block d-lg-none"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Header End -->
+	</header>
+	<!-- header end -->
+	<main>
+		<!--? Hero Start -->
+		<div class="slider-area2">
+			<div class="slider-height2 d-flex align-items-center">
+				<div class="container">
+					<div class="row">
+						<div class="col-xl-12">
+							<div class="hero-cap hero-cap2 pt-20 text-center">
+								<h2>Charities</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Hero End -->
+		<!-- Our Cases Start -->
+		<div class="our-cases-area section-padding30">
+			<div class="container">
+				<div class="row">
+					<!-- 💰 Donation Amount Input -->
+					<div class="col-lg-12 mb-4">
+						<label for="donationAmount" class="form-label fw-bold fs-5">💰
+							Filter by Donation Amount</label>
+						<div class="input-group shadow-sm">
+							<span class="input-group-text bg-success text-white fw-bold" style="font-size: 16px; font-weight: bold;">₹</span>
+							<input type="number" id="donationAmount"
+								style="width: 100px; height: 50px; font-size: 16px; font-weight: bold;"
+								class="form-control form-control-lg"
+								placeholder="Enter your donation amount"
+								oninput="filterDonations()"> <span
+								class="input-group-text bg-light"> <i
+								class="bi bi-funnel-fill text-muted"></i>
+							</span>
+						</div>
+					</div>
+
+					<!-- 💳 Donation Cards -->
+					<div id="donationItemsContainer" class="row">
+						<!-- This will contain donation cards -->
+						<div class="col-lg-4 col-md-6 col-sm-6 donation-item"
+							th:each="item : ${donate}"
+							th:attr="data-target=${item.donation_target}, data-raised=${item.donation_raised}, data-item=${item.id}, data-username=${username}">
+							<div class="single-cases mb-40">
+								<div class="cases-img">
+									<img th:src="@{${item.image_path}}" alt="">
+								</div>
+								<div class="cases-caption">
+									<h3>
+										<a href="#" style="pointer-events: none;" th:text="${item.donationItem}"></a>
+									</h3>
+
+									<!-- 📊 Progress Bar -->
+									<div class="single-skill mb-15">
+										<div class="bar-progress">
+											<div th:id="'bar' + ${item.id}" class="barfiller">
+												<div class="tipWrap">
+													<span class="tip"></span>
+												</div>
+												<span class="fill"
+													th:attr="data-percentage=${item.donation_target > 0 ? (item.donation_raised * 100 / item.donation_target) : 0}">
+												</span>
+											</div>
+										</div>
+									</div>
+
+									<!-- 💸 Donation Stats -->
+									<div class="prices d-flex justify-content-between">
+										<p>
+											Raised: <span th:text="' ₹ ' + ${item.donation_raised}"></span>
+										</p>
+										<p>
+											Goal: <span th:text="' ₹ ' + ${item.donation_target}"></span>
+										</p>
+									</div>
+
+									<!-- 📝 Suggested Donation -->
+									<div id="suggestedDonation" class="text-center mt-3">
+										<!-- This will be populated by JavaScript -->
+									</div>
+
+									<!-- 🗑️ Donate Button (Only if target not met) -->
+									<div class="text-center mt-3"
+										th:if="${item.donation_target == 0 or (item.donation_raised * 100 / item.donation_target) < 100}">
+										<form th:action="@{/deletedonation}" method="post">
+											<input type="hidden" th:value="${item.id}" name="id">
+											<input type="hidden" th:value="${username}" name="username">
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 📝 No Match Found Message -->
+					<div id="noMatchMessage" class="col-12 text-center mt-4"
+						style="display: none;">
+						<p class="alert alert-warning">No donations match your filter
+							criteria. Please try again.</p>
+					</div>
+				</div>
+
+				<!-- ✅ JavaScript to Filter Cards -->
+				<script>
+				document.addEventListener('DOMContentLoaded', function() {
+				    // Initially hide donations with 100% progress and show only those that need funding
+				    hideFullyFundedDonations();
+				});
+
+				// Function to hide donations with 100% progress initially
+				function hideFullyFundedDonations() {
+				    const donationItems = document.querySelectorAll('.donation-item');
+				    
+				    donationItems.forEach(function(item) {
+				        const target = parseInt(item.getAttribute('data-target'));
+				        const raised = parseInt(item.getAttribute('data-raised'));
+				        const percentage = (target > 0) ? (raised * 100 / target) : 0;
+
+				        // Hide donations that are fully funded (100% progress)
+				        if (percentage >= 100) {
+				            item.style.display = 'none';
+				        }
+				    });
+				}
+				let remainingAmount;
+
+				// Function to filter and display donations based on the user’s input amount
+				function filterDonations() {
+				    const amountInput = document.getElementById('donationAmount').value;
+				    const amount = parseInt(amountInput);
+				    const donationItems = document.querySelectorAll('.donation-item');
+				    let matchFound = false;
+
+				    donationItems.forEach(function(item) {
+				        const target = parseInt(item.getAttribute('data-target'));
+				        const raised = parseInt(item.getAttribute('data-raised'));
+				        const percentage = (target > 0) ? (raised * 100 / target) : 0;
+
+				        // Only show donations with target <= entered amount and less than 100% progress
+				        if (!isNaN(amount) && percentage < 100) {
+				            item.style.display = 'block'; // ✅ Show if meets condition
+				            matchFound = true;
+				        } else {
+				            item.style.display = 'none';  // ❌ Hide if not
+				        }
+				    });
+
+				    // Show or hide "No Match Found" message
+				    const noMatchMessage = document.getElementById('noMatchMessage');
+				    if (matchFound) {
+				        noMatchMessage.style.display = 'none'; // Hide if matches found
+				    } else {
+				        noMatchMessage.style.display = 'block'; // Show if no matches
+				    }
+
+				    // Split the donation amount if the input is valid
+				    if (!isNaN(amount) && amount > 0) {
+				    	remainingAmount = amount;
+				        splitDonation(amount);
+				        
+				    }
+				}
+				// Function to split the user’s donation amount across the donation items
+				function splitDonation(totalAmount) {
+				    const donationItems = document.querySelectorAll('.donation-item');
+				    const itemsToFund = [];
+				    let totalShortfall = 0;
+					
+				    // Step 1: Calculate the total shortfall
+				    donationItems.forEach(function(item) {
+				        const target = parseInt(item.getAttribute('data-target'));
+				        const raised = parseInt(item.getAttribute('data-raised'));
+				        const shortfall = target - raised;
+				
+				        // Only include items that need funding (i.e., shortfall > 0)
+				        if (shortfall > 0) {
+				            itemsToFund.push({ item: item, shortfall: shortfall, target: target });
+				            totalShortfall += shortfall;
+				        }
+				    });
+				
+				    // Step 2: Distribute the donation amount across items
+				    if (totalShortfall > 0) {
+				        itemsToFund.forEach(function(data) {
+				            let donationAmount = 0;
+				
+				            // If we still have remaining funds
+				            if (remainingAmount > 0) {
+				                // If remaining amount is greater than the shortfall, fund the whole shortfall
+				                if (remainingAmount >= data.shortfall) {
+				                    donationAmount = data.shortfall;
+				                    remainingAmount -= data.shortfall;  // Reduce remaining amount
+				                } else {
+				                    // If remaining amount is less than the shortfall, fund partially
+				                    donationAmount = remainingAmount;
+				                    remainingAmount = 0;  // No funds left to distribute
+				                }
+				            }
+				
+				            // Update the UI with the donation amount allocated for the item
+				            const itemElement = data.item;
+				            const donationAmountFormatted = donationAmount.toFixed(2); // Format to 2 decimal places
+				            const suggestedDonationElement = itemElement.querySelector('#suggestedDonation');
+				         // Calculate the funding amount and format it
+				            let formattedAmount = `Funding Amount: ₹${Math.floor(donationAmountFormatted)}`;
+				            let donationName = data.item.getAttribute('data-item');
+				            let username = data.item.getAttribute('data-username');
+				            // Create the hidden form dynamically with the appropriate data
+				            let formHTML = `
+				                <form method="post" action="/updateTarget">
+				                    <input type="hidden" name="target" value="${Math.floor(donationAmountFormatted)}">
+				                    <input type="hidden" name="donationName" value="${donationName}">
+				                    <input type="hidden" name="username" value="${username}">
+				                    <button type="submit" class="btn btn-primary mt-3">DONATE</button>
+				                </form>
+				            `;
+
+				            // Combine the formatted amount and the form
+				            suggestedDonationElement.innerHTML = formattedAmount + formHTML;
+				
+				            // If there's still a shortfall left for the item, show that as well
+				            if (remainingAmount <= 0 && donationAmount < data.shortfall) {
+				                const remainingShortfall = data.shortfall - donationAmount;
+				                const remainingShortfallFormatted = remainingShortfall.toFixed(2);
+				            }
+				        });
+				
+				        // Step 3: Show the remaining funds if there are any left
+				        if (remainingAmount > 0) {
+				            console.log(`Remaining donation amount after full allocation: ₹${remainingAmount.toFixed(2)}`);
+				        }
+				    } else {
+				        alert("All donations are fully funded.");
+				    }
+				}
+
+				</script>
+				<!-- Our Cases End -->
+	</main>
+	<footer>
+		<div class="footer-wrapper section-bg2"
+			data-background="assets/img/gallery/footer_bg.png">
+			<!-- Footer Top-->
+			<div class="footer-area footer-padding">
+				<div class="container">
+					<div class="row d-flex justify-content-between">
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+							<div class="single-footer-caption mb-50">
+								<div class="single-footer-caption mb-30">
+									<div class="footer-tittle">
+										<div class="footer-logo mb-20">
+											<a href="index.html"><img
+												src="assets/img/logo/title_logo.jpg" height="170px"
+												width="154px" alt=""></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									<h4>Contact Info</h4>
+									<ul>
+										<li>
+											<p>Address : Thoothukudi, Tamilnadu, India</p>
+										</li>
+										<li><a href="#">Phone : +91 9487409407</a></li>
+										<li><a href="#">Email : CharityLink@gmail.com</a></li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									<h4>Important Link</h4>
+									<ul>
+										<li><a href="#"> View Project</a></li>
+										<li><a href="#">Contact Us</a></li>
+										<li><a href="#">Testimonial</a></li>
+										<li><a href="#">Proparties</a></li>
+										<li><a href="#">Support</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- footer-bottom -->
+			<div class="footer-bottom-area">
+				<div class="container">
+					<div class="footer-border">
+						<div class="row d-flex justify-content-between align-items-center">
+							<div class="col-xl-2 col-lg-3">
+								<div class="footer-social f-right">
+									<a href="https://twitter.com/ashokkumar_dev"><i
+										class="fab fa-twitter"></i></a> <a
+										href="https://www.instagram.com/ashokkumar_developer/"><i
+										class="fab fa-instagram"></i></a> <a
+										href="https://www.linkedin.com/in/ashok-kumar-94b22b211"><i
+										class="fab fa-linkedin-in"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+	<!-- Scroll Up -->
+	<div id="back-top">
+		<a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+	</div>
+
+	<!-- JS here -->
+
+	<script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
+	<!-- Jquery, Popper, Bootstrap -->
+	<script src="./assets/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="./assets/js/popper.min.js"></script>
+	<script src="./assets/js/bootstrap.min.js"></script>
+	<!-- Jquery Mobile Menu -->
+	<script src="./assets/js/jquery.slicknav.min.js"></script>
+
+	<!-- Jquery Slick , Owl-Carousel Plugins -->
+	<script src="./assets/js/owl.carousel.min.js"></script>
+	<script src="./assets/js/slick.min.js"></script>
+	<!-- One Page, Animated-HeadLin -->
+	<script src="./assets/js/wow.min.js"></script>
+	<script src="./assets/js/animated.headline.js"></script>
+	<script src="./assets/js/jquery.magnific-popup.js"></script>
+
+	<!-- Date Picker -->
+	<script src="./assets/js/gijgo.min.js"></script>
+	<!-- Nice-select, sticky -->
+	<script src="./assets/js/jquery.nice-select.min.js"></script>
+	<script src="./assets/js/jquery.sticky.js"></script>
+	<!-- Progress -->
+	<script src="./assets/js/jquery.barfiller.js"></script>
+
+	<!-- counter , waypoint,Hover Direction -->
+	<script src="./assets/js/jquery.counterup.min.js"></script>
+	<script src="./assets/js/waypoints.min.js"></script>
+	<script src="./assets/js/jquery.countdown.min.js"></script>
+	<script src="./assets/js/hover-direction-snake.min.js"></script>
+
+	<!-- contact js -->
+	<script src="./assets/js/contact.js"></script>
+	<script src="./assets/js/jquery.form.js"></script>
+	<script src="./assets/js/jquery.validate.min.js"></script>
+	<script src="./assets/js/mail-script.js"></script>
+	<script src="./assets/js/jquery.ajaxchimp.min.js"></script>
+
+	<!-- Jquery Plugins, main Jquery -->
+	<script src="./assets/js/plugins.js"></script>
+	<script src="./assets/js/main.js"></script>
+
+</body>
+</html>

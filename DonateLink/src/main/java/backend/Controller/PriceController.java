@@ -29,8 +29,9 @@ public class PriceController {
 				for (Element link : links) {
 				    try {
 				    	String arr[] = link.text().split(" ");
-				    	String s = arr[0].replace("₹", "");
-				        p[index++] = Integer.parseInt(s);
+				    	String s = arr[1].replace("₹", "");
+				    	//System.out.println(s.split("/")[0]);
+				        p[index++] = Integer.parseInt(s.split("/")[0].replace(",", ""));
 				    } catch (NumberFormatException e) {
 				        link.text();
 				    }

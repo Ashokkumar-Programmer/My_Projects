@@ -1,230 +1,274 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>DonateLink</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo/title_logo.jpg">
-	<!-- CSS here -->
-	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="../assets/css/slicknav.css">
-    <link rel="stylesheet" href="../assets/css/flaticon.css">
-    <link rel="stylesheet" href="../assets/css/progressbar_barfiller.css">
-    <link rel="stylesheet" href="../assets/css/gijgo.css">
-    <link rel="stylesheet" href="../assets/css/animate.min.css">
-    <link rel="stylesheet" href="../assets/css/animated-headline.css">
-	<link rel="stylesheet" href="../assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="../../assets/css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="../../assets/css/themify-icons.css">
-	<link rel="stylesheet" href="../../assets/css/slick.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flaticon/2.1.0/font/flaticon.css">
-	<link rel="stylesheet" href="../../assets/css/nice-select.css">
-	<link rel="stylesheet" href="../../assets/css/style.css">
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>DonateLink</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="site.webmanifest">
+<link rel="shortcut icon" type="image/x-icon"
+	href="../assets/img/logo/title_logo.jpg">
+<!-- CSS here -->
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="../assets/css/slicknav.css">
+<link rel="stylesheet" href="../assets/css/flaticon.css">
+<link rel="stylesheet" href="../assets/css/progressbar_barfiller.css">
+<link rel="stylesheet" href="../assets/css/gijgo.css">
+<link rel="stylesheet" href="../assets/css/animate.min.css">
+<link rel="stylesheet" href="../assets/css/animated-headline.css">
+<link rel="stylesheet" href="../assets/css/magnific-popup.css">
+<link rel="stylesheet" href="../../assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="../../assets/css/themify-icons.css">
+<link rel="stylesheet" href="../../assets/css/slick.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/flaticon/2.1.0/font/flaticon.css">
+<link rel="stylesheet" href="../../assets/css/nice-select.css">
+<link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
-    <!-- ? Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="../assets/img/logo/title_logo.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Preloader Start -->
-    <header>
-        <!-- Header Start -->
-        <div class="header-area">
-            <div class="main-header ">
-                <div class="header-top d-none d-lg-block">
-                    <div class="container-fluid">
-                        <div class="col-xl-12">
-                            <div class="row d-flex justify-content-between align-items-center">
-                                <div class="header-info-right d-flex align-items-center">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="header-bottom  header-sticky">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <!-- Logo -->
-                            <div class="col-xl-2 col-lg-2">
-                                <div class="logo">
-                                    <a href="index.html"><img src="../assets/img/logo/title_logo.jpg" height="80px" width="94px" alt=""></a>
-                                </div>
-                            </div>
-                            <div class="col-xl-10 col-lg-10">
-                                <div class="menu-wrapper  d-flex align-items-center justify-content-end">
-                                    <!-- Main-menu -->
-                                    <div class="main-menu d-none d-lg-block">
-                                        <nav>
-                                            <ul id="navigation">                                                                                          
-                                                <li><a th:href="@{'/donatelink_charity?username='+${username}}">Home</a></li>
-                                                <li><a th:href="@{'/Donatelink_funding?username='+${username}}">Funds</a></li>
-                                                <li><a href="contact.html">Manage Donations</a></li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                    <!-- Header-btn -->
-                                    <form method="get" action="/DonateLink_createdonation" id="donate">
-									<input type="hidden" th:value="${username}" name="username">
-                                    <div class="header-right-btn d-none d-lg-block ml-20">
-                                        <a href="#" onclick="create_donate()" class="btn header-btn">Required Goods</a>
-                                    </div>
-                                    </form>
-                                    <script>
-										function create_donate(){
-											document.getElementById("donate").submit();
+	<!-- ? Preloader Start -->
+	<div id="preloader-active">
+		<div
+			class="preloader d-flex align-items-center justify-content-center">
+			<div class="preloader-inner position-relative">
+				<div class="preloader-circle"></div>
+				<div class="preloader-img pere-text">
+					<img src="../assets/img/logo/title_logo.jpg" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Preloader Start -->
+	<header>
+		<!-- Header Start -->
+		<div class="header-area">
+			<div class="main-header ">
+				<div class="header-top d-none d-lg-block">
+					<div class="container-fluid">
+						<div class="col-xl-12">
+							<div
+								class="row d-flex justify-content-between align-items-center">
+								<div class="header-info-right d-flex align-items-center">
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="header-bottom  header-sticky">
+					<div class="container-fluid">
+						<div class="row align-items-center">
+							<!-- Logo -->
+							<div class="col-xl-2 col-lg-2">
+								<div class="logo">
+									<a href="index.html"><img
+										src="../assets/img/logo/title_logo.jpg" height="80px"
+										width="94px" alt=""></a>
+								</div>
+							</div>
+							<div class="col-xl-10 col-lg-10">
+								<div
+									class="menu-wrapper  d-flex align-items-center justify-content-end">
+									<!-- Main-menu -->
+									<div class="main-menu d-none d-lg-block">
+										<nav>
+											<ul id="navigation">
+												<li><a
+													th:href="@{'/donatelink_charity?username='+${username}+'&query='+${query}}">Home</a></li>
+												<li><a
+													th:href="@{'/Donatelink_funding?username='+${username}+'&query='+${query}}">Funds</a></li>
+											</ul>
+										</nav>
+									</div>
+									<!-- Header-btn -->
+									<form method="get" action="/DonateLink_createdonation"
+										id="donate">
+										<input type="hidden" th:value="${username}" name="username">
+										<div class="header-right-btn d-none d-lg-block ml-20">
+											<a href="#" onclick="create_donate()" class="btn header-btn">Required
+												Goods</a>
+										</div>
+									</form>
+									<script>
+										function create_donate() {
+											document.getElementById("donate")
+													.submit();
 										}
 									</script>
-                                </div>
-                            </div> 
-                            <!-- Mobile Menu -->
-                            <div class="col-12">
-                                <div class="mobile_menu d-block d-lg-none"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Header End -->
-    </header>
-    <!-- header end -->
-    <main>
-    <!-- slider Area Start-->
-    <div class="slider-area">
-        <div class="slider-active">
-            <!-- Single Slider -->
-            <div class="single-slider slider-height align-items-center">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10">
-                            <div class="hero__caption">
-                                <h1 data-animation="fadeInUp" data-delay=".6s">Together, We Can Change Lives</h1>
-                                <P data-animation="fadeInUp" data-delay=".8s" >Join our mission to bring hope and relief to those in need. Your kindness can make the world a better place for everyone.</P>
-                                <!-- Hero-btn -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Slider -->
-            <div class="single-slider slider-height align-items-center">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10">
-                            <div class="hero__caption">
-                                <h1 data-animation="fadeInUp" data-delay=".6s">Be the Light in Someone's Darkness</h1>
-                                <P data-animation="fadeInUp" data-delay=".8s" >Your support empowers communities, uplifts families, and brings smiles to countless faces. Let's make a difference together.</P>
-                                <!-- Hero-btn -->
-                                <div class="hero__btn">
-                                    <a href="industries.html" class="btn hero-btn mb-10"  data-animation="fadeInLeft" data-delay=".8s">Donate</a>
-                                    <a href="industries.html" class="cal-btn ml-15" data-animation="fadeInRight" data-delay="1.0s">
-                                        <i class="flaticon-null"></i>
-                                        <p>+91 9487409407</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- slider Area End-->
-    <!--? Services Area Start -->
-    <div class="service-area">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
-                    <!-- Section Tittle -->
-                    <div class="section-tittle text-center mb-80">
-                        <span>What we are doing</span>
-                        <h2>We Are In A Mission To Help The Helpless</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cat text-center mb-50">
-                        <div class="cat-icon">
-                            <img src="../assets/img/elements/restaurant.png" alt="Food Icon" class="img-fluid">
-                        </div><br>
-                        <div class="cat-cap">
-                            <h5><a href="services.html">Food Providing</a></h5>
-                            <p style="text-align: justify;">Discover delicious cuisines and help us spread happiness by supporting food for those in need.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cat text-center mb-50">
-                        <div class="cat-icon">
-                            <img src="../assets/img/elements/tshirt.png" alt="Food Icon" class="img-fluid">
-                        </div><br>
-                        <div class="cat-cap">
-                            <h5><a href="services.html">Providing shelters</a></h5>
-                            <p style="text-align: justify;">Join us in providing safe shelters to those in need, offering hope, warmth, and a place to call home.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cat text-center mb-50">
-                        <div class="cat-icon">
-                            <img src="../assets/img/elements/piggy-bank.png" alt="Food Icon" class="img-fluid">
-                        </div><br>
-                        <div class="cat-cap">
-                            <h5><a href="services.html">Donate money</a></h5>
-                            <p style="text-align: justify;">Every donation brings us closer to a brighter future. Together, we can provide hope and opportunities for those in need.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Services Area End -->
-    <!--? About Law Start-->
-    <section class="about-low-area section-padding2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-10">
-                    <div class="about-caption mb-50">
-                        <!-- Section Tittle -->
-                        <div class="section-tittle mb-35">
-                            <span>About our foundetion</span>
-                            <h2>We Are In A Mission To  Help Helpless</h2>
-                        </div>
-                        <p style="text-align: justify;">In CharityLink, we connect donors with those in need, making it easier to give and receive essential items like clothing, furniture, and electronics. Our platform allows donors to post items for donation and track when they are collected, while recipients can browse and request available resources. Together, we aim to build stronger communities by ensuring that no valuable item goes to waste.</p>
-                    </div>
-                    <a href="about.html" class="btn">About US</a>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <!-- about-img -->
-                    <div class="about-img ">
-                        <div class="about-font-img d-lg-block" style="width: 60%; max-width: 100%; height: auto;">
-                            <img src="../assets/img/gallery/about2.png" alt="">
-                        </div>
-                        <div class="about-back-img ">
-                            <img src="../assets/img/gallery/about1.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- About Law End-->
-    <!-- Our Cases Start -->
-    <!--<div class="our-cases-area section-padding30">
+								</div>
+							</div>
+							<!-- Mobile Menu -->
+							<div class="col-12">
+								<div class="mobile_menu d-block d-lg-none"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Header End -->
+	</header>
+	<!-- header end -->
+	<main>
+		<!-- slider Area Start-->
+		<div class="slider-area">
+			<div class="slider-active">
+				<!-- Single Slider -->
+				<div class="single-slider slider-height align-items-center">
+					<div class="container">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-8 col-sm-10">
+								<div class="hero__caption">
+									<h1 data-animation="fadeInUp" data-delay=".6s">Together,
+										We Can Change Lives</h1>
+									<P data-animation="fadeInUp" data-delay=".8s">Join our
+										mission to bring hope and relief to those in need. Your
+										kindness can make the world a better place for everyone.</P>
+									<!-- Hero-btn -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Single Slider -->
+				<div class="single-slider slider-height align-items-center">
+					<div class="container">
+						<div class="row">
+							<div class="col-xl-6 col-lg-6 col-md-8 col-sm-10">
+								<div class="hero__caption">
+									<h1 data-animation="fadeInUp" data-delay=".6s">Be the
+										Light in Someone's Darkness</h1>
+									<P data-animation="fadeInUp" data-delay=".8s">Your support
+										empowers communities, uplifts families, and brings smiles to
+										countless faces. Let's make a difference together.</P>
+									<!-- Hero-btn -->
+									<div class="hero__btn">
+										<a href="industries.html" class="btn hero-btn mb-10"
+											data-animation="fadeInLeft" data-delay=".8s">Donate</a> <a
+											href="industries.html" class="cal-btn ml-15"
+											data-animation="fadeInRight" data-delay="1.0s"> <i
+											class="flaticon-null"></i>
+											<p>+91 9487409407</p>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- slider Area End-->
+		<!--? Services Area Start -->
+		<div class="service-area">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
+						<!-- Section Tittle -->
+						<div class="section-tittle text-center mb-80">
+							<span>What we are doing</span>
+							<h2>We Are In A Mission To Help The Helpless</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="single-cat text-center mb-50">
+							<div class="cat-icon">
+								<img src="../assets/img/elements/restaurant.png" alt="Food Icon"
+									class="img-fluid">
+							</div>
+							<br>
+							<div class="cat-cap">
+								<h5>
+									<a href="services.html">Food Providing</a>
+								</h5>
+								<p style="text-align: justify;">Discover delicious cuisines
+									and help us spread happiness by supporting food for those in
+									need.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="single-cat text-center mb-50">
+							<div class="cat-icon">
+								<img src="../assets/img/elements/tshirt.png" alt="Food Icon"
+									class="img-fluid">
+							</div>
+							<br>
+							<div class="cat-cap">
+								<h5>
+									<a href="services.html">Providing shelters</a>
+								</h5>
+								<p style="text-align: justify;">Join us in providing safe
+									shelters to those in need, offering hope, warmth, and a place
+									to call home.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="single-cat text-center mb-50">
+							<div class="cat-icon">
+								<img src="../assets/img/elements/piggy-bank.png" alt="Food Icon"
+									class="img-fluid">
+							</div>
+							<br>
+							<div class="cat-cap">
+								<h5>
+									<a href="services.html">Donate money</a>
+								</h5>
+								<p style="text-align: justify;">Every donation brings us
+									closer to a brighter future. Together, we can provide hope and
+									opportunities for those in need.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Services Area End -->
+		<!--? About Law Start-->
+		<section class="about-low-area section-padding2">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-10">
+						<div class="about-caption mb-50">
+							<!-- Section Tittle -->
+							<div class="section-tittle mb-35">
+								<span>About our foundetion</span>
+								<h2>We Are In A Mission To Help Helpless</h2>
+							</div>
+							<p style="text-align: justify;">In CharityLink, we connect
+								donors with those in need, making it easier to give and receive
+								essential items like clothing, furniture, and electronics. Our
+								platform allows donors to post items for donation and track when
+								they are collected, while recipients can browse and request
+								available resources. Together, we aim to build stronger
+								communities by ensuring that no valuable item goes to waste.</p>
+						</div>
+						<a href="about.html" class="btn">About US</a>
+					</div>
+					<div class="col-lg-6 col-md-12">
+						<!-- about-img -->
+						<div class="about-img ">
+							<div class="about-font-img d-lg-block"
+								style="width: 60%; max-width: 100%; height: auto;">
+								<img src="../assets/img/gallery/about2.png" alt="">
+							</div>
+							<div class="about-back-img ">
+								<img src="../assets/img/gallery/about1.png" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- About Law End-->
+		<!-- Our Cases Start -->
+		<!--<div class="our-cases-area section-padding30">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
@@ -310,9 +354,9 @@
             </div>
         </div>
     </div>-->
-    <!-- Our Cases End -->
-    <!-- Featured_job_start -->
-    <!--<section class="featured-job-area section-padding30 section-bg2" data-background="../assets/img/gallery/section_bg03.png">
+		<!-- Our Cases End -->
+		<!-- Featured_job_start -->
+		<!--<section class="featured-job-area section-padding30 section-bg2" data-background="../assets/img/gallery/section_bg03.png">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-7 col-lg-9 col-md-10 col-sm-12">
@@ -377,9 +421,9 @@
             </div>
         </div>
     </section>-->
-    <!-- Want To work End -->
-    <!--? Testimonial Start -->
-    <!--<div class="testimonial-area testimonial-padding">
+		<!-- Want To work End -->
+		<!--? Testimonial Start -->
+		<!--<div class="testimonial-area testimonial-padding">
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="col-xl-8 col-lg-8 col-md-10">
@@ -431,170 +475,168 @@
             </div>
         </div>
     </div>-->
-    <!-- Testimonial End -->
-    <!-- Blog Area End -->
-    <!--? Count Down Start -->
-    <div class="count-down-area pt-25 section-bg" data-background="../assets/img/gallery/section_bg02.png">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 col-md-12">
-                    <div class="count-down-wrapper" >
-                        <div class="row justify-content-between">
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">6,200</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">80</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Fund Raised</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Count Down End -->
-    </main>
-    <footer>
-        <div class="footer-wrapper section-bg2" data-background="../assets/img/gallery/footer_bg.png">
-            <!-- Footer Top-->
-            <div class="footer-area footer-padding">
-                <div class="container">
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-footer-caption mb-50">
-                            <div class="single-footer-caption mb-30">
-                                <div class="footer-tittle">
-                                    <div class="footer-logo mb-20">
-                                        <a href="index.html"><img src="../assets/img/logo/title_logo.jpg" height="170px" width="154px" alt=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                            <div class="single-footer-caption mb-50">
-                                <div class="footer-tittle">
-                                    <h4>Contact Info</h4>
-                                    <ul>
-                                        <li>
-                                            <p>Address : Thoothukudi, Tamilnadu, India</p>
-                                        </li>
-                                        <li><a href="#">Phone : +91 9487409407</a></li>
-                                        <li><a href="#">Email : CharityLink@gmail.com</a></li>
-                                    </ul>
-                                </div>
+		<!-- Testimonial End -->
+		<!-- Blog Area End -->
+		<!--? Count Down Start -->
+		<div class="count-down-area pt-25 section-bg"
+			data-background="../assets/img/gallery/section_bg02.png">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-12 col-md-12">
+						<div class="count-down-wrapper">
+							<div class="row justify-content-between">
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<!-- Counter Up -->
+									<div class="single-counter text-center">
+										<span class="counter color-green" th:text="${donations_count}"></span>
+										<p class="color-green">Donation</p>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<!-- Counter Up -->
+									<div class="single-counter text-center">
+										<span class="color-green">₹</span>
+										<span class="counter color-green" th:text="${raised}"></span>
+										<p class="color-green">Fund Raised</p>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<!-- Counter Up -->
+									<div class="single-counter text-center">
+										<span class="color-green">₹</span>
+										<span class="counter color-green" th:text="${required}"></span>
+										<p class="color-green">Required</p>
+									</div>
+								</div>
+								<div class="col-lg-3 col-md-6 col-sm-6">
+									<!-- Counter Up -->
+									<div class="single-counter text-center">
+										<span class="counter color-green" th:text="${charities}"></span>
+										<p class="color-green">Charities</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Count Down End -->
+	</main>
+	<footer>
+		<div class="footer-wrapper section-bg2"
+			data-background="../assets/img/gallery/footer_bg.png">
+			<!-- Footer Top-->
+			<div class="footer-area footer-padding">
+				<div class="container">
+					<div class="row d-flex justify-content-between">
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+							<div class="single-footer-caption mb-50">
+								<div class="single-footer-caption mb-30">
+									<div class="footer-tittle">
+										<div class="footer-logo mb-20">
+											<a href="index.html"><img
+												src="../assets/img/logo/title_logo.jpg" height="170px"
+												width="154px" alt=""></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									<h4>Contact Info</h4>
+									<ul>
+										<li>
+											<p>Address : Thoothukudi, Tamilnadu, India</p>
+										</li>
+										<li><a href="#">Phone : +91 9487409407</a></li>
+										<li><a href="#">Email : CharityLink@gmail.com</a></li>
+									</ul>
+								</div>
 
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                            <div class="single-footer-caption mb-50">
-                                <div class="footer-tittle">
-                                    <h4>Important Link</h4>
-                                    <ul>
-                                        <li><a href="#"> View Project</a></li>
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#">Testimonial</a></li>
-                                        <li><a href="#">Proparties</a></li>
-                                        <li><a href="#">Support</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- footer-bottom -->
-            <div class="footer-bottom-area">
-                <div class="container">
-                    <div class="footer-border">
-                        <div class="row d-flex justify-content-between align-items-center">
-                            <div class="col-xl-2 col-lg-3">
-                                <div class="footer-social f-right">
-                                    <a href="https://twitter.com/ashokkumar_dev"><i class="fab fa-twitter"></i></a>
-                                    <a  href="https://www.instagram.com/ashokkumar_developer/"><i class="fab fa-instagram"></i></a>
-                                    <a href="https://www.linkedin.com/in/ashok-kumar-94b22b211"><i class="fab fa-linkedin-in"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- footer-bottom -->
+			<div class="footer-bottom-area">
+				<div class="container">
+					<div class="footer-border">
+						<div class="row d-flex justify-content-between align-items-center">
+							<div class="col-xl-2 col-lg-3">
+								<div class="footer-social f-right">
+									<a href="https://twitter.com/ashokkumar_dev"><i
+										class="fab fa-twitter"></i></a> <a
+										href="https://www.instagram.com/ashokkumar_developer/"><i
+										class="fab fa-instagram"></i></a> <a
+										href="https://www.linkedin.com/in/ashok-kumar-94b22b211"><i
+										class="fab fa-linkedin-in"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 
-    <!-- Scroll Up -->
-    <div id="back-top" >
-        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
-    </div>
+	<!-- Scroll Up -->
+	<div id="back-top">
+		<a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+	</div>
 
-    <!-- JS here -->
+	<!-- JS here -->
 
-    <script src="./../assets/js/vendor/modernizr-3.5.0.min.js"></script>
-    <!-- Jquery, Popper, Bootstrap -->
-    <script src="./../assets/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="./../assets/js/popper.min.js"></script>
-    <script src="./../assets/js/bootstrap.min.js"></script>
-    <!-- Jquery Mobile Menu -->
-    <script src="./../assets/js/jquery.slicknav.min.js"></script>
+	<script src="./../assets/js/vendor/modernizr-3.5.0.min.js"></script>
+	<!-- Jquery, Popper, Bootstrap -->
+	<script src="./../assets/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="./../assets/js/popper.min.js"></script>
+	<script src="./../assets/js/bootstrap.min.js"></script>
+	<!-- Jquery Mobile Menu -->
+	<script src="./../assets/js/jquery.slicknav.min.js"></script>
 
-    <!-- Jquery Slick , Owl-Carousel Plugins -->
-    <script src="./../assets/js/owl.carousel.min.js"></script>
-    <script src="./../assets/js/slick.min.js"></script>
-    <!-- One Page, Animated-HeadLin -->
-    <script src="./../assets/js/wow.min.js"></script>
-    <script src="./../assets/js/animated.headline.js"></script>
-    <script src="./../assets/js/jquery.magnific-popup.js"></script>
+	<!-- Jquery Slick , Owl-Carousel Plugins -->
+	<script src="./../assets/js/owl.carousel.min.js"></script>
+	<script src="./../assets/js/slick.min.js"></script>
+	<!-- One Page, Animated-HeadLin -->
+	<script src="./../assets/js/wow.min.js"></script>
+	<script src="./../assets/js/animated.headline.js"></script>
+	<script src="./../assets/js/jquery.magnific-popup.js"></script>
 
-    <!-- Date Picker -->
-    <script src="./../assets/js/gijgo.min.js"></script>
-    <!-- Nice-select, sticky -->
-    <script src="./../assets/js/jquery.nice-select.min.js"></script>
-    <script src="./../assets/js/jquery.sticky.js"></script>
-    <!-- Progress -->
-    <script src="./../assets/js/jquery.barfiller.js"></script>
-    
-    <!-- counter , waypoint,Hover Direction -->
-    <script src="./../assets/js/jquery.counterup.min.js"></script>
-    <script src="./../assets/js/waypoints.min.js"></script>
-    <script src="./../assets/js/jquery.countdown.min.js"></script>
-    <script src="./../assets/js/hover-direction-snake.min.js"></script>
+	<!-- Date Picker -->
+	<script src="./../assets/js/gijgo.min.js"></script>
+	<!-- Nice-select, sticky -->
+	<script src="./../assets/js/jquery.nice-select.min.js"></script>
+	<script src="./../assets/js/jquery.sticky.js"></script>
+	<!-- Progress -->
+	<script src="./../assets/js/jquery.barfiller.js"></script>
 
-    <!-- contact js -->
-    <script src="./../assets/js/contact.js"></script>
-    <script src="./../assets/js/jquery.form.js"></script>
-    <script src="./../assets/js/jquery.validate.min.js"></script>
-    <script src="./../assets/js/mail-script.js"></script>
-    <script src="./../assets/js/jquery.ajaxchimp.min.js"></script>
-    
-    <!-- Jquery Plugins, main Jquery -->	
-    <script src="./../assets/js/plugins.js"></script>
-    <script src="./../assets/js/main.js"></script>
-    
-    </body>
+	<!-- counter , waypoint,Hover Direction -->
+	<script src="./../assets/js/jquery.counterup.min.js"></script>
+	<script src="./../assets/js/waypoints.min.js"></script>
+	<script src="./../assets/js/jquery.countdown.min.js"></script>
+	<script src="./../assets/js/hover-direction-snake.min.js"></script>
+
+	<!-- contact js -->
+	<script src="./../assets/js/contact.js"></script>
+	<script src="./../assets/js/jquery.form.js"></script>
+	<script src="./../assets/js/jquery.validate.min.js"></script>
+	<script src="./../assets/js/mail-script.js"></script>
+	<script src="./../assets/js/jquery.ajaxchimp.min.js"></script>
+
+	<!-- Jquery Plugins, main Jquery -->
+	<script src="./../assets/js/plugins.js"></script>
+	<script src="./../assets/js/main.js"></script>
+
+</body>
 </html>

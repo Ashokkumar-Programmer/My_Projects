@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,8 +48,8 @@ public class CharityController {
 	
 	@PostMapping("/createdonations")
 	String createdonations(Model model, Donations donate,@RequestParam("image_path") String image_path,@RequestParam("username") String username,@RequestParam("productname") String productname ,@RequestParam("target") Long target) {
-		Donations existingDonation = charityrepo.findByUsernameAndDonationItem(username, productname.toLowerCase());
-		if(existingDonation==null) {
+		List<Donations> existingDonation = charityrepo.findByUsernameAndDonationItem(username, productname.toLowerCase());
+		if(existingDonation.isEmpty()) {
 			donate.setUsername(username);
 			donate.setDonation_raised((long) 0);
 			donate.setReached(false);
@@ -54,7 +57,7 @@ public class CharityController {
 			donate.setDonationItem(productname.toLowerCase());
 			donate.setImage_path(image_path);
 			charityrepo.save(donate);
-			return "redirect:/donatelink_charity?username="+username;
+			return "redirect:/Donatelink_funding?username="+username+"&query=novalue";
 		}
 		else {
 			model.addAttribute("error", true);
@@ -65,11 +68,28 @@ public class CharityController {
 	}
 	
 	@GetMapping("/Donatelink_funding")
-	String Donatelink_funding(Model model, @RequestParam("username") String username) {
-		List<Donations> donate = charityrepo.findAll();
+	String Donatelink_funding(Model model, @RequestParam("username") String username, @RequestParam("query") String productname) {
+		List<Donations> donate = null;
+		if(productname.equals("novalue")) {
+			donate = charityrepo.findByUsername(username);
+		}
+		else {
+			donate = charityrepo.findByUsernameAndDonationItem(username, productname.toLowerCase());
+		}
+		if(donate.isEmpty()) {
+			model.addAttribute("error", "No data found ");
+		}
 		model.addAttribute("donate", donate);
 		model.addAttribute("username", username);
 		return "Charity/program";
 	}
+	
+	@PostMapping("/deletedonation")
+	public String postMethodName(@RequestParam("id") int id, @RequestParam("username") String username) {
+		charityrepo.deleteById(id);
+		return "redirect:/Donatelink_funding?username="+username+"&query=novalue";
+	}
+	
+
 	
 }

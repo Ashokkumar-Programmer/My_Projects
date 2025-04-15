@@ -42,7 +42,7 @@ public class MailController {
 
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
-            message.setSubject("This is Subject");
+            message.setSubject("OTP from CharityLink to retrieve the password");
             
             String text = "<!DOCTYPE html>\r\n"
             		+ "<html lang=\"en\">\r\n"

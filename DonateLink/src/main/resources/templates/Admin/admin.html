@@ -1,594 +1,469 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>DonateLink</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/logo/title_logo.jpg">
-	<!-- CSS here -->
-	<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
-	<link rel="stylesheet" href="../assets/css/slicknav.css">
-    <link rel="stylesheet" href="../assets/css/flaticon.css">
-    <link rel="stylesheet" href="../assets/css/progressbar_barfiller.css">
-    <link rel="stylesheet" href="../assets/css/gijgo.css">
-    <link rel="stylesheet" href="../assets/css/animate.min.css">
-    <link rel="stylesheet" href="../assets/css/animated-headline.css">
-	<link rel="stylesheet" href="../assets/css/magnific-popup.css">
-	<link rel="stylesheet" href="../../assets/css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="../../assets/css/themify-icons.css">
-	<link rel="stylesheet" href="../../assets/css/slick.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flaticon/2.1.0/font/flaticon.css">
-	<link rel="stylesheet" href="../../assets/css/nice-select.css">
-	<link rel="stylesheet" href="../../assets/css/style.css">
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>DonateLink</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="manifest" href="site.webmanifest">
+<link rel="shortcut icon" type="image/x-icon"
+	href="../assets/img/logo/title_logo.jpg">
+<!-- CSS here -->
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/css/owl.carousel.min.css">
+<link rel="stylesheet" href="../assets/css/slicknav.css">
+<link rel="stylesheet" href="../assets/css/flaticon.css">
+<link rel="stylesheet" href="../assets/css/progressbar_barfiller.css">
+<link rel="stylesheet" href="../assets/css/gijgo.css">
+<link rel="stylesheet" href="../assets/css/animate.min.css">
+<link rel="stylesheet" href="../assets/css/animated-headline.css">
+<link rel="stylesheet" href="../assets/css/magnific-popup.css">
+<link rel="stylesheet" href="../../assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="../../assets/css/themify-icons.css">
+<link rel="stylesheet" href="../../assets/css/slick.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/flaticon/2.1.0/font/flaticon.css">
+<link rel="stylesheet" href="../../assets/css/nice-select.css">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<style type="text/css">
+p {
+	text-align: justify;
+}
+
+.signout-icon i {
+	font-size: 30px; /* Adjust size as needed */
+	color: black; /* Stylish red color */
+	transition: color 0.3s ease-in-out;
+}
+
+.signout-icon i:hover {
+	color: white; /* Darker red on hover */
+}
+
+/* Table Styling */
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.table thead {
+	background-color: #343a40;
+	color: white;
+}
+
+.table th, .table td {
+	padding: 12px;
+	text-align: center;
+	border: 1px solid #ddd;
+}
+
+.table-hover tbody tr:hover {
+	background-color: #f1f1f1;
+}
+
+.guide-dropdown {
+	position: relative;
+	width: 100%;
+	padding: 6px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	z-index: 1050;
+}
+
+.guide-dropdown:focus {
+	position: absolute;
+	width: auto;
+	z-index: 9999;
+}
+
+.table-responsive {
+	position: relative;
+	overflow: visible !important;
+}
+
+/* Update Button */
+.update-guide-btn {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 6px 12px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.update-guide-btn:hover {
+	background-color: #0056b3;
+}
+
+/* Status Badges */
+.badge {
+	padding: 8px 12px;
+	font-size: 14px;
+	border-radius: 12px;
+}
+
+.badge-success {
+	background-color: #28a745;
+	color: white;
+}
+
+.badge-warning {
+	background-color: #ffc107;
+	color: black;
+}
+
+/* Toggle Switch */
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 20px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	transition: .4s;
+	border-radius: 20px;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 14px;
+	width: 14px;
+	left: 3px;
+	bottom: 3px;
+	background-color: white;
+	transition: .4s;
+	border-radius: 50%;
+}
+
+input:checked+.slider {
+	background-color: #28a745;
+}
+
+input:checked+.slider:before {
+	transform: translateX(20px);
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Approval Toggle Functionality
+    const toggles = document.querySelectorAll(".approval-toggle");
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener("change", function () {
+            const username = this.getAttribute("data-username");
+            const status = this.checked;
+
+            fetch(`/EduSphere/updateApproval?username=${username}&status=${status}`, {
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const statusCell = this.closest("tr").querySelector("td:nth-child(2)");
+
+                    if (data.status) {
+                        statusCell.innerHTML = '<span class="badge badge-success">Approved</span>';
+                    } else {
+                        statusCell.innerHTML = '<span class="badge badge-warning">Pending</span>';
+                    }
+
+                    checkPendingApprovals();
+                }
+            })
+            .catch(error => console.error("Error updating approval:", error));
+        });
+    });
+
+    function checkPendingApprovals() {
+        const pendingRows = document.querySelectorAll("td span.badge-warning");
+        document.getElementById("noPendingMessage").style.display = pendingRows.length === 0 ? "block" : "none";
+    }
+
+    checkPendingApprovals();
+
+    // Guide Dropdown Update Functionality
+    const updateButtons = document.querySelectorAll(".update-guide-btn");
+});
+
+function hideUpdateResult() {
+    const elem = document.getElementById("update-result");
+    if (elem) elem.style.display = "none";
+}
+setInterval(hideUpdateResult, 5000);
+
+function showCourseDetails() {
+    document.getElementById("course-details").style.display = "block";
+    document.getElementById("teacher-approval").style.display = "none";
+    document.getElementById("Psychometric-Analysis").style.display = "none";
+}
+
+function showTeacherApproval() {
+    document.getElementById("course-details").style.display = "none";
+    document.getElementById("teacher-approval").style.display = "block";
+    document.getElementById("Psychometric-Analysis").style.display = "none";
+}
+</script>
 </head>
 <body>
-    <!-- ? Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="../assets/img/logo/title_logo.jpg" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Preloader Start -->
-    <header>
-        <!-- Header Start -->
-        <div class="header-area">
-            <div class="main-header ">
-                <div class="header-top d-none d-lg-block">
-                    <div class="container-fluid">
-                        <div class="col-xl-12">
-                            <div class="row d-flex justify-content-between align-items-center">
-                                <div class="header-info-right d-flex align-items-center">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="header-bottom  header-sticky">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <!-- Logo -->
-                            <div class="col-xl-2 col-lg-2">
-                                <div class="logo">
-                                    <a href="index.html"><img src="../assets/img/logo/title_logo.jpg" height="80px" width="94px" alt=""></a>
-                                </div>
-                            </div>
-                            <div class="col-xl-10 col-lg-10">
-                                <div class="menu-wrapper  d-flex align-items-center justify-content-end">
-                                    <!-- Main-menu -->
-                                    <div class="main-menu d-none d-lg-block">
-                                        <nav>
-                                            <ul id="navigation">                                                                                          
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about.html">Members</a></li>
-                                                <li><a href="program.html">Funds</a></li>
-                                                <li><a href="events.html">Donations</a></li>
-                                                <li><a href="contact.html">Manage</a></li>
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                    <!-- Header-btn -->
-                                    <div class="header-right-btn d-none d-lg-block ml-20">
-                                        <a href="contact.html" class="btn header-btn">Donate</a>
-                                    </div>
-                                </div>
-                            </div> 
-                            <!-- Mobile Menu -->
-                            <div class="col-12">
-                                <div class="mobile_menu d-block d-lg-none"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Header End -->
-    </header>
-    <!-- header end -->
-    <main>
-    <!-- slider Area Start-->
-    <div class="slider-area">
-        <div class="slider-active">
-            <!-- Single Slider -->
-            <div class="single-slider slider-height align-items-center">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10">
-                            <div class="hero__caption">
-                                <h1 data-animation="fadeInUp" data-delay=".6s">Together, We Can Change Lives</h1>
-                                <P data-animation="fadeInUp" data-delay=".8s" >Join our mission to bring hope and relief to those in need. Your kindness can make the world a better place for everyone.</P>
-                                <!-- Hero-btn -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Slider -->
-            <div class="single-slider slider-height align-items-center">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-8 col-sm-10">
-                            <div class="hero__caption">
-                                <h1 data-animation="fadeInUp" data-delay=".6s">Be the Light in Someone's Darkness</h1>
-                                <P data-animation="fadeInUp" data-delay=".8s" >Your support empowers communities, uplifts families, and brings smiles to countless faces. Let's make a difference together.</P>
-                                <!-- Hero-btn -->
-                                <div class="hero__btn">
-                                    <a href="industries.html" class="btn hero-btn mb-10"  data-animation="fadeInLeft" data-delay=".8s">Donate</a>
-                                    <a href="industries.html" class="cal-btn ml-15" data-animation="fadeInRight" data-delay="1.0s">
-                                        <i class="flaticon-null"></i>
-                                        <p>+91 9487409407</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- slider Area End-->
-    <!--? Services Area Start -->
-    <div class="service-area">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
-                    <!-- Section Tittle -->
-                    <div class="section-tittle text-center mb-80">
-                        <span>What we are doing</span>
-                        <h2>We Are In A Mission To Help The Helpless</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cat text-center mb-50">
-                        <div class="cat-icon">
-                            <img src="../assets/img/elements/restaurant.png" alt="Food Icon" class="img-fluid">
-                        </div><br>
-                        <div class="cat-cap">
-                            <h5><a href="services.html">Food Providing</a></h5>
-                            <p style="text-align: justify;">Discover delicious cuisines and help us spread happiness by supporting food for those in need.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cat text-center mb-50">
-                        <div class="cat-icon">
-                            <img src="../assets/img/elements/tshirt.png" alt="Food Icon" class="img-fluid">
-                        </div><br>
-                        <div class="cat-cap">
-                            <h5><a href="services.html">Providing shelters</a></h5>
-                            <p style="text-align: justify;">Join us in providing safe shelters to those in need, offering hope, warmth, and a place to call home.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cat text-center mb-50">
-                        <div class="cat-icon">
-                            <img src="../assets/img/elements/piggy-bank.png" alt="Food Icon" class="img-fluid">
-                        </div><br>
-                        <div class="cat-cap">
-                            <h5><a href="services.html">Donate money</a></h5>
-                            <p style="text-align: justify;">Every donation brings us closer to a brighter future. Together, we can provide hope and opportunities for those in need.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Services Area End -->
-    <!--? About Law Start-->
-    <section class="about-low-area section-padding2">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-md-10">
-                    <div class="about-caption mb-50">
-                        <!-- Section Tittle -->
-                        <div class="section-tittle mb-35">
-                            <span>About our foundetion</span>
-                            <h2>We Are In A Mission To  Help Helpless</h2>
-                        </div>
-                        <p style="text-align: justify;">In CharityLink, we connect donors with those in need, making it easier to give and receive essential items like clothing, furniture, and electronics. Our platform allows donors to post items for donation and track when they are collected, while recipients can browse and request available resources. Together, we aim to build stronger communities by ensuring that no valuable item goes to waste.</p>
-                    </div>
-                    <a href="about.html" class="btn">About US</a>
-                </div>
-                <div class="col-lg-6 col-md-12">
-                    <!-- about-img -->
-                    <div class="about-img ">
-                        <div class="about-font-img d-lg-block" style="width: 60%; max-width: 100%; height: auto;">
-                            <img src="../assets/img/gallery/about2.png" alt="">
-                        </div>
-                        <div class="about-back-img ">
-                            <img src="../assets/img/gallery/about1.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- About Law End-->
-    <!-- Our Cases Start -->
-    <!--<div class="our-cases-area section-padding30">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-10 col-sm-10">
-                    <div class="section-tittle text-center mb-80">
-                        <span>Our Cases you can see</span>
-                        <h2>Explore our latest causes that we works </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case1.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Ensure Education For Every Poor Children</a></h3>
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar1" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="70"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case2.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Providing Healthy Food For The Children</a></h3>
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar2" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="25"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-cases mb-40">
-                        <div class="cases-img">
-                            <img src="../assets/img/gallery/case3.png" alt="">
-                        </div>
-                        <div class="cases-caption">
-                            <h3><a href="#">Supply Drinking Water For  The People</a></h3>
-                            <div class="single-skill mb-15">
-                                <div class="bar-progress">
-                                    <div id="bar3" class="barfiller">
-                                        <div class="tipWrap">
-                                            <span class="tip"></span>
-                                        </div>
-                                        <span class="fill" data-percentage="50"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="prices d-flex justify-content-between">
-                                <p>Raised:<span> $20,000</span></p>
-                                <p>Goal:<span> $35,000</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
-    <!-- Our Cases End -->
-    <!-- Featured_job_start -->
-    <!--<section class="featured-job-area section-padding30 section-bg2" data-background="../assets/img/gallery/section_bg03.png">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-7 col-lg-9 col-md-10 col-sm-12">
-                    <div class="section-tittle text-center mb-80">
-                        <span>What we are boing</span>
-                        <h2>We arrange many social events for charity donations</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-9 col-md-12">
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="#"><img src="../assets/img/gallery/socialEvents1.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="#"><h4>Donation is Hope</h4></a>
-                                <ul>
-                                    <li><i class="far fa-clock"></i>8:30 - 9:30am</li>
-                                    <li><i class="fas fa-sort-amount-down"></i>18.01.2021</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-12">
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="#"><img src="../assets/img/gallery/socialEvents2.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="#"><h4>A hand for Children</h4></a>
-                                <ul>
-                                    <li><i class="far fa-clock"></i>8:30 - 9:30am</li>
-                                    <li><i class="fas fa-sort-amount-down"></i>18.01.2021</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9 col-md-12">
-                    <div class="single-job-items mb-30">
-                        <div class="job-items">
-                            <div class="company-img">
-                                <a href="#"><img src="../assets/img/gallery/socialEvents3.png" alt=""></a>
-                            </div>
-                            <div class="job-tittle">
-                                <a href="#"><h4>Help for Children</h4></a>
-                                <ul>
-                                    <li><i class="far fa-clock"></i>8:30 - 9:30am</li>
-                                    <li><i class="fas fa-sort-amount-down"></i>18.01.2021</li>
-                                    <li><i class="fas fa-map-marker-alt"></i>Athens, Greece</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>-->
-    <!-- Want To work End -->
-    <!--? Testimonial Start -->
-    <!--<div class="testimonial-area testimonial-padding">
-        <div class="container">
-            <div class="row d-flex justify-content-center">
-                <div class="col-xl-8 col-lg-8 col-md-10">
-                    <div class="h1-testimonial-active dot-style">
-                        <div class="single-testimonial text-center">
-                            <div class="testimonial-caption ">
-                                <div class="testimonial-founder">
-                                    <div class="founder-img mb-40">
-                                        <img src="../assets/img/gallery/testimonial.png" alt="">
-                                        <span>Margaret Lawson</span>
-                                        <p>Creative Director</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-top-cap">
-                                    <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single-testimonial text-center">
-                            <div class="testimonial-caption ">
-                                <div class="testimonial-founder">
-                                    <div class="founder-img mb-40">
-                                        <img src="../assets/img/gallery/testimonial.png" alt="">
-                                        <span>Margaret Lawson</span>
-                                        <p>Creative Director</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-top-cap">
-                                    <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single-testimonial text-center">
-                            <div class="testimonial-caption ">
-                                <div class="testimonial-founder">
-                                    <div class="founder-img mb-40">
-                                        <img src="../assets/img/gallery/testimonial.png" alt="">
-                                        <span>Margaret Lawson</span>
-                                        <p>Creative Director</p>
-                                    </div>
-                                </div>
-                                <div class="testimonial-top-cap">
-                                    <p>“I am at an age where I just want to be fit and healthy our bodies are our responsibility! So start caring for your body and it will care for you. Eat clean it will care for you and workout hard.”</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
-    <!-- Testimonial End -->
-    <!-- Blog Area End -->
-    <!--? Count Down Start -->
-    <div class="count-down-area pt-25 section-bg" data-background="../assets/img/gallery/section_bg02.png">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12 col-md-12">
-                    <div class="count-down-wrapper" >
-                        <div class="row justify-content-between">
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">6,200</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">80</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Fund Raised</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-6">
-                                <!-- Counter Up -->
-                                <div class="single-counter text-center">
-                                    <span class="counter color-green">256</span>
-                                    <span class="plus">+</span>
-                                    <p class="color-green">Donation</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Count Down End -->
-    </main>
-    <footer>
-        <div class="footer-wrapper section-bg2" data-background="../assets/img/gallery/footer_bg.png">
-            <!-- Footer Top-->
-            <div class="footer-area footer-padding">
-                <div class="container">
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="single-footer-caption mb-50">
-                            <div class="single-footer-caption mb-30">
-                                <div class="footer-tittle">
-                                    <div class="footer-logo mb-20">
-                                        <a href="index.html"><img src="../assets/img/logo/title_logo.jpg" height="170px" width="154px" alt=""></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                            <div class="single-footer-caption mb-50">
-                                <div class="footer-tittle">
-                                    <h4>Contact Info</h4>
-                                    <ul>
-                                        <li>
-                                            <p>Address : Thoothukudi, Tamilnadu, India</p>
-                                        </li>
-                                        <li><a href="#">Phone : +91 9487409407</a></li>
-                                        <li><a href="#">Email : CharityLink@gmail.com</a></li>
-                                    </ul>
-                                </div>
+	<!-- ? Preloader Start -->
+	<div id="preloader-active">
+		<div
+			class="preloader d-flex align-items-center justify-content-center">
+			<div class="preloader-inner position-relative">
+				<div class="preloader-circle"></div>
+				<div class="preloader-img pere-text">
+					<img src="../assets/img/logo/title_logo.jpg" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Preloader Start -->
+	<main>
+		<!--? slider Area Start-->
+		<section class="slider-area slider-area2">
+			<div class="slider-active">
+				<!-- Single Slider -->
+				<div class="single-slider slider-height2">
+					<div class="container">
+						<div class="row">
+							<div class="col-xl-8 col-lg-11 col-md-12">
+								<div class="hero__caption hero__caption2">
+									<h1 data-animation="bounceIn" data-delay="0.2s">Admin Page</h1>
+									<!-- breadcrumb End -->
+									<nav aria-label="breadcrumb">
+										<ol class="breadcrumb">
+											<li class="breadcrumb-item"><a href="#"
+												style="font-size: 18px; color: black;" onclick="showCourseDetails()">View
+													Donations</a></li>
+											<li class="breadcrumb-item"><a href="#"
+												style="font-size: 18px; color: black;" onclick="showTeacherApproval()">Charity
+													Approval</a></li>
+										</ol>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="course-details"
+			style="margin-top: 20px; display: block;" id="course-details">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<h2 class="contact-title">Donations</h2>
+					</div>
+					<div class="col-lg-8" style="min-width: 110%;">
+						<div class="table-responsive">
+							<table
+								class="table table-bordered table-hover table-striped text-center shadow-lg">
+								<thead class="thead-dark">
+									<tr>
+										<th scope="col" style="min-width: 150px;">Created By</th>
+										<th scope="col" style="min-width: 150px;">Donation Item</th>
+										<th scope="col" style="min-width: 150px;">Raised</th>
+										<th scope="col" style="min-width: 300px;">Required</th>
+										<th scope="col" style="min-width: 120px;">Category</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="donate : ${donate}">
+										<td th:text="${donate.username}"></td>
+										<td th:text="${donate.donationItem}"></td>
+										<td th:text="${donate.donation_raised}"></td>
+										<td th:text="${donate.donation_target}"></td>
+										<td th:text="${donate.donation_category}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
-                            <div class="single-footer-caption mb-50">
-                                <div class="footer-tittle">
-                                    <h4>Important Link</h4>
-                                    <ul>
-                                        <li><a href="#"> View Project</a></li>
-                                        <li><a href="#">Contact Us</a></li>
-                                        <li><a href="#">Testimonial</a></li>
-                                        <li><a href="#">Proparties</a></li>
-                                        <li><a href="#">Support</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- footer-bottom -->
-            <div class="footer-bottom-area">
-                <div class="container">
-                    <div class="footer-border">
-                        <div class="row d-flex justify-content-between align-items-center">
-                            <div class="col-xl-2 col-lg-3">
-                                <div class="footer-social f-right">
-                                    <a href="https://twitter.com/ashokkumar_dev"><i class="fab fa-twitter"></i></a>
-                                    <a  href="https://www.instagram.com/ashokkumar_developer/"><i class="fab fa-instagram"></i></a>
-                                    <a href="https://www.linkedin.com/in/ashok-kumar-94b22b211"><i class="fab fa-linkedin-in"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+		<section class="teacher-approval"
+			style="margin-top: 20px; display: none;" id="teacher-approval">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<h2 class="contact-title">Teacher Approval</h2>
+					</div>
+					<div class="col-lg-12">
+						<div class="table-responsive">
+							<table
+								class="table table-bordered table-hover table-striped text-center shadow-lg">
+								<thead class="thead-dark">
+									<tr>
+										<th scope="col">Username</th>
+										<th scope="col">Approval Status</th>
+										<th scope="col">Action</th>
+									</tr>
+								</thead>
+								<tbody id="teacherTable">
+									<tr th:each="charity : ${charity}">
+										<td th:text="${charity.username}"></td>
+										<td><span
+											th:classappend="${charity.approval} ? 'badge badge-success' : 'badge badge-warning'"
+											th:text="${charity.approval} ? 'Approved' : 'Pending'">
+										</span></td>
+										<td><label class="switch"> <input type="checkbox"
+												class="approval-toggle" th:checked="${charity.approval}"
+												th:data-username="${charity.username}"> <span
+												class="slider"></span>
+										</label></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<p id="noPendingMessage" class="text-center text-danger"
+							style="display: none;">No pending approvals</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	<footer>
+		<div class="footer-wrapper section-bg2"
+			data-background="../assets/img/gallery/footer_bg.png">
+			<!-- Footer Top-->
+			<div class="footer-area footer-padding">
+				<div class="container">
+					<div class="row d-flex justify-content-between">
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+							<div class="single-footer-caption mb-50">
+								<div class="single-footer-caption mb-30">
+									<div class="footer-tittle">
+										<div class="footer-logo mb-20">
+											<a href="index.html"><img
+												src="../assets/img/logo/title_logo.jpg" height="170px"
+												width="154px" alt=""></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									<h4>Contact Info</h4>
+									<ul>
+										<li>
+											<p>Address : Thoothukudi, Tamilnadu, India</p>
+										</li>
+										<li><a href="#">Phone : +91 9487409407</a></li>
+										<li><a href="#">Email : CharityLink@gmail.com</a></li>
+									</ul>
+								</div>
 
-    <!-- Scroll Up -->
-    <div id="back-top" >
-        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
-    </div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
+							<div class="single-footer-caption mb-50">
+								<div class="footer-tittle">
+									<h4>Important Link</h4>
+									<ul>
+										<li><a href="#"> View Project</a></li>
+										<li><a href="#">Contact Us</a></li>
+										<li><a href="#">Testimonial</a></li>
+										<li><a href="#">Proparties</a></li>
+										<li><a href="#">Support</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- footer-bottom -->
+			<div class="footer-bottom-area">
+				<div class="container">
+					<div class="footer-border">
+						<div class="row d-flex justify-content-between align-items-center">
+							<div class="col-xl-2 col-lg-3">
+								<div class="footer-social f-right">
+									<a href="https://twitter.com/ashokkumar_dev"><i
+										class="fab fa-twitter"></i></a> <a
+										href="https://www.instagram.com/ashokkumar_developer/"><i
+										class="fab fa-instagram"></i></a> <a
+										href="https://www.linkedin.com/in/ashok-kumar-94b22b211"><i
+										class="fab fa-linkedin-in"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 
-    <!-- JS here -->
+	<!-- Scroll Up -->
+	<div id="back-top">
+		<a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
+	</div>
 
-    <script src="./../assets/js/vendor/modernizr-3.5.0.min.js"></script>
-    <!-- Jquery, Popper, Bootstrap -->
-    <script src="./../assets/js/vendor/jquery-1.12.4.min.js"></script>
-    <script src="./../assets/js/popper.min.js"></script>
-    <script src="./../assets/js/bootstrap.min.js"></script>
-    <!-- Jquery Mobile Menu -->
-    <script src="./../assets/js/jquery.slicknav.min.js"></script>
+	<!-- JS here -->
 
-    <!-- Jquery Slick , Owl-Carousel Plugins -->
-    <script src="./../assets/js/owl.carousel.min.js"></script>
-    <script src="./../assets/js/slick.min.js"></script>
-    <!-- One Page, Animated-HeadLin -->
-    <script src="./../assets/js/wow.min.js"></script>
-    <script src="./../assets/js/animated.headline.js"></script>
-    <script src="./../assets/js/jquery.magnific-popup.js"></script>
+	<script src="./../assets/js/vendor/modernizr-3.5.0.min.js"></script>
+	<!-- Jquery, Popper, Bootstrap -->
+	<script src="./../assets/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="./../assets/js/popper.min.js"></script>
+	<script src="./../assets/js/bootstrap.min.js"></script>
+	<!-- Jquery Mobile Menu -->
+	<script src="./../assets/js/jquery.slicknav.min.js"></script>
 
-    <!-- Date Picker -->
-    <script src="./../assets/js/gijgo.min.js"></script>
-    <!-- Nice-select, sticky -->
-    <script src="./../assets/js/jquery.nice-select.min.js"></script>
-    <script src="./../assets/js/jquery.sticky.js"></script>
-    <!-- Progress -->
-    <script src="./../assets/js/jquery.barfiller.js"></script>
-    
-    <!-- counter , waypoint,Hover Direction -->
-    <script src="./../assets/js/jquery.counterup.min.js"></script>
-    <script src="./../assets/js/waypoints.min.js"></script>
-    <script src="./../assets/js/jquery.countdown.min.js"></script>
-    <script src="./../assets/js/hover-direction-snake.min.js"></script>
+	<!-- Jquery Slick , Owl-Carousel Plugins -->
+	<script src="./../assets/js/owl.carousel.min.js"></script>
+	<script src="./../assets/js/slick.min.js"></script>
+	<!-- One Page, Animated-HeadLin -->
+	<script src="./../assets/js/wow.min.js"></script>
+	<script src="./../assets/js/animated.headline.js"></script>
+	<script src="./../assets/js/jquery.magnific-popup.js"></script>
 
-    <!-- contact js -->
-    <script src="./../assets/js/contact.js"></script>
-    <script src="./../assets/js/jquery.form.js"></script>
-    <script src="./../assets/js/jquery.validate.min.js"></script>
-    <script src="./../assets/js/mail-script.js"></script>
-    <script src="./../assets/js/jquery.ajaxchimp.min.js"></script>
-    
-    <!-- Jquery Plugins, main Jquery -->	
-    <script src="./../assets/js/plugins.js"></script>
-    <script src="./../assets/js/main.js"></script>
-    
-    </body>
+	<!-- Date Picker -->
+	<script src="./../assets/js/gijgo.min.js"></script>
+	<!-- Nice-select, sticky -->
+	<script src="./../assets/js/jquery.nice-select.min.js"></script>
+	<script src="./../assets/js/jquery.sticky.js"></script>
+	<!-- Progress -->
+	<script src="./../assets/js/jquery.barfiller.js"></script>
+
+	<!-- counter , waypoint,Hover Direction -->
+	<script src="./../assets/js/jquery.counterup.min.js"></script>
+	<script src="./../assets/js/waypoints.min.js"></script>
+	<script src="./../assets/js/jquery.countdown.min.js"></script>
+	<script src="./../assets/js/hover-direction-snake.min.js"></script>
+
+	<!-- contact js -->
+	<script src="./../assets/js/contact.js"></script>
+	<script src="./../assets/js/jquery.form.js"></script>
+	<script src="./../assets/js/jquery.validate.min.js"></script>
+	<script src="./../assets/js/mail-script.js"></script>
+	<script src="./../assets/js/jquery.ajaxchimp.min.js"></script>
+
+	<!-- Jquery Plugins, main Jquery -->
+	<script src="./../assets/js/plugins.js"></script>
+	<script src="./../assets/js/main.js"></script>
+
+</body>
 </html>
